@@ -1,4 +1,6 @@
-﻿using System;
+﻿using Garage.Vehicles;
+
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -8,5 +10,8 @@ namespace Garage.Garage
 {
     internal interface IParkingPlace
     {
+        int Id { get; }
+        IVehicle? Vehicle { get; set; }
+        bool IsFree { get; }
     }
 }

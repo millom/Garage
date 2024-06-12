@@ -13,6 +13,7 @@ namespace Garage.Garage
         private static int _idCounter = 0;
         public int Id { get; }
         public IVehicle? Vehicle { get; set; }
+        public bool IsFree => Vehicle == null;
 
         public ParkingPlace()
         {
