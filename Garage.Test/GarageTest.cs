@@ -12,6 +12,7 @@ namespace Garage.Test
     {
         private readonly ITestOutputHelper output;
         private IGarage<IParkingPlace> Garage;
+        private const int SMALL_SIZE = 4;
         private const int SIZE = 20;
 
         public GarageTest(ITestOutputHelper output)
@@ -28,12 +29,14 @@ namespace Garage.Test
         [Fact]
         public void Ctor_CreateGarage_GiveParkingPlacesOfExpectedSize()
         {
-            foreach (var place in Garage)
+            var pp = new ParkingPlace[SMALL_SIZE];
+            for (int i = 0; i < SMALL_SIZE; i++)
             {
-                //output.WriteLine(place.ToString());
-                Console.WriteLine(place.ToString());
-                //Debugger.Log(0, "1", place.ToString());
+                pp[i] = new ParkingPlace();
             }
+            var garage = new Garage<IParkingPlace>(pp);
+
+            //Assert.Equal(SmallGarage.);
         }
     }
 }
