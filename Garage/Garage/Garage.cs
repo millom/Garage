@@ -12,17 +12,33 @@ using System.Threading.Tasks;
 namespace Garage.Garage
 {
     internal class Garage<T> : IGarage<T>
-         where T : IParkingPlace //, new()
+         where T : IParkingPlace
     {
-        private T[] ParkingPlaces;
+        private readonly T[] ParkingPlaces;
 
         public Garage(T[] parkingPlaces)
         {
             ParkingPlaces = parkingPlaces;
-            //for (int i = 0; i < ParkingPlaces.Length; i++)
-            //{
-            //    ParkingPlaces[i] = new T();
-            //}
+        }
+
+        public bool FreeAt(int id)
+        {
+            if (id >= ParkingPlaces.Length || id < 0)
+            {
+                throw new IndexOutOfRangeException($"Not existing id <{id}>");
+            }
+
+            return ParkingPlaces[id] is null;
+        }
+
+        public IVehicle? VehicleAt(int id)
+        {
+            if (id >= ParkingPlaces.Length || id < 0)
+            {
+                throw new IndexOutOfRangeException($"Not existing id <{id}>");
+            }
+
+            return ParkingPlaces[id].Vehicle;
         }
 
         public IEnumerator<T> GetEnumerator()
