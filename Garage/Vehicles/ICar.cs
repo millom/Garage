@@ -6,8 +6,7 @@ using System.Threading.Tasks;
 
 namespace Garage.Vehicles
 {
-    internal class Car(string regNumber, string color, int weels)
-        : Vehicle(regNumber, color, weels), ICar
+    internal interface ICar : IVehicle
     {
     }
 }
