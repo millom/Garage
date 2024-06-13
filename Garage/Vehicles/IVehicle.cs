@@ -1,4 +1,6 @@
-﻿using System;
+﻿using Garage.Types;
+
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -9,7 +11,7 @@ namespace Garage.Vehicles
     internal interface IVehicle
     {
         string RegNumber { get; }
-        string Color { get; }
+        ColorType Color { get; }
         int Weels { get; }
     }
 }
