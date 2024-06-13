@@ -1,5 +1,6 @@
 using Garage;
 using Garage.Garage;
+using Garage.Vehicles;
 
 using System.Diagnostics;
 using System.Drawing;
@@ -11,32 +12,34 @@ namespace Garage.Test
     public class GarageTest
     {
         private readonly ITestOutputHelper output;
-        private IGarage<IParkingPlace> Garage;
-        private const int SMALL_SIZE = 4;
+        private Garage<IVehicle> Garage;
         private const int SIZE = 20;
 
         public GarageTest(ITestOutputHelper output)
         {
             this.output = output;
-            var pp = new ParkingPlace[SIZE];
-            for (int i = 0; i < SIZE; i++)
-            {
-                pp[i] = new ParkingPlace();
-            }
-            Garage = new Garage<IParkingPlace>(pp);
+            Garage = new Garage<IVehicle>(new Vehicle[SIZE]);
         }
 
-        [Fact]
-        public void Ctor_CreateGarage_GiveParkingPlacesOfExpectedSize()
+        [Theory]
+        [InlineData(0)]
+        [InlineData(4)]
+        [InlineData(9)]
+        [InlineData(14)]
+        [InlineData(19)]
+        public void GivenEmptyGarage_WhenCheckingAnySlot_GivesSlotIsFree(int id)
         {
-            var pp = new ParkingPlace[SMALL_SIZE];
-            for (int i = 0; i < SMALL_SIZE; i++)
-            {
-                pp[i] = new ParkingPlace();
-            }
-            var garage = new Garage<IParkingPlace>(pp);
+            // Act & Assert
+            Assert.True(Garage.FreeAt(id));
+        }
 
-            //Assert.Equal(SmallGarage.);
+        [Theory]
+        [InlineData(-1)]
+        [InlineData(20)]
+        public void GivenEmptyGarage_WhenCheckingSlotNotInGarage_GivesException(int id)
+        {
+            // Act & Assert
+            Assert.Throws<IndexOutOfRangeException>(() => Garage.FreeAt(id));
         }
     }
 }
