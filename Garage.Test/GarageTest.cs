@@ -38,8 +38,14 @@ namespace Garage.Test
         [InlineData(20)]
         public void GivenEmptyGarage_WhenCheckingSlotNotInGarage_GivesException(int id)
         {
+            // Arrange
+            var expectedMessage = $"Not existing id <{id}>";
+
             // Act & Assert
-            Assert.Throws<IndexOutOfRangeException>(() => Garage.FreeAt(id));
+            var ex = Assert.Throws<IndexOutOfRangeException>(() => Garage.FreeAt(id));
+
+            // Assert
+            Assert.Equal(expectedMessage, ex.Message);
         }
     }
 }
