@@ -12,7 +12,7 @@ using System.Threading.Tasks;
 namespace Garage.Garage
 {
     internal class Garage<T> : IGarage<T>
-         where T : IParkingPlace
+         where T : IVehicle
     {
         private readonly T[] ParkingPlaces;
 
@@ -31,14 +31,14 @@ namespace Garage.Garage
             return ParkingPlaces[id] is null;
         }
 
-        public IVehicle? VehicleAt(int id)
+        public T? VehicleAt(int id)
         {
             if (id >= ParkingPlaces.Length || id < 0)
             {
                 throw new IndexOutOfRangeException($"Not existing id <{id}>");
             }
 
-            return ParkingPlaces[id].Vehicle;
+            return ParkingPlaces[id];
         }
 
         public IEnumerator<T> GetEnumerator()

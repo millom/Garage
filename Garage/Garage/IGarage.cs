@@ -6,9 +6,9 @@ using System.Runtime.CompilerServices;
 namespace Garage.Garage
 {
     internal interface IGarage<T>: IEnumerable<T>
-        where T : IParkingPlace
+        where T : IVehicle
     {
         public bool FreeAt(int id);
-        public IVehicle? VehicleAt(int id);
+        public T? VehicleAt(int id);
     }
 }
