@@ -1,5 +1,6 @@
 using Garage;
 using Garage.Garage;
+using Garage.Types;
 using Garage.Vehicles;
 
 using System.Diagnostics;
@@ -73,6 +74,25 @@ namespace Garage.Test
 
             // Assert
             Assert.Equal(expectedMessage, ex.Message);
+        }
+
+        [Fact]
+        public void ParkCar()
+        {
+            // Arrange
+            IVehicle car1 = new Car("ABC123", ColorType.BLUE, 4);
+            IVehicle car2 = new Car("ABC124", ColorType.YELLOW, 4);
+            Garage.ParkVehicleInSlot(car1, 0);
+            Garage.ParkVehicleInSlot(car2, 1);
+            var enumerator = Garage.GetEnumerator();
+
+            // Act & Assert
+            enumerator.MoveNext();
+            Assert.Equal(car1, enumerator.Current);
+            enumerator.MoveNext();
+            Assert.Equal(car2, enumerator.Current);
+            enumerator.MoveNext();
+            Assert.Null(enumerator.Current);
         }
     }
 }
