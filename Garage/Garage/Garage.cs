@@ -1,4 +1,5 @@
-﻿using Garage.Vehicles;
+﻿using Garage.Exceptions;
+using Garage.Vehicles;
 
 using System;
 using System.Collections;
@@ -22,10 +23,17 @@ namespace Garage.Garage
             ParkingPlaces = parkingPlaces;
         }
 
-        public void ParkVehicleInSlot(T vehicle, int slotId)
+        public void ParkVehicleInSlot(T? vehicle, int slotId)
         {
-            if (vehicle is null || slotId < 0 || slotId >= ParkingPlaces.Length)
-                throw new ArgumentNullException($"Fail to add vehicle {vehicle} in slot {slotId}");
+            if (vehicle is null)
+                throw new ArgumentNullException(nameof(vehicle));
+
+            if (slotId < 0 || slotId >= ParkingPlaces.Length)
+                throw new ArgumentOutOfRangeException($"slot={slotId}, range {0}-{ParkingPlaces.Length - 1}");
+
+            if (ParkingPlaces[slotId] is not null)
+                throw new SlotTakenException($"Fail to add vehicle to slot {slotId}, place taken");
+
             ParkingPlaces[slotId] = vehicle;
         }
 
