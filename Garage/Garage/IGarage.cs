@@ -10,5 +10,6 @@ namespace Garage.Garage
     {
         public bool FreeAt(int id);
         public T? VehicleAt(int id);
+        public void ParkVehicleInSlot(T vehicle, int slotId);
     }
 }

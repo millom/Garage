@@ -22,11 +22,11 @@ namespace Garage.Garage
             ParkingPlaces = parkingPlaces;
         }
 
-        public bool ParkVehicleInSlot(IVehicle vehicle, int slotId)
+        public void ParkVehicleInSlot(T vehicle, int slotId)
         {
-            return vehicle is null || slotId < 0 || slotId >= ParkingPlaces.Length
-                ? throw new ArgumentNullException($"Fail to add vehicle {vehicle} in slot {slotId}")
-                : true;
+            if (vehicle is null || slotId < 0 || slotId >= ParkingPlaces.Length)
+                throw new ArgumentNullException($"Fail to add vehicle {vehicle} in slot {slotId}");
+            ParkingPlaces[slotId] = vehicle;
         }
 
         public bool FreeAt(int id)
