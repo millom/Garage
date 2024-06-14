@@ -14,7 +14,7 @@ namespace Garage.Vehicles
         int weels) : IVehicle
     {
         public string RegNumber { get; } =
-            string.IsNullOrWhiteSpace(regNumber) || regNumber.Length < 4
+            string.IsNullOrWhiteSpace(regNumber) || regNumber.Length <= 4
             ? throw new ArgumentException($"Bad regNumber: <{regNumber}>")
             : regNumber;
         public ColorType Color { get; } = color;
