@@ -4,6 +4,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
+using System.Numerics;
 using System.Runtime.CompilerServices;
 using System.Text;
 using System.Threading.Tasks;
@@ -19,6 +20,13 @@ namespace Garage.Garage
         public Garage(T[] parkingPlaces)
         {
             ParkingPlaces = parkingPlaces;
+        }
+
+        public bool ParkVehicleInSlot(IVehicle vehicle, int slotId)
+        {
+            return vehicle is null || slotId < 0 || slotId >= ParkingPlaces.Length
+                ? throw new ArgumentNullException($"Fail to add vehicle {vehicle} in slot {slotId}")
+                : true;
         }
 
         public bool FreeAt(int id)
