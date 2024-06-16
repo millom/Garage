@@ -52,11 +52,13 @@ namespace Garage.Test
         }
 
         [Theory]
-        [InlineData(0)]
-        [InlineData(4)]
-        [InlineData(9)]
-        [InlineData(14)]
-        [InlineData(19)]
+        //[InlineData(0)]
+        //[InlineData(4)]
+        //[InlineData(9)]
+        //[InlineData(14)]
+        //[InlineData(19)]
+        [MemberData(nameof(ExernalSlotTestData.TestData),
+            MemberType = typeof(ExernalSlotTestData))]
         public void GivenEmptyGarage_WhenExecuteVehicleAtWithId_GivesSlotIsNull(int id)
         {
             // Act & Assert
