@@ -1,6 +1,7 @@
 using Garage;
 using Garage.Exceptions;
 using Garage.Garage;
+using Garage.Test.Utils;
 using Garage.Types;
 using Garage.Vehicles;
 
@@ -63,8 +64,10 @@ namespace Garage.Test
         }
 
         [Theory]
-        [InlineData(-1)]
-        [InlineData(20)]
+        //[InlineData(-1)]
+        //[InlineData(20)]
+        [MemberData(nameof(InternalSlotTestData.TestData),
+            MemberType = typeof(InternalSlotTestData))]
         public void GivenEmptyGarage_WhenExecuteVehicleAtWithBadId_ThenThrowExpectedExecpten(int id)
         {
             // Arrange
@@ -126,6 +129,7 @@ namespace Garage.Test
         }
 
         [Theory]
+        //[MemberData("TestData", MemberType = typeof(InternalSlotTestData))]
         [InlineData(-1)]
         [InlineData(SIZE)]
         public void GivenOneCarOutsideGarage_WhenParkingLegalCarOutsideSlots_ThenThrowExpectedException(
