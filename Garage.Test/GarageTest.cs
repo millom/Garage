@@ -57,8 +57,9 @@ namespace Garage.Test
         //[InlineData(9)]
         //[InlineData(14)]
         //[InlineData(19)]
-        [MemberData(nameof(ExernalSlotTestData.TestData),
-            MemberType = typeof(ExernalSlotTestData))]
+        //[MemberData(nameof(ExernalSlotTestData.TestData),
+        //    MemberType = typeof(ExernalSlotTestData))]
+        [ExernalSlotTestDataAttribute]
         public void GivenEmptyGarage_WhenExecuteVehicleAtWithId_GivesSlotIsNull(int id)
         {
             // Act & Assert
@@ -68,8 +69,9 @@ namespace Garage.Test
         [Theory]
         //[InlineData(-1)]
         //[InlineData(20)]
-        [MemberData(nameof(InternalSlotTestData.TestData),
-            MemberType = typeof(InternalSlotTestData))]
+        //[MemberData(nameof(InternalSlotTestData.TestData),
+        //    MemberType = typeof(InternalSlotTestData))]
+        [InternalSlotTestDataAttribute]
         public void GivenEmptyGarage_WhenExecuteVehicleAtWithBadId_ThenThrowExpectedExecpten(int id)
         {
             // Arrange
