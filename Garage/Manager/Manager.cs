@@ -10,7 +10,7 @@ using System.Threading.Tasks;
 
 namespace Garage.Manager
 {
-    internal class Manager
+    internal class Manager : IManager
     {
         private readonly IUI _ui;
         private readonly IGarageHandler _garageHandler;
@@ -28,7 +28,7 @@ namespace Garage.Manager
 
         public void Run()
         {
-            while (MainMenu());
+            while (MainMenu()) ;
         }
 
         public bool MainMenu()
@@ -45,13 +45,13 @@ namespace Garage.Manager
             switch (command)
             {
                 case "0":
-                    while(ParkMenu());
+                    while (ParkMenu()) ;
                     break;
                 case "1":
-                    while(UnparkMenu());
+                    while (UnparkMenu()) ;
                     break;
                 case "2":
-                    while(ShowParkedVehiclesMenu());
+                    while (ShowParkedVehiclesMenu()) ;
                     break;
                 default:
                     break;
