@@ -137,6 +137,7 @@ namespace Garage.Manager
         public bool SearchParkedMenu()
         {
             _ui.Clear();
+            return true;
         }
 
         public void PrintNotParkedMenu()
