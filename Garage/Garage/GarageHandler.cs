@@ -1,24 +1,17 @@
 ﻿using Garage.Entensions;
-using Garage.Types;
 using Garage.UI;
 using Garage.Vehicles;
-
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Garage.Garage
 {
     internal class GarageHandler(
         IUI ui,
         IEnumerable<IVehicle> freeVehicles,
-        Garage<IVehicle> garage) : IGarageHandler
+        IGarage<IVehicle> garage) : IGarageHandler
     {
         private readonly IUI _ui = ui;
         private readonly IEnumerable<IVehicle> _freeVehicles = freeVehicles;
-        private readonly Garage<IVehicle> _garage = garage;
+        private readonly IGarage<IVehicle> _garage = garage;
 
         public void ParkVehicle(
             IVehicle vehicle,

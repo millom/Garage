@@ -22,12 +22,12 @@ var host = Host.CreateDefaultBuilder(args)
     .ConfigureServices(services =>
     {
         services.AddSingleton<IManager, Manager>();
-        services.AddSingleton<IUI, ConsoleUI>();
         services.AddSingleton<IGarageHandler, GarageHandler>();
-        services.AddSingleton<IVehicle[]>(new IVehicle[garageSize]);
+        services.AddSingleton<IGarage<IVehicle>, Garage<IVehicle>>();
+        services.AddSingleton<IUI, ConsoleUI>();
+        services.AddSingleton<IVehicle[]>(new Vehicle[garageSize]);
         services.AddSingleton<IDictionary<string, int>>(new Dictionary<string, int>());
-        services.AddSingleton<IGarage<IVehicle>, Garage<IVehicle>>();
-        services.AddSingleton<IGarage<IVehicle>, Garage<IVehicle>>();
+        services.AddSingleton<ISearchFilter, SearchFilter>();
         //services.AddSingleton<IConfiguration>(config);
     })
     .UseConsoleLifetime()
