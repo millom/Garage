@@ -9,12 +9,8 @@ using System.Threading.Tasks;
 
 namespace Garage.Test.Tests.Vehicles
 {
-    public class VehicleTest
+    public class VehicleTest : BaseVehicleTest
     {
-        //private const string regNumber  = "ABC123";
-        private const ColorType color = ColorType.BLUE;
-        private const int weels = 4;
-
         [Theory]
         [InlineData("ABC12")]
         [InlineData("ABC123")]
@@ -22,7 +18,7 @@ namespace Garage.Test.Tests.Vehicles
             string regNumber)
         {
             // Arrange & Act
-            IVehicle vehicle = new Car(regNumber, color, weels);
+            IVehicle vehicle = new Car(regNumber, color, weels, FuelType.GASOLINE);
 
             // Assert
             Assert.Equal(regNumber, vehicle.RegNumber);
@@ -41,7 +37,7 @@ namespace Garage.Test.Tests.Vehicles
 
             // Act
             ArgumentException ex = Assert.Throws<ArgumentException>(
-                () => new Car(badRegNumber, color, weels));
+                () => new Car(badRegNumber, color, weels, FuelType.GASOLINE));
 
             // Assert
             Assert.Equal(expectedMessage, ex.Message);
