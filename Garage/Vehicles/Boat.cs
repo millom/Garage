@@ -16,5 +16,6 @@ namespace Garage.Vehicles
     int weels)
         : Vehicle(regNumber, color, weels), IVehicle, IBoat
     {
+        public int Lenght { get; }
     }
 }

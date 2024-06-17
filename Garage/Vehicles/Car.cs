@@ -14,5 +14,6 @@ namespace Garage.Vehicles
         int weels)
         : Vehicle(regNumber, color, weels), ICar
     {
+        public FuelType Fueltype { get; }
     }
 }
