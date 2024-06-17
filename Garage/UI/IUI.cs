@@ -11,5 +11,6 @@ namespace Garage.UI
         void Write(string line);
         void WriteLine(string line);
         string ReadLine();
+        void Clear();
     }
 }
