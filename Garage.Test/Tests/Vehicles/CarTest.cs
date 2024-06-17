@@ -9,39 +9,23 @@ using System.Threading.Tasks;
 
 namespace Garage.Test.Tests.Vehicles
 {
-    public class CarTest
+    public class CarTest : BaseVehicleTest
     {
-        private const string regNumber = "ABC123";
-        private const ColorType color = ColorType.BLUE;
-        private const int weels = 4;
-
-        [Fact]
-        public void GeivenParams_WhenCreateVehicleWithParams_ThenPropertiesSamaAsParams()
-        {
-            // Arrange & Act
-            IVehicle vehicle = new Car(regNumber, color, weels);
-
-            // Assert
-            Assert.Equal(regNumber, vehicle.RegNumber);
-            Assert.Equal(color, vehicle.Color);
-            Assert.Equal(weels, vehicle.Weels);
-        }
 
         [Theory]
-        [InlineData("")]
-        [InlineData("ABC1")]
-        public void GeivenBadRegNumber_WhenCreateVehicleWithParams_ThenThrowExpectedException(
-            string badRegNumber)
+        [InlineData(FuelType.ELECTRICITY)]
+        [InlineData(FuelType.GASOLINE)]
+        [InlineData(FuelType.DIESEL)]
+        public void GivenLegalExpectedFueltype_WhenCreateCarWithExpectedFueltype_ThenFueltypeIsExpectedFueltype(
+            FuelType expectedFueltype)
         {
-            // Arrange
-            string expectedMessage = $"Bad regNumber: <{badRegNumber}>";
-
             // Act
-            ArgumentException ex = Assert.Throws<ArgumentException>(
-                () => new Car(badRegNumber, color, weels));
+            IVehicle vehicle = new Car(regNumber, color, weels, expectedFueltype);
+            ICar? car = vehicle as ICar;
 
             // Assert
-            Assert.Equal(expectedMessage, ex.Message);
+            Assert.NotNull(car);
+            Assert.Equal(expectedFueltype, car.Fueltype);
         }
     }
 }

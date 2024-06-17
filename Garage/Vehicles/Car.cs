@@ -12,9 +12,9 @@ namespace Garage.Vehicles
         string regNumber,
         ColorType color,
         int weels,
-        FuelType? fueltype = null)
+        FuelType fueltype = FuelType.GASOLINE)
         : Vehicle(regNumber, color, weels), ICar
     {
-        public FuelType Fueltype { get; }
+        public FuelType Fueltype { get; } = fueltype;
     }
 }

@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace Garage.Types
 {
-    internal enum ColorType
+    public enum ColorType
     {
         BLUE    = 0,
         YELLOW  = 1,
