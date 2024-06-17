@@ -1,4 +1,6 @@
-﻿using Garage.Types;
+﻿using Garage.Entensions;
+using Garage.Manager;
+using Garage.Types;
 using Garage.UI;
 using Garage.Vehicles;
 
@@ -13,9 +15,11 @@ namespace Garage.Garage
     internal class GarageHandler(
         IUI ui,
         IEnumerable<IVehicle> freeVehicles,
-        Garage<IVehicle> _garage)
+        Garage<IVehicle> garage) : IGarageHandler
     {
-        public readonly IEnumerable<IVehicle> _freeVehicles = freeVehicles;
+        private readonly IUI _ui = ui;
+        private readonly IEnumerable<IVehicle> _freeVehicles = freeVehicles;
+        private readonly Garage<IVehicle> _garage = garage;
 
         public void ParkVehicle(
             IVehicle vehicle,
@@ -24,33 +28,23 @@ namespace Garage.Garage
             _garage.ParkVehicleInSlot(vehicle, slotId);
         }
 
-        public void UnparkVehicle(
+        public IVehicle GetParkedVehicle(
             string regNumber)
         {
-            _garage.UnParkVehicle(regNumber);
+            return _garage.UnParkVehicle(regNumber);
         }
 
-        //public IEnumerable<IVehicle> FilterByRegNumber(string item)
-        //{
-        //    return _garage.Where(v => v.RegNumber.Contains(item));
-        //}
-
-        //public IEnumerable<IVehicle> FilterByColor(ColorType color)
-        //{
-        //    return _garage.Where(v => v.Color == color);
-        //}
-
-        //public IEnumerable<IVehicle> FilterByWeels(int weels)
-        //{
-        //    return _garage.Where(v => v.Weels == weels);
-        //}
-
-        //public IEnumerable<IVehicle> FilterByExtraProps(int xtra)
-        //{
-        //    return _garage.Where(v => v.Weels == weels);
-        //}
-
-
-        //.Where(v => v.FilterExtraProps(120))
+        public IEnumerable<string> GetSearchResult(ISearchFilter filter)
+        {
+            foreach (var vehicle in _garage
+                .Where(v => v != null)
+                .Where(v => v.FilterByRegNumber(filter?.RegNumber))
+                .Where(v => v.FilterByColor(filter?.Color))
+                .Where(v => v.FilterByWeels(filter?.Weels))
+                .Where(v => v.FilterByExtraProp(filter?.ExtraProp)))
+            {
+                yield return vehicle.GetToString();
+            }
+        }
     }
 }
