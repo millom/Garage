@@ -16,6 +16,7 @@ namespace Garage.Test.Tests.Garage
         private readonly ITestOutputHelper output;
         private Garage<IVehicle> Garage;
         private const int SIZE = 20;
+        private const FuelType fuelType = FuelType.GASOLINE;
 
         public GarageTest(ITestOutputHelper output)
         {
@@ -87,8 +88,8 @@ namespace Garage.Test.Tests.Garage
         public void GivenTwoCarsInGarage_WhenIterateOverGarage_ThenExpectedCarsReached()
         {
             // Arrange
-            IVehicle car1 = new Car("ABC123", ColorType.BLUE, 4);
-            IVehicle car2 = new Car("ABC124", ColorType.YELLOW, 4);
+            IVehicle car1 = new Car("ABC123", ColorType.BLUE, 4, fuelType);
+            IVehicle car2 = new Car("ABC124", ColorType.YELLOW, 4, fuelType);
             Garage.ParkVehicleInSlot(car1, 0);
             Garage.ParkVehicleInSlot(car2, 1);
             var enumerator = Garage.GetEnumerator();
@@ -106,7 +107,7 @@ namespace Garage.Test.Tests.Garage
         public void GivenOneCarOutsideGarage_WhenParkingLegalCarAndSlotGarage_ThenCarIsParked()
         {
             // Arrange
-            IVehicle car = new Car("ABC123", ColorType.BLUE, 4);
+            IVehicle car = new Car("ABC123", ColorType.BLUE, 4, fuelType);
 
             // Act
             Garage.ParkVehicleInSlot(car, 0);
@@ -142,7 +143,7 @@ namespace Garage.Test.Tests.Garage
             string userDefinedMessage = $"slot={slotId}, range {0}-{SIZE - 1}";
             string expectedMessage = "Specified argument was out of the range of valid values." +
                 $" (Parameter '{userDefinedMessage}')";
-            IVehicle? car = new Car("ABC123", ColorType.BLUE, 4);
+            IVehicle? car = new Car("ABC123", ColorType.BLUE, 4, fuelType);
 
             // Act & Assert
             ArgumentOutOfRangeException ex = Assert.Throws<ArgumentOutOfRangeException>(
@@ -160,8 +161,8 @@ namespace Garage.Test.Tests.Garage
             int slotId = 0;
             string expectedMessage =
                 $"Fail to add vehicle to slot {slotId}, place taken";
-            IVehicle car1 = new Car("ABC123", ColorType.BLUE, 4);
-            IVehicle car2 = new Car("ABC124", ColorType.YELLOW, 4);
+            IVehicle car1 = new Car("ABC123", ColorType.BLUE, 4, fuelType);
+            IVehicle car2 = new Car("ABC124", ColorType.YELLOW, 4, fuelType);
             Garage.ParkVehicleInSlot(car1, slotId);
 
             // Act & Assert
