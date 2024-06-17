@@ -12,9 +12,13 @@ namespace Garage.Vehicles
         string regNumber,
         ColorType color,
         int weels,
-        int? engines = null)
+        int engines)
         : Vehicle(regNumber, color, weels), IVehicle, IAirplane
     {
-        public int Engines { get; } //= engines;
+        public int Engines { get; } = engines > 0
+            ? engines
+            : throw new ArgumentOutOfRangeException(
+                $"Argument engines={engines} (must be > 0)"
+              );
     }
 }

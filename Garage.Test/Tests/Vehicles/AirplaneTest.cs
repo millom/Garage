@@ -3,9 +3,12 @@ using Garage.Vehicles;
 
 using System;
 using System.Collections.Generic;
+using System.Drawing;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+
+using static System.Runtime.InteropServices.JavaScript.JSType;
 
 namespace Garage.Test.Tests.Vehicles
 {
@@ -37,12 +40,15 @@ namespace Garage.Test.Tests.Vehicles
             int expectedEngines)
         {
             // Arrange
-            string expectedMessage = $"Engines={expectedEngines} (must be > 0)";
+            string userDefinedMessage = $"Argument engines={expectedEngines} (must be > 0)";
+            string expectedMessage = "Specified argument was out of the range of valid values." +
+                $" (Parameter '{userDefinedMessage}')";
 
             // Act & Assert
             ArgumentOutOfRangeException ex = Assert.Throws<ArgumentOutOfRangeException>(
                 () => new Airplane(regNumber, color, weels, expectedEngines)
             );
+            Assert.Equal(expectedMessage, ex.Message);
         }
     }
 }
