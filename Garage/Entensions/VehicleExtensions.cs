@@ -12,23 +12,26 @@ namespace Garage.Entensions
     {
         public static bool FilterByRegNumber(
             this IVehicle vehicle,
-            string filter)
+            string? filter)
         {
-            return vehicle.RegNumber.Contains(filter);
+            return filter is null ||
+                vehicle.RegNumber.Contains(filter);
         }
 
         public static bool FilterByColor(
             this IVehicle vehicle,
-            int color)
+            int? color)
         {
-            return (int)vehicle.Color == color;
+            return color is null ||
+                (int)vehicle.Color == color;
         }
 
         public static bool FilterByWeels(
             this IVehicle vehicle,
-            int weels)
+            int? weels)
         {
-            return vehicle.Weels == weels;
+            return weels is null ||
+                vehicle.Weels == weels;
         }
 
         //public static IEnumerable<IVehicle> FilterByRegNumber(
@@ -61,7 +64,7 @@ namespace Garage.Entensions
 
         public static bool FilterByExtraProp(
             this IVehicle? vehicle,
-            int filter)
+            int? filter)
         {
             var car = vehicle as ICar;
             if (car is not null) return car.FilterExtraProps(filter);
@@ -78,30 +81,30 @@ namespace Garage.Entensions
             var bus = vehicle as IBus;
             if (bus is not null) return bus.FilterExtraProps(filter);
 
-            return false;
+            return true;
         }
 
-        private static bool FilterExtraProps(this ICar car, int fuelType)
+        private static bool FilterExtraProps(this ICar car, int? fuelType)
         {
             return (int)car.Fueltype == fuelType;
         }
 
-        private static bool FilterExtraProps(this IBus bus, int seats)
+        private static bool FilterExtraProps(this IBus bus, int? seats)
         {
             return bus.Seats == seats;
         }
 
-        private static bool FilterExtraProps(this IMotorcycle motorcycle, int cylinderVolume)
+        private static bool FilterExtraProps(this IMotorcycle motorcycle, int? cylinderVolume)
         {
             return motorcycle.CylinderVolume == cylinderVolume;
         }
 
-        private static bool FilterExtraProps(this IBoat boat, int length)
+        private static bool FilterExtraProps(this IBoat boat, int? length)
         {
             return boat.Length == length;
         }
 
-        private static bool FilterExtraProps(this IAirplane airplane, int engines)
+        private static bool FilterExtraProps(this IAirplane airplane, int? engines)
         {
             return airplane.Engines == engines;
         }
