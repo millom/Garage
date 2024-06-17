@@ -1,5 +1,4 @@
-﻿using Garage.Manager;
-using Garage.Vehicles;
+﻿using Garage.Vehicles;
 
 namespace Garage.Garage
 {

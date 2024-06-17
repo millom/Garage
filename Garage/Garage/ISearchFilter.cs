@@ -1,6 +1,6 @@
 ﻿using System.Reflection;
 
-namespace Garage.Manager
+namespace Garage.Garage
 {
     internal interface ISearchFilter
     {

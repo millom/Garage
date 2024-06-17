@@ -8,7 +8,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Reflection;
 
-namespace Garage.Manager
+namespace Garage.Garage
 {
     internal class SearchFilter : ISearchFilter
     {
@@ -19,7 +19,7 @@ namespace Garage.Manager
 
         public PropertyInfo[] GetPublicInstanceProps()
         {
-            return this.GetType().GetProperties(BindingFlags.Instance | BindingFlags.Public);
+            return GetType().GetProperties(BindingFlags.Instance | BindingFlags.Public);
         }
 
         public override string ToString()
