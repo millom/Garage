@@ -1,4 +1,6 @@
 ﻿using Garage.Garage;
+using Garage.Manager;
+using Garage.UI;
 using Garage.Vehicles;
 
 using Microsoft.Extensions.Configuration;
@@ -19,10 +21,14 @@ IConfiguration config = new ConfigurationBuilder()
 var host = Host.CreateDefaultBuilder(args)
     .ConfigureServices(services =>
     {
+        services.AddSingleton<IManager, Manager>();
+        services.AddSingleton<IUI, ConsoleUI>();
+        services.AddSingleton<IGarageHandler, GarageHandler>();
         services.AddSingleton<IGarage<IVehicle>, Garage<IVehicle>>();
-        services.AddSingleton<IConfiguration>(config);
+        services.AddSingleton<IGarage<IVehicle>, Garage<IVehicle>>();
+        //services.AddSingleton<IConfiguration>(config);
     })
     .UseConsoleLifetime()
     .Build();
 
-host.Services.GetRequiredService<IGarage<IVehicle>>(); //.Runt()
+host.Services.GetRequiredService<IManager>().Run();
