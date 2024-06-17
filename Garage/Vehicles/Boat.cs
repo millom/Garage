@@ -14,9 +14,13 @@ namespace Garage.Vehicles
         string regNumber,
         ColorType color,
         int weels,
-        int? length = null)
+        int length)
         : Vehicle(regNumber, color, weels), IVehicle, IBoat
     {
-        public int Lenght { get; }
+        public int Length { get; } = length > 0
+            ? length
+            : throw new ArgumentOutOfRangeException(
+                $"Argument length={length} (must be > 0)"
+              );
     }
 }

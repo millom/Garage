@@ -15,30 +15,36 @@ namespace Garage.Test.Tests.Vehicles
         private const ColorType color = ColorType.BLUE;
         private const int weels = 4;
 
-        [Fact(Skip = "Not implemented")]
-        public void GeivenParams_WhenCreateVehicleWithParams_ThenPropertiesSamaAsParams()
+        [Theory]
+        [InlineData(1)]
+        [InlineData(25)]
+        public void GivenLegalExpectedEngines_WhenCreateAirplaneWithExpectedEngines_ThenEnginesIsExpectedEngines(
+            int expectedLength)
         {
-            // Arrange & Act
-            IVehicle vehicle = new Boat(regNumber, color, weels);
+            // Act
+            IVehicle vehicle = new Boat(regNumber, color, weels, expectedLength);
+            IBoat? boat = vehicle as IBoat;
 
             // Assert
-            Assert.Equal(regNumber, vehicle.RegNumber);
-            Assert.Equal(color, vehicle.Color);
-            Assert.Equal(weels, vehicle.Weels);
+            Assert.NotNull(boat);
+            Assert.Equal(expectedLength, boat.Length);
         }
 
         [Theory]
-        [InlineData("")]
-        [InlineData("ABC1")]
-        public void GeivenBadRegNumber_WhenCreateVehicleWithParams_ThenThrowExpectedException(
-            string badRegNumber)
+        [InlineData(0)]
+        [InlineData(-1)]
+        public void GivenBadExpectedEngines_WhenCreateBoatWithExpectedLength_ThenThrowExpectedException(
+            int expectedLength)
         {
             // Arrange
-            string expectedMessage = $"Bad regNumber: <{badRegNumber}>";
+            string userDefinedMessage = $"Argument length={expectedLength} (must be > 0)";
+            string expectedMessage = "Specified argument was out of the range of valid values." +
+                $" (Parameter '{userDefinedMessage}')";
 
-            // Act
-            ArgumentException ex = Assert.Throws<ArgumentException>(
-                () => new Car(badRegNumber, color, weels));
+            // Act & Assert
+            ArgumentOutOfRangeException ex = Assert.Throws<ArgumentOutOfRangeException>(
+                () => new Boat(regNumber, color, weels, expectedLength)
+            );
 
             // Assert
             Assert.Equal(expectedMessage, ex.Message);
