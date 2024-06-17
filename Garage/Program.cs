@@ -14,7 +14,7 @@ IConfiguration config = new ConfigurationBuilder()
     .AddJsonFile("appsettings.json", optional: false, reloadOnChange: true)
     .Build();
 
-//var test = config.GetSection("garage:size").Value;
+var garageSize = int.Parse(config.GetSection("garage:size").Value);
 //var test = config.GetSection("garage:size").GetChildren();
 //Console.WriteLine();
 
@@ -24,6 +24,8 @@ var host = Host.CreateDefaultBuilder(args)
         services.AddSingleton<IManager, Manager>();
         services.AddSingleton<IUI, ConsoleUI>();
         services.AddSingleton<IGarageHandler, GarageHandler>();
+        services.AddSingleton<IVehicle[]>(new IVehicle[garageSize]);
+        services.AddSingleton<IDictionary<string, int>>(new Dictionary<string, int>());
         services.AddSingleton<IGarage<IVehicle>, Garage<IVehicle>>();
         services.AddSingleton<IGarage<IVehicle>, Garage<IVehicle>>();
         //services.AddSingleton<IConfiguration>(config);
