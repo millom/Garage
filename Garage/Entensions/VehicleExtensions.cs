@@ -108,5 +108,27 @@ namespace Garage.Entensions
         {
             return airplane.Engines == engines;
         }
+
+
+        public static string GetToString(
+            this IVehicle? vehicle)
+        {
+            var car = vehicle as ICar;
+            if (car is not null) return car.ToString()!;
+
+            var boat = vehicle as IBoat;
+            if (boat is not null) return boat.ToString()!;
+
+            var mc = vehicle as IMotorcycle;
+            if (mc is not null) return mc.ToString()!;
+
+            var ap = vehicle as IAirplane;
+            if (ap is not null) return ap.ToString()!;
+
+            var bus = vehicle as IBus;
+            if (bus is not null) return bus.ToString()!;
+
+            throw new NullReferenceException($"vehicle = {vehicle}");
+        }
     }
 }
