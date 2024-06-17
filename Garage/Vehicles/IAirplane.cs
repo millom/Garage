@@ -2,5 +2,6 @@
 {
     internal interface IAirplane
     {
+        int Engines { get; }
     }
 }

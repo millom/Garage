@@ -2,5 +2,6 @@
 {
     internal interface IBus
     {
+        int Seats { get; }
     }
 }

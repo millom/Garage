@@ -2,5 +2,6 @@
 {
     internal interface IMotorcycle
     {
+        int CylinderVolume { get; }
     }
 }

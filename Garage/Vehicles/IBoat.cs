@@ -2,5 +2,6 @@
 {
     internal interface IBoat
     {
+        int Lenght { get; }
     }
 }
