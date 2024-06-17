@@ -36,24 +36,25 @@ namespace Garage.Garage
             if (_parkingPlaces[slotId] is not null)
                 throw new SlotTakenException($"Fail to add vehicle to slot {slotId}, place taken");
 
-            _regNumberSlotDict[vehicle.RegNumber] = slotId;
-            _parkingPlaces[slotId] = vehicle;
+            ParkVehicle(vehicle, slotId);
         }
 
         public T UnParkVehicle(string regNumber)
         {
             Throw<ArgumentException>
-                .If(string.IsNullOrWhiteSpace(regNumber), $"Illegal Reg number {regNumber}");
+                .If(string.IsNullOrWhiteSpace(regNumber), $"Illegal Reg number, {regNumber}");
             Throw<ArgumentException>
                 .If(!_regNumberSlotDict.ContainsKey(regNumber), $"RegNumber {regNumber} not found");
 
             int slotId = _regNumberSlotDict[regNumber];
-            Throw<ArgumentException>
-                .If(_parkingPlaces[slotId] is null, $"Conflict between regNumber and slotId");
+
+            // This should not be possible, maybe later
+            //Throw<ArgumentException>
+            //    .If(_parkingPlaces[slotId] is null, $"Conflict between regNumber and slotId");
 
             T vehicle = _parkingPlaces[slotId];
 
-            CleanupSlot(regNumber, slotId);
+            UnparkVehicle(regNumber, slotId);
 
             return vehicle;
         }
@@ -87,7 +88,13 @@ namespace Garage.Garage
         }
         IEnumerator IEnumerable.GetEnumerator() => GetEnumerator();
 
-        private void CleanupSlot(string regNumber, int slotId)
+        private void ParkVehicle(T vehicle, int slotId)
+        {
+            _regNumberSlotDict[vehicle!.RegNumber] = slotId;
+            _parkingPlaces[slotId] = vehicle;
+        }
+
+        private void UnparkVehicle(string regNumber, int slotId)
         {
             _regNumberSlotDict.Remove(regNumber);
             _parkingPlaces[slotId] = default!;
