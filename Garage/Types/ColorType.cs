@@ -8,10 +8,11 @@ namespace Garage.Types
 {
     public enum ColorType
     {
-        BLUE    = 0,
-        YELLOW  = 1,
-        RED     = 2,
-        GREEN   = 3,
-        WHITE   = 4,
+        ANY     = 0,
+        BLUE    = 1,
+        YELLOW  = 2,
+        RED     = 3,
+        GREEN   = 4,
+        WHITE   = 5,
     }
 }
