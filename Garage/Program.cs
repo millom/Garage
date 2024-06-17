@@ -15,8 +15,6 @@ IConfiguration config = new ConfigurationBuilder()
     .Build();
 
 var garageSize = int.Parse(config.GetSection("garage:size").Value);
-//var test = config.GetSection("garage:size").GetChildren();
-//Console.WriteLine();
 
 var host = Host.CreateDefaultBuilder(args)
     .ConfigureServices(services =>
@@ -28,7 +26,6 @@ var host = Host.CreateDefaultBuilder(args)
         services.AddSingleton<IVehicle[]>(new Vehicle[garageSize]);
         services.AddSingleton<IDictionary<string, int>>(new Dictionary<string, int>());
         services.AddSingleton<ISearchFilter, SearchFilter>();
-        //services.AddSingleton<IConfiguration>(config);
     })
     .UseConsoleLifetime()
     .Build();
