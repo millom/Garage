@@ -7,17 +7,13 @@ using System.Runtime.CompilerServices;
 [assembly: InternalsVisibleTo("Garage.Test")]
 namespace Garage.Garage
 {
-    internal class Garage<T> : IGarage<T>
-         where T : IVehicle?
+    internal class Garage<T>(
+        T[] parkingPlaces,
+        IDictionary<string, int> regNumberSlotDict)
+        : IGarage<T> where T : IVehicle
     {
-        private readonly T[] _parkingPlaces;
-        private readonly IDictionary<string, int> _regNumberSlotDict;
-
-        public Garage(T[] parkingPlaces, IDictionary<string, int> regNumberSlotDict)
-        {
-            _parkingPlaces = parkingPlaces;
-            _regNumberSlotDict = regNumberSlotDict;
-        }
+        private readonly T[] _parkingPlaces = parkingPlaces;
+        private readonly IDictionary<string, int> _regNumberSlotDict = regNumberSlotDict;
 
         public void ParkVehicleInSlot(T? vehicle, int slotId)
         {
@@ -63,7 +59,7 @@ namespace Garage.Garage
             return _parkingPlaces[id] is null;
         }
 
-        public T VehicleAt(int id)
+        public T? VehicleAt(int id)
         {
             if (id >= _parkingPlaces.Length || id < 0)
             {

@@ -3,21 +3,14 @@ using Garage.UI;
 
 namespace Garage.Manager
 {
-    internal class Manager : IManager
+    internal class Manager(
+        IUI ui,
+        IGarageHandler garageHandler,
+        ISearchFilter searchFilter) : IManager
     {
-        private readonly IUI _ui;
-        private readonly IGarageHandler _garageHandler;
-        private readonly ISearchFilter _searchFilter;
-
-        public Manager(
-            IUI ui,
-            IGarageHandler garageHandler,
-            ISearchFilter searchFilter)
-        {
-            _ui = ui;
-            _garageHandler = garageHandler;
-            _searchFilter = searchFilter;
-        }
+        private readonly IUI _ui = ui;
+        private readonly IGarageHandler _garageHandler = garageHandler;
+        private readonly ISearchFilter _searchFilter = searchFilter;
 
         public void Run()
         {
