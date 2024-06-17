@@ -11,15 +11,12 @@ namespace Garage.Test.Tests.Vehicles
 {
     public class CarTest
     {
-        //private const string regNumber  = "ABC123";
+        private const string regNumber = "ABC123";
         private const ColorType color = ColorType.BLUE;
         private const int weels = 4;
 
-        [Theory]
-        [InlineData("ABC12")]
-        [InlineData("ABC123")]
-        public void GeivenParams_WhenCreateVehicleWithParams_ThenPropertiesSamaAsParams(
-            string regNumber)
+        [Fact]
+        public void GeivenParams_WhenCreateVehicleWithParams_ThenPropertiesSamaAsParams()
         {
             // Arrange & Act
             IVehicle vehicle = new Car(regNumber, color, weels);

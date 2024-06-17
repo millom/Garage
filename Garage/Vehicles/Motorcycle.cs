@@ -11,7 +11,8 @@ namespace Garage.Vehicles
     internal class Motorcycle(
         string regNumber,
         ColorType color,
-        int weels)
+        int weels,
+        int? cylinderVolume = null)
         : Vehicle(regNumber, color, weels), IVehicle, IMotorcycle
     {
         public int CylinderVolume { get; }

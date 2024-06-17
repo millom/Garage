@@ -12,8 +12,9 @@ namespace Garage.Vehicles
 {
     internal class Boat(
         string regNumber,
-    ColorType color,
-    int weels)
+        ColorType color,
+        int weels,
+        int? length = null)
         : Vehicle(regNumber, color, weels), IVehicle, IBoat
     {
         public int Lenght { get; }

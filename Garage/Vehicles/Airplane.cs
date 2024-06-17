@@ -11,9 +11,10 @@ namespace Garage.Vehicles
     internal class Airplane(
         string regNumber,
         ColorType color,
-        int weels)
+        int weels,
+        int? engines = null)
         : Vehicle(regNumber, color, weels), IVehicle, IAirplane
     {
-        public int Engines { get; }
+        public int Engines { get; } //= engines;
     }
 }

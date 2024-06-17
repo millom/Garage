@@ -11,7 +11,8 @@ namespace Garage.Vehicles
     internal class Bus(
         string regNumber,
         ColorType color,
-        int weels)
+        int weels,
+        int? seats = null)
         : Vehicle(regNumber, color, weels), IVehicle, IBus
     {
         public int Seats { get; }

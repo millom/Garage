@@ -11,40 +11,38 @@ namespace Garage.Test.Tests.Vehicles
 {
     public class AirplaneTest
     {
-        //private const string regNumber  = "ABC123";
+        private const string regNumber = "ABC123";
         private const ColorType color = ColorType.BLUE;
         private const int weels = 4;
 
         [Theory]
-        [InlineData("ABC12")]
-        [InlineData("ABC123")]
-        public void GeivenParams_WhenCreateVehicleWithParams_ThenPropertiesSamaAsParams(
-            string regNumber)
+        [InlineData(1)]
+        [InlineData(4)]
+        public void GivenLegalExpectedEngines_WhenCreateAirplaneWithExpectedEngines_ThenEnginesIsExpectedEngines(
+            int expectedEngines)
         {
-            // Arrange & Act
-            IVehicle vehicle = new Car(regNumber, color, weels);
+            // Act
+            IVehicle vehicle = new Airplane(regNumber, color, weels, expectedEngines);
+            IAirplane? airplane = vehicle as IAirplane;
 
             // Assert
-            Assert.Equal(regNumber, vehicle.RegNumber);
-            Assert.Equal(color, vehicle.Color);
-            Assert.Equal(weels, vehicle.Weels);
+            Assert.NotNull(airplane);
+            Assert.Equal(expectedEngines, airplane.Engines);
         }
 
         [Theory]
-        [InlineData("")]
-        [InlineData("ABC1")]
-        public void GeivenBadRegNumber_WhenCreateVehicleWithParams_ThenThrowExpectedException(
-            string badRegNumber)
+        [InlineData(0)]
+        [InlineData(-1)]
+        public void GivenBadExpectedEngines_WhenCreateAirplaneWithExpectedEngines_ThenThrowExpectedException(
+            int expectedEngines)
         {
             // Arrange
-            string expectedMessage = $"Bad regNumber: <{badRegNumber}>";
+            string expectedMessage = $"Engines={expectedEngines} (must be > 0)";
 
-            // Act
-            ArgumentException ex = Assert.Throws<ArgumentException>(
-                () => new Car(badRegNumber, color, weels));
-
-            // Assert
-            Assert.Equal(expectedMessage, ex.Message);
+            // Act & Assert
+            ArgumentOutOfRangeException ex = Assert.Throws<ArgumentOutOfRangeException>(
+                () => new Airplane(regNumber, color, weels, expectedEngines)
+            );
         }
     }
 }

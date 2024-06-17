@@ -11,7 +11,8 @@ namespace Garage.Vehicles
     internal class Car(
         string regNumber,
         ColorType color,
-        int weels)
+        int weels,
+        FuelType? fueltype = null)
         : Vehicle(regNumber, color, weels), ICar
     {
         public FuelType Fueltype { get; }
