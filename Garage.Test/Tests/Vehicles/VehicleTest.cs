@@ -7,13 +7,13 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Garage.Test
+namespace Garage.Test.Tests.Vehicles
 {
     public class VehicleTest
     {
         //private const string regNumber  = "ABC123";
-        private const ColorType color   = ColorType.BLUE;
-        private const int weels         = 4;
+        private const ColorType color = ColorType.BLUE;
+        private const int weels = 4;
 
         [Theory]
         [InlineData("ABC12")]

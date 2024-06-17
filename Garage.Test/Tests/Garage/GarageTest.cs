@@ -1,4 +1,3 @@
-using Garage;
 using Garage.Exceptions;
 using Garage.Garage;
 using Garage.Test.Utils;
@@ -10,7 +9,7 @@ using System.Drawing;
 
 using Xunit.Abstractions;
 
-namespace Garage.Test
+namespace Garage.Test.Tests.Garage
 {
     public class GarageTest
     {
@@ -59,7 +58,7 @@ namespace Garage.Test
         //[InlineData(19)]
         //[MemberData(nameof(ExernalSlotTestData.TestData),
         //    MemberType = typeof(ExernalSlotTestData))]
-        [ExernalSlotTestDataAttribute]
+        [ExernalSlotTestData]
         public void GivenEmptyGarage_WhenExecuteVehicleAtWithId_GivesSlotIsNull(int id)
         {
             // Act & Assert
@@ -71,7 +70,7 @@ namespace Garage.Test
         //[InlineData(20)]
         //[MemberData(nameof(InternalSlotTestData.TestData),
         //    MemberType = typeof(InternalSlotTestData))]
-        [InternalSlotTestDataAttribute]
+        [InternalSlotTestData]
         public void GivenEmptyGarage_WhenExecuteVehicleAtWithBadId_ThenThrowExpectedExecpten(int id)
         {
             // Arrange
