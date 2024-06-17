@@ -6,6 +6,7 @@ using Garage.Vehicles;
 
 using System.Diagnostics;
 using System.Drawing;
+using System.Security.Cryptography;
 
 using Xunit.Abstractions;
 
@@ -14,22 +15,23 @@ namespace Garage.Test.Tests.Garage
     public class GarageTest
     {
         private readonly ITestOutputHelper output;
-        private Garage<IVehicle> Garage;
         private const int SIZE = 20;
+        private readonly IGarage<IVehicle> Garage;
+        private const int weels = 4;
         private const FuelType fuelType = FuelType.GASOLINE;
+        private readonly IVehicle[] vehicleArr;
+        private readonly IDictionary<string, int> regNumberSlotDict;
 
         public GarageTest(ITestOutputHelper output)
         {
             this.output = output;
-            Garage = new Garage<IVehicle>(new Vehicle[SIZE]);
+            vehicleArr = new Vehicle[SIZE];
+            regNumberSlotDict = new Dictionary<string, int>();
+            Garage = new Garage<IVehicle>(vehicleArr, regNumberSlotDict);
         }
 
         [Theory]
-        [InlineData(0)]
-        [InlineData(4)]
-        [InlineData(9)]
-        [InlineData(14)]
-        [InlineData(19)]
+        [MemberData(nameof(ExernalSlotTestData.TestData), MemberType = typeof(ExernalSlotTestData))]
         public void GivenEmptyGarage_WhenExecuteFreeAtWithLegalId_ThenSlotIsFree(int id)
         {
             // Act & Assert
@@ -37,8 +39,7 @@ namespace Garage.Test.Tests.Garage
         }
 
         [Theory]
-        [InlineData(-1)]
-        [InlineData(20)]
+        [InternalSlotTestData]
         public void GivenEmptyGarage_WhenExecuteFreeAtWithBadId_ThenThrowExpectedExecpten(int id)
         {
             // Arrange
@@ -52,13 +53,6 @@ namespace Garage.Test.Tests.Garage
         }
 
         [Theory]
-        //[InlineData(0)]
-        //[InlineData(4)]
-        //[InlineData(9)]
-        //[InlineData(14)]
-        //[InlineData(19)]
-        //[MemberData(nameof(ExernalSlotTestData.TestData),
-        //    MemberType = typeof(ExernalSlotTestData))]
         [ExernalSlotTestData]
         public void GivenEmptyGarage_WhenExecuteVehicleAtWithId_GivesSlotIsNull(int id)
         {
@@ -67,10 +61,6 @@ namespace Garage.Test.Tests.Garage
         }
 
         [Theory]
-        //[InlineData(-1)]
-        //[InlineData(20)]
-        //[MemberData(nameof(InternalSlotTestData.TestData),
-        //    MemberType = typeof(InternalSlotTestData))]
         [InternalSlotTestData]
         public void GivenEmptyGarage_WhenExecuteVehicleAtWithBadId_ThenThrowExpectedExecpten(int id)
         {
@@ -133,9 +123,7 @@ namespace Garage.Test.Tests.Garage
         }
 
         [Theory]
-        //[MemberData("TestData", MemberType = typeof(InternalSlotTestData))]
-        [InlineData(-1)]
-        [InlineData(SIZE)]
+        [MemberData(nameof(InternalSlotTestData.TestData), MemberType = typeof(InternalSlotTestData))]
         public void GivenOneCarOutsideGarage_WhenParkingLegalCarOutsideSlots_ThenThrowExpectedException(
             int slotId)
         {
@@ -172,6 +160,90 @@ namespace Garage.Test.Tests.Garage
 
             // Assert
             Assert.Equal(expectedMessage, ex.Message);
+        }
+
+        [Fact]
+        public void GivenOneCarsInGarage_WhenUnparkCar_ThenTheIsUnparked()
+        {
+            // Arrange
+            int slotId = 0;
+            string regNumber = "ABC123";
+            ParkVehicle(slotId, regNumber, ColorType.BLUE);
+
+            // Act
+            IVehicle car = Garage.UnParkVehicle(regNumber);
+
+            Assert.Equal(regNumber, car.RegNumber);
+        }
+
+        [Fact]
+        public void GivenOneCarInGarage_WhenUnparkCar_ThenCarsIsParkingSlotIsFree()
+        {
+            // Arrange
+            int slotId = 0;
+            string regNumber = "ABC123";
+            ParkVehicle(slotId, regNumber, ColorType.BLUE);
+
+            // Act
+            IVehicle car = Garage.UnParkVehicle(regNumber);
+
+            // Assert
+            Assert.Null(Garage.VehicleAt(slotId));
+        }
+
+        [Fact]
+        public void GivenOneUnparkedCarInGarage_WhenUnparkCarAgain_ThenThrowExpectedException()
+        {
+            // Arrange
+            int slotId = 0;
+            string regNumber = "ABC123";
+            string expectedMessage = $"RegNumber {regNumber} not found";
+            ParkVehicle(slotId, regNumber, ColorType.BLUE);
+            IVehicle car1 = Garage.UnParkVehicle(regNumber);
+
+            // Act
+            ArgumentException ex = Assert.Throws<ArgumentException>(
+                () => Garage.UnParkVehicle(regNumber)
+            );
+            Assert.Equal(expectedMessage, ex.Message);
+        }
+
+        [Fact]
+        public void GivenNoCarsInGarage_WhenUnparkCar_ThenThrowExpectedException()
+        {
+            // Arrange
+            string regNumber = "";
+            string expectedMessage = $"Illegal Reg number, {regNumber}";
+
+            // Act & Assert
+            ArgumentException ex = Assert.Throws<ArgumentException>(
+                () => Garage.UnParkVehicle(regNumber)
+            );
+
+            // Assert
+            Assert.Equal(expectedMessage, ex.Message);
+        }
+
+        [Fact]
+        public void GivenNoCarsInGarage_WhenUnparkWithEmptyRegNumber_ThenThrowExpectedException()
+        {
+            // Arrange
+            string regNumber = "ABC123";
+            string expectedMessage = $"RegNumber {regNumber} not found";
+
+            // Act & Assert
+            ArgumentException ex = Assert.Throws<ArgumentException>(
+                () => Garage.UnParkVehicle(regNumber)
+            );
+
+            // Assert
+            Assert.Equal(expectedMessage, ex.Message);
+        }
+
+        private void ParkVehicle(int slotId, string regNumber, ColorType colorType)
+        {
+            IVehicle car = new Car(regNumber, colorType, weels, fuelType);
+            Garage.ParkVehicleInSlot(car, slotId);
         }
     }
 }
