@@ -15,32 +15,36 @@ namespace Garage.Test.Tests.Vehicles
         private const ColorType color = ColorType.BLUE;
         private const int weels = 4;
 
-        [Fact]
-        public void GeivenParams_WhenCreateVehicleWithParams_ThenPropertiesSamaAsParams()
+        [Theory]
+        [InlineData(1)]
+        [InlineData(15)]
+        public void GivenLegalExpectedLength_WhenCreateBusWithExpectedLength_ThenLengthIsExpectedLength(
+            int expectedSeats)
         {
-            // Arrange & Act
-            IVehicle vehicle = new Bus(regNumber, color, weels);
+            // Act
+            IVehicle vehicle = new Bus(regNumber, color, weels, expectedSeats);
+            IBus? bus = vehicle as IBus;
 
             // Assert
-            Assert.Equal(regNumber, vehicle.RegNumber);
-            Assert.Equal(color, vehicle.Color);
-            Assert.Equal(weels, vehicle.Weels);
+            Assert.NotNull(bus);
+            Assert.Equal(expectedSeats, bus.Seats);
         }
 
         [Theory]
-        [InlineData("")]
-        [InlineData("ABC1")]
-        public void GeivenBadRegNumber_WhenCreateVehicleWithParams_ThenThrowExpectedException(
-            string badRegNumber)
+        [InlineData(0)]
+        [InlineData(-1)]
+        public void GivenBadExpectedLength_WhenCreateBusWithExpectedSeats_ThenThrowExpectedException(
+            int expectedLength)
         {
             // Arrange
-            string expectedMessage = $"Bad regNumber: <{badRegNumber}>";
+            string userDefinedMessage = $"Argument seats={expectedLength} (must be > 0)";
+            string expectedMessage = "Specified argument was out of the range of valid values." +
+                $" (Parameter '{userDefinedMessage}')";
 
-            // Act
-            ArgumentException ex = Assert.Throws<ArgumentException>(
-                () => new Car(badRegNumber, color, weels));
-
-            // Assert
+            // Act & Assert
+            ArgumentOutOfRangeException ex = Assert.Throws<ArgumentOutOfRangeException>(
+                () => new Bus(regNumber, color, weels, expectedLength)
+            );
             Assert.Equal(expectedMessage, ex.Message);
         }
     }
