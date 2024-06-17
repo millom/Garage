@@ -14,13 +14,15 @@ using System.Threading.Tasks;
 namespace Garage.Garage
 {
     internal class Garage<T> : IGarage<T>
-         where T : IVehicle
+         where T : IVehicle?
     {
-        private readonly T[] ParkingPlaces;
+        private readonly T[] _parkingPlaces;
+        private readonly IDictionary<string, int> _regNumberSlotDict;
 
-        public Garage(T[] parkingPlaces)
+        public Garage(T[] parkingPlaces, IDictionary<string, int> regNumberSlotDict)
         {
-            ParkingPlaces = parkingPlaces;
+            _parkingPlaces = parkingPlaces;
+            _regNumberSlotDict = regNumberSlotDict;
         }
 
         public void ParkVehicleInSlot(T? vehicle, int slotId)
@@ -28,43 +30,67 @@ namespace Garage.Garage
             if (vehicle is null)
                 throw new ArgumentNullException(nameof(vehicle));
 
-            if (slotId < 0 || slotId >= ParkingPlaces.Length)
-                throw new ArgumentOutOfRangeException($"slot={slotId}, range {0}-{ParkingPlaces.Length - 1}");
+            if (slotId < 0 || slotId >= _parkingPlaces.Length)
+                throw new ArgumentOutOfRangeException($"slot={slotId}, range {0}-{_parkingPlaces.Length - 1}");
 
-            if (ParkingPlaces[slotId] is not null)
+            if (_parkingPlaces[slotId] is not null)
                 throw new SlotTakenException($"Fail to add vehicle to slot {slotId}, place taken");
 
-            ParkingPlaces[slotId] = vehicle;
+            _regNumberSlotDict[vehicle.RegNumber] = slotId;
+            _parkingPlaces[slotId] = vehicle;
+        }
+
+        public T UnParkVehicle(string regNumber)
+        {
+            Throw<ArgumentException>
+                .If(string.IsNullOrWhiteSpace(regNumber), $"Illegal Reg number {regNumber}");
+            Throw<ArgumentException>
+                .If(!_regNumberSlotDict.ContainsKey(regNumber), $"RegNumber {regNumber} not found");
+
+            int slotId = _regNumberSlotDict[regNumber];
+            Throw<ArgumentException>
+                .If(_parkingPlaces[slotId] is null, $"Conflict between regNumber and slotId");
+
+            T vehicle = _parkingPlaces[slotId];
+
+            CleanupSlot(regNumber, slotId);
+
+            return vehicle;
         }
 
         public bool FreeAt(int id)
         {
-            if (id >= ParkingPlaces.Length || id < 0)
+            if (id >= _parkingPlaces.Length || id < 0)
             {
                 throw new IndexOutOfRangeException($"Not existing id <{id}>");
             }
 
-            return ParkingPlaces[id] is null;
+            return _parkingPlaces[id] is null;
         }
 
-        public T? VehicleAt(int id)
+        public T VehicleAt(int id)
         {
-            if (id >= ParkingPlaces.Length || id < 0)
+            if (id >= _parkingPlaces.Length || id < 0)
             {
                 throw new IndexOutOfRangeException($"Not existing id <{id}>");
             }
 
-            return ParkingPlaces[id];
+            return _parkingPlaces[id];
         }
 
         public IEnumerator<T> GetEnumerator()
         {
-            foreach (var parkingPlace in ParkingPlaces)
+            foreach (var parkingPlace in _parkingPlaces)
             {
                 yield return parkingPlace;
             };
         }
-
         IEnumerator IEnumerable.GetEnumerator() => GetEnumerator();
+
+        private void CleanupSlot(string regNumber, int slotId)
+        {
+            _regNumberSlotDict.Remove(regNumber);
+            _parkingPlaces[slotId] = default!;
+        }
     }
 }
