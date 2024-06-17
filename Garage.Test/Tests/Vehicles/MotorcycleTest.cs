@@ -9,36 +9,39 @@ using System.Threading.Tasks;
 
 namespace Garage.Test.Tests.Vehicles
 {
-    public class MotorcycleTest
+    public class MotorcycleTest : BaseVehicleTest
     {
-        private const string regNumber = "ABC123";
-        private const ColorType color = ColorType.BLUE;
-        private const int weels = 4;
-
-        [Fact]
-        public void GeivenParams_WhenCreateVehicleWithParams_ThenPropertiesSamaAsParams()
+        [Theory]
+        [InlineData(0)]
+        [InlineData(1)]
+        [InlineData(4)]
+        public void GivenLegalExpectedCylinderVolume_WhenCreateMotorcycleWithExpectedCylinderVolume_ThenCylinderVolumeIsExpected(
+            int expectedCylinderVolume)
         {
-            // Arrange & Act
-            IVehicle vehicle = new Motorcycle(regNumber, color, weels);
+            // Act
+            IVehicle vehicle = new Motorcycle(regNumber, color, weels, expectedCylinderVolume);
+            IMotorcycle? motorcycle = vehicle as IMotorcycle;
 
             // Assert
-            Assert.Equal(regNumber, vehicle.RegNumber);
-            Assert.Equal(color, vehicle.Color);
-            Assert.Equal(weels, vehicle.Weels);
+            Assert.NotNull(motorcycle);
+            Assert.Equal(expectedCylinderVolume, motorcycle.CylinderVolume);
         }
 
         [Theory]
-        [InlineData("")]
-        [InlineData("ABC1")]
-        public void GeivenBadRegNumber_WhenCreateVehicleWithParams_ThenThrowExpectedException(
-            string badRegNumber)
+        [InlineData(-1)]
+        [InlineData(-2)]
+        public void GivenBadExpectedCylinderVolume_WhenCreateMotorcycleWithExpectedCylinderVolume_ThenThrowExpectedException(
+            int expectedCylinderVolume)
         {
             // Arrange
-            string expectedMessage = $"Bad regNumber: <{badRegNumber}>";
+            string userDefinedMessage = $"Argument engines={expectedCylinderVolume} (must be >= 0)";
+            string expectedMessage = "Specified argument was out of the range of valid values." +
+                $" (Parameter '{userDefinedMessage}')";
 
-            // Act
-            ArgumentException ex = Assert.Throws<ArgumentException>(
-                () => new Car(badRegNumber, color, weels));
+            // Act & Assert
+            ArgumentOutOfRangeException ex = Assert.Throws<ArgumentOutOfRangeException>(
+                () => new Motorcycle(regNumber, color, weels, expectedCylinderVolume)
+            );
 
             // Assert
             Assert.Equal(expectedMessage, ex.Message);
