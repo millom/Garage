@@ -49,7 +49,12 @@ namespace Garage.Manager
         public bool ParkMenu()
         {
             _ui.Clear();
-            _ui.WriteLine("--- PARK VEHICLE MENU --");
+            _ui.WriteLine("--- PARK VEHICLE MENU ---");
+            PrintFreeSlots();
+            PrintCarsToPark();
+            _ui.WriteLine("0: Park car");
+
+            _ui.WriteLine("9: Exit menu");
 
             var command = _ui.ReadLine();
 
