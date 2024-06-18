@@ -30,7 +30,7 @@ namespace Garage.Test.Tests
             foreach (var vehicle in garage
                 .Where(v => v != null)
                 .Where(v => v.FilterByRegNumber("ABC"))
-                .Where(v => v.FilterByColor((int)ColorType.BLUE))
+                .Where(v => v.FilterByColor(ColorType.BLUE))
                 .Where(v => v.FilterByExtraProp(2)))
             {
                 Console.WriteLine(vehicle);
