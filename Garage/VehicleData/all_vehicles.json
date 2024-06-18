@@ -1,0 +1,177 @@
+[
+  {
+    "$type": "Car",
+    "RegNumber": "ABC123",
+    "Color": 1,
+    "Weels": 4,
+    "Fueltype": 0
+  },
+  {
+    "$type": "Car",
+    "RegNumber": "ABC234",
+    "Color": 2,
+    "Weels": 4,
+    "Fueltype": 0
+  },
+  {
+    "$type": "Car",
+    "RegNumber": "ABC345",
+    "Color": 3,
+    "Weels": 4,
+    "Fueltype": 1
+  },
+  {
+    "$type": "Car",
+    "RegNumber": "ABC456",
+    "Color": 4,
+    "Weels": 4,
+    "Fueltype": 1
+  },
+  {
+    "$type": "Car",
+    "RegNumber": "ABC567",
+    "Color": 5,
+    "Weels": 4,
+    "Fueltype": 2
+  },
+  {
+    "$type": "Boat",
+    "RegNumber": "BCD123",
+    "Color": 1,
+    "Weels": 0,
+    "Length": 12
+  },
+  {
+    "$type": "Boat",
+    "RegNumber": "BCD234",
+    "Color": 2,
+    "Weels": 0,
+    "Length": 22
+  },
+  {
+    "$type": "Boat",
+    "RegNumber": "BCD345",
+    "Color": 3,
+    "Weels": 0,
+    "Length": 9
+  },
+  {
+    "$type": "Boat",
+    "RegNumber": "BCD456",
+    "Color": 4,
+    "Weels": 0,
+    "Length": 10
+  },
+  {
+    "$type": "Boat",
+    "RegNumber": "BCD567",
+    "Color": 5,
+    "Weels": 0,
+    "Length": 12
+  },
+  {
+    "$type": "Airplane",
+    "Engines": 2,
+    "RegNumber": "CDE123",
+    "Color": 1,
+    "Weels": 8
+  },
+  {
+    "$type": "Airplane",
+    "Engines": 4,
+    "RegNumber": "CDE234",
+    "Color": 2,
+    "Weels": 12
+  },
+  {
+    "$type": "Airplane",
+    "Engines": 2,
+    "RegNumber": "CDE345",
+    "Color": 3,
+    "Weels": 12
+  },
+  {
+    "$type": "Airplane",
+    "Engines": 4,
+    "RegNumber": "CDE456",
+    "Color": 4,
+    "Weels": 8
+  },
+  {
+    "$type": "Airplane",
+    "Engines": 2,
+    "RegNumber": "CDE567",
+    "Color": 5,
+    "Weels": 4
+  },
+  {
+    "$type": "Bus",
+    "RegNumber": "DEF123",
+    "Color": 1,
+    "Weels": 6,
+    "Seats": 25
+  },
+  {
+    "$type": "Bus",
+    "RegNumber": "DEF234",
+    "Color": 2,
+    "Weels": 6,
+    "Seats": 22
+  },
+  {
+    "$type": "Bus",
+    "RegNumber": "DEF345",
+    "Color": 3,
+    "Weels": 8,
+    "Seats": 25
+  },
+  {
+    "$type": "Bus",
+    "RegNumber": "DEF456",
+    "Color": 4,
+    "Weels": 8,
+    "Seats": 15
+  },
+  {
+    "$type": "Bus",
+    "RegNumber": "DEF567",
+    "Color": 5,
+    "Weels": 8,
+    "Seats": 15
+  },
+  {
+    "$type": "Motorcycle",
+    "RegNumber": "EFG123",
+    "Color": 1,
+    "Weels": 2,
+    "CylinderVolume": 120
+  },
+  {
+    "$type": "Motorcycle",
+    "RegNumber": "EFG234",
+    "Color": 2,
+    "Weels": 2,
+    "CylinderVolume": 110
+  },
+  {
+    "$type": "Motorcycle",
+    "RegNumber": "EFG345",
+    "Color": 3,
+    "Weels": 2,
+    "CylinderVolume": 100
+  },
+  {
+    "$type": "Motorcycle",
+    "RegNumber": "EFG456",
+    "Color": 4,
+    "Weels": 2,
+    "CylinderVolume": 120
+  },
+  {
+    "$type": "Motorcycle",
+    "RegNumber": "EFG567",
+    "Color": 5,
+    "Weels": 2,
+    "CylinderVolume": 120
+  }
+]
