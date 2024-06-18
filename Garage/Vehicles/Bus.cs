@@ -1,5 +1,7 @@
 ﻿using Garage.Types;
 
+using Microsoft.VisualBasic.FileIO;
+
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -27,6 +29,11 @@ namespace Garage.Vehicles
         public Bus() : this("abc123", ColorType.BLUE, 3, 1)
         {
             
+        }
+
+        public override string ToString()
+        {
+            return $"{base.ToString()} Seats:{Seats}";
         }
     }
 }

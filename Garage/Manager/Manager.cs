@@ -52,37 +52,59 @@ namespace Garage.Manager
             _ui.WriteLine("--- PARK VEHICLE MENU ---");
             PrintFreeSlots();
             PrintCarsToPark();
-            _ui.WriteLine("0: Park car");
-
+            _ui.WriteLine("<regNr, parkingSLot>: Park car Ex: ABC123, 0");
             _ui.WriteLine("9: Exit menu");
 
             var command = _ui.ReadLine();
-            switch (command)
+            if (command != "9")
             {
-                case "0":
-                    while (ParkMenu());
-                    break;
-                case "1":
-                    while (UnparkMenu());
-                    break;
-                case "2":
-                    while (ShowParkedVehiclesMenu());
-                    break;
-                default:
-                    break;
+                var commandSplit = command.Split(", ");
+                if (commandSplit.Length == 2)
+                {
+                    _garageHandler.ParkVehicle(
+                        commandSplit[0],
+                        commandSplit[1]
+                    );
+                }
             }
+            //switch (command)
+            //{
+            //    case "0":
+            //        while (ParkMenu());
+            //        break;
+            //    case "1":
+            //        while (UnparkMenu());
+            //        break;
+            //    case "2":
+            //        while (ShowParkedVehiclesMenu());
+            //        break;
+            //    default:
+            //        break;
+            //}
 
             return command != "9";
         }
 
         private void PrintCarsToPark()
         {
-            throw new NotImplementedException();
+            _ui.WriteSpaceLine();
+            _ui.WriteLine("Vehicles to park");
+            _garageHandler
+                .GetNotParkedVehicles()
+                .ToList()
+                .ForEach(v => _ui.WriteLine(v));
+            _ui.WriteSpaceLine();
         }
 
         private void PrintFreeSlots()
         {
-            //_garageHandler.;
+            _ui.WriteSpaceLine();
+            _ui.WriteLine("Free parking slots");
+            _garageHandler
+                .GetFreeSlots()
+                .ToList()
+                .ForEach(id => _ui.Write($"{id} "));
+            _ui.WriteLine("");
         }
 
         public bool UnparkMenu()

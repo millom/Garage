@@ -27,5 +27,10 @@ namespace Garage.Vehicles
         {
             
         }
+
+        public override string ToString()
+        {
+            return $"{base.ToString()} Engines:{Engines}";
+        }
     }
 }

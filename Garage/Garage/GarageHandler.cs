@@ -6,18 +6,21 @@ namespace Garage.Garage
 {
     internal class GarageHandler(
         IUI ui,
-        IEnumerable<IVehicle> freeVehicles,
+        IList<IVehicle> freeVehicles,
         IGarage<IVehicle> garage) : IGarageHandler
     {
         private readonly IUI _ui = ui;
-        private readonly IEnumerable<IVehicle> _freeVehicles = freeVehicles;
+        private readonly IList<IVehicle> _freeVehicles = freeVehicles;
         private readonly IGarage<IVehicle> _garage = garage;
 
         public void ParkVehicle(
-            IVehicle vehicle,
-            int slotId)
+            string regNr,
+            string slotId)
         {
-            _garage.ParkVehicleInSlot(vehicle, slotId);
+            var vehicle = _freeVehicles.FirstOrDefault(v => v.RegNumber == regNr);
+            int id = int.Parse(slotId);
+            _garage.ParkVehicleInSlot(vehicle, id);
+            _freeVehicles.Remove(vehicle);
         }
 
         public IVehicle GetParkedVehicle(
@@ -37,6 +40,19 @@ namespace Garage.Garage
             {
                 yield return vehicle.GetToString();
             }
+        }
+
+        public IEnumerable<int> GetFreeSlots()
+        {
+            return _garage
+                .Select((v, i) => new { item = v, idx = i })
+                .Where(x => x.item == null)
+                .Select(x => x.idx);
+        }
+
+        public IEnumerable<string> GetNotParkedVehicles()
+        {
+            return _freeVehicles.Select(v => v.ToString());
         }
     }
 }
