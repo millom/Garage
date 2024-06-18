@@ -1,6 +1,6 @@
 ﻿namespace Garage.Log
 {
-    internal interface ILogger
+    internal interface IMyLogger
     {
         void AddToLog(string message);
         void PrintLog();

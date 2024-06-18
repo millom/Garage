@@ -10,12 +10,12 @@ namespace Garage.Manager
         IUI ui,
         IGarageHandler garageHandler,
         ISearchFilter searchFilter,
-        ILogger logger) : IManager
+        IMyLogger logger) : IManager
     {
         private readonly IUI _ui = ui;
         private readonly IGarageHandler _garageHandler = garageHandler;
         private readonly ISearchFilter _searchFilter = searchFilter;
-        private readonly ILogger _logger = logger;
+        private readonly IMyLogger _logger = logger;
 
         public void Run()
         {

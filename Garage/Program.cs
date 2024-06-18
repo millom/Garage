@@ -47,7 +47,7 @@ var host = Host.CreateDefaultBuilder(args)
         services.AddSingleton<IGarageHandler, GarageHandler>();
         services.AddSingleton<IGarage<IVehicle>, Garage<IVehicle>>();
         services.AddSingleton<IUI, ConsoleUI>();
-        services.AddSingleton<ILogger, ListLogger>();
+        services.AddSingleton<IMyLogger, ListLogger>();
         services.AddSingleton<IList<IVehicle>>(vehicles);
         services.AddSingleton<IList<string>>(new List<string>());
         services.AddSingleton<IVehicle[]>(new Vehicle[garageSize]);

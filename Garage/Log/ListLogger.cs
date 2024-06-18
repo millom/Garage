@@ -11,7 +11,7 @@ namespace Garage.Log
     internal class ListLogger(
         IUI ui,
         IList<string> logList)
-        : ILogger
+        : IMyLogger
     {
         private IUI _ui = ui;
         private readonly IList<string> _logList = logList;
