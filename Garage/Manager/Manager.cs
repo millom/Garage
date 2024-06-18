@@ -70,13 +70,13 @@ namespace Garage.Manager
         {
             _ui.Clear();
             _ui.WriteLine("--- SEARCH PARKED VEHICLES MENU --");
-            _ui.WriteLine("0: Do search");
             _ui.WriteLine($"Search Params");
             _ui.WriteLine(_searchFilter.ToString()!);
-            _ui.WriteLine("1: Set RegNumber param");
-            _ui.WriteLine("2: Set Color param");
-            _ui.WriteLine("3: Set Weels param");
-            _ui.WriteLine("4: Set ExtraProp param");
+            _ui.WriteLine("0: Set RegNumber param");
+            _ui.WriteLine("1: Set Color param");
+            _ui.WriteLine("2: Set Weels param");
+            _ui.WriteLine("3: Set ExtraProp param");
+            _ui.WriteLine("4: Do search");
             _ui.WriteLine("9: Exit menu");
 
             var command = _ui.ReadLine();
@@ -84,19 +84,19 @@ namespace Garage.Manager
             switch (command)
             {
                 case "0":
-                    PrintSearchResult();
-                    break;
-                case "1":
                     SetRegNumber();
                     break;
-                case "2":
+                case "1":
                     //SetColor();
                     break;
-                case "3":
+                case "2":
                     //SetWeels();
                     break;
-                case "4":
+                case "3":
                     //SetExtraProp();
+                    break;
+                case "4":
+                    PrintSearchResult();
                     break;
             }
 
