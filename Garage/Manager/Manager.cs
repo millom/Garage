@@ -57,8 +57,32 @@ namespace Garage.Manager
             _ui.WriteLine("9: Exit menu");
 
             var command = _ui.ReadLine();
+            switch (command)
+            {
+                case "0":
+                    while (ParkMenu());
+                    break;
+                case "1":
+                    while (UnparkMenu());
+                    break;
+                case "2":
+                    while (ShowParkedVehiclesMenu());
+                    break;
+                default:
+                    break;
+            }
 
             return command != "9";
+        }
+
+        private void PrintCarsToPark()
+        {
+            throw new NotImplementedException();
+        }
+
+        private void PrintFreeSlots()
+        {
+            //_garageHandler.;
         }
 
         public bool UnparkMenu()
@@ -77,10 +101,12 @@ namespace Garage.Manager
             _ui.WriteLine("--- SEARCH PARKED VEHICLES MENU --");
             _ui.WriteLine($"Search Params");
             _ui.WriteLine(_searchFilter.ToString()!);
+            _ui.WriteSpaceLine();
             _ui.WriteLine("0: Set RegNumber param");
             _ui.WriteLine("1: Set Color param");
             _ui.WriteLine("2: Set Weels param");
             _ui.WriteLine("3: Set ExtraProp param");
+            _ui.WriteSpaceLine();
             _ui.WriteLine("4: Do search");
             _ui.WriteLine("9: Exit menu");
 
@@ -105,7 +131,7 @@ namespace Garage.Manager
                     break;
             }
 
-            return _ui.ReadLine() != "9";
+            return command != "9";
         }
 
         private void SetRegNumber()
@@ -119,10 +145,15 @@ namespace Garage.Manager
 
         private void PrintSearchResult()
         {
-            foreach (var vehicle in _garageHandler.GetSearchResult(_searchFilter))
+            var list = _garageHandler.GetSearchResult(_searchFilter);
+            _ui.WriteLine($"Parked vehicles, {list.Count()}");
+            foreach (var vehicle in list)
             {
                 _ui.WriteLine(vehicle);
             };
+            _ui.WriteSpaceLine();
+            _ui.WriteLine("Tryck enter för att fortsätta");
+            _ui.ReadLine();
         }
 
         public bool SearchParkedMenu()
