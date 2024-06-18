@@ -73,9 +73,9 @@ namespace Garage.Manager
                         int slotId = int.Parse(commandSplit[1]);
                         _garageHandler.ParkVehicle(regNbr, slotId);
                     }
-                    catch
+                    catch (NullReferenceException ex)
                     {
-
+                        _logger.AddToLog(ex.Message);
                     }
                 }
             }

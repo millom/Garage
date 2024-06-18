@@ -21,7 +21,7 @@ namespace Garage.Garage
             var vehicle = _freeVehicles.FirstOrDefault(v => v.RegNumber == regNr);
             if (vehicle == null)
             {
-                throw new NullReferenceException("No vehicle with that regNrb found");
+                throw new NullReferenceException("ParkVehicle: No vehicle with that regNr found");
             }
             _garage.ParkVehicleInSlot(vehicle, slotId);
             _freeVehicles.Remove(vehicle);

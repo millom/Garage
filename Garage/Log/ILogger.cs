@@ -2,7 +2,7 @@
 {
     internal interface ILogger
     {
-        void AddToLog();
+        void AddToLog(string message);
         void PrintLog();
     }
 }

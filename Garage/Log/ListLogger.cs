@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace Garage.Log
 {
-    internal class FileLogger(
+    internal class ListLogger(
         IUI ui,
         IEnumerable<string> logList)
         : ILogger
@@ -16,7 +16,7 @@ namespace Garage.Log
         private IUI _ui = ui;
         private readonly IEnumerable<string> _logList = logList;
 
-        public void AddToLog() { }
+        public void AddToLog(string message) { }
         public void PrintLog() { }
     }
 }
