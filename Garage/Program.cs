@@ -22,12 +22,12 @@ var garageSize = int.Parse(config.GetSection("garage:size").Value);
 var vehicleDataFilename = config.GetSection("garage:vehicle_filename").Value;
 //public void LoadJson()
 //{
-IVehicle[] vehicles;
+List<Vehicle> vehicles;
 using (StreamReader r = new StreamReader(vehicleDataFilename))
 {
     string json = r.ReadToEnd();
     //List<Vehicle> items = JsonConvert.DeserializeObject<List<Item>>(json);
-    vehicles = JsonSerializer.Deserialize<List<Vehicle>>(json).ToArray();
+    vehicles = JsonSerializer.Deserialize<List<Vehicle>>(json).ToList();
 }
 //}
 
@@ -90,7 +90,9 @@ var host = Host.CreateDefaultBuilder(args)
         services.AddSingleton<IUI, ConsoleUI>();
         //services.AddSingleton<IVehicle[]>(new Vehicle[garageSize]);
         //services.AddSingleton<IVehicle[]>(deserialized);
-        services.AddSingleton<IVehicle[]>(vehicles);
+        //services.AddSingleton<IVehicle[]>(vehicles);
+        services.AddSingleton<IEnumerable<IVehicle>>(vehicles);
+        services.AddSingleton<IVehicle[]>(new Vehicle[garageSize]);
         //services.AddSingleton<IVehicle[]>(new IVehicle[garageSize]);
         //services.AddSingleton<IVehicle[]>(deserialized);
         services.AddSingleton<IDictionary<string, int>>(new Dictionary<string, int>());
