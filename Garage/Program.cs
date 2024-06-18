@@ -1,6 +1,5 @@
 ﻿using Garage.Garage;
 using Garage.Manager;
-using Garage.Types;
 using Garage.UI;
 using Garage.Vehicles;
 
@@ -8,27 +7,27 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 
-using System;
 using System.Text.Json;
 
-using static System.Runtime.InteropServices.JavaScript.JSType;
-
-IConfiguration config = new ConfigurationBuilder()
+IConfiguration? config = new ConfigurationBuilder()
     .SetBasePath(Environment.CurrentDirectory)
     .AddJsonFile("appsettings.json", optional: false, reloadOnChange: true)
     .Build();
 
-var garageSize = int.Parse(config.GetSection("garage:size").Value);
-var vehicleDataFilename = config.GetSection("garage:vehicle_filename").Value;
-//public void LoadJson()
-//{
-List<Vehicle> jsonList;
-using (StreamReader r = new StreamReader(vehicleDataFilename))
+int garageSize = config.GetValue<int>("garage:size");
+string? vehicleDataFilename = config.GetValue<string>("garage:vehicle_filename");
+
+if (vehicleDataFilename is null)
+    return;
+
+List<Vehicle>? jsonList;
+using (StreamReader r = new(vehicleDataFilename))
 {
     string json = r.ReadToEnd();
-    //List<Vehicle> items = JsonConvert.DeserializeObject<List<Item>>(json);
-    jsonList = JsonSerializer.Deserialize<List<Vehicle>>(json).ToList();
+    jsonList = JsonSerializer.Deserialize<List<Vehicle>>(json)?.ToList();
 }
+if (jsonList is null) return;
+
 IList<IVehicle> vehicles = new List<IVehicle>(jsonList);
 //IList<IVehicle> vehicles = (IList<IVehicle>)jsonList;
 //}
@@ -90,13 +89,8 @@ var host = Host.CreateDefaultBuilder(args)
         services.AddSingleton<IGarageHandler, GarageHandler>();
         services.AddSingleton<IGarage<IVehicle>, Garage<IVehicle>>();
         services.AddSingleton<IUI, ConsoleUI>();
-        //services.AddSingleton<IVehicle[]>(new Vehicle[garageSize]);
-        //services.AddSingleton<IVehicle[]>(deserialized);
-        //services.AddSingleton<IVehicle[]>(vehicles);
         services.AddSingleton<IList<IVehicle>>(vehicles);
         services.AddSingleton<IVehicle[]>(new Vehicle[garageSize]);
-        //services.AddSingleton<IVehicle[]>(new IVehicle[garageSize]);
-        //services.AddSingleton<IVehicle[]>(deserialized);
         services.AddSingleton<IDictionary<string, int>>(new Dictionary<string, int>());
         services.AddSingleton<ISearchFilter, SearchFilter>();
     })

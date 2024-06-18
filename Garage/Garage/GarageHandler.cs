@@ -58,7 +58,9 @@ namespace Garage.Garage
 
         public IEnumerable<string> GetNotParkedVehicles()
         {
-            return _freeVehicles.Select(v => v.ToString());
+            return _freeVehicles
+                .Where(v => v is not null)
+                .Select(v => v.ToString())!;
         }
 
         public IEnumerable<string> GetAllParkedVehicles()

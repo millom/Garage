@@ -85,8 +85,9 @@ namespace Garage.Manager
             _ui.WriteLine("Vehicles to park");
             _garageHandler
                 .GetNotParkedVehicles()
+                .Where(x => x is not null)
                 .ToList()
-                .ForEach(v => _ui.WriteLine(v));
+                .ForEach(x => _ui.WriteLine(x));
             _ui.WriteSpaceLine();
         }
 

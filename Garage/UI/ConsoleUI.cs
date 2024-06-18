@@ -6,7 +6,7 @@
 
         public void Write(string line) => Console.Write(line);
 
-        public void WriteLine(string line) => Console.WriteLine(line);
+        public void WriteLine(string? line) => Console.WriteLine(line);
 
         public void WriteSpaceLine() => Console.WriteLine("------------------------");
 
