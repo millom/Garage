@@ -2,7 +2,7 @@
 
 using System.Reflection;
 
-namespace Garage.Garage
+namespace Garage.SearchFilter
 {
     internal interface ISearchFilter
     {

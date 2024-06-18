@@ -1,4 +1,5 @@
 ﻿using Garage.Garage;
+using Garage.SearchFilter;
 using Garage.Types;
 using Garage.UI;
 

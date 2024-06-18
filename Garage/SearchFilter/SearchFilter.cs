@@ -2,7 +2,7 @@
 
 using System.Reflection;
 
-namespace Garage.Garage
+namespace Garage.SearchFilter
 {
     internal class SearchFilter : ISearchFilter
     {
@@ -18,10 +18,10 @@ namespace Garage.Garage
 
         public void ResetAll()
         {
-            RegNumber   = null;
-            Color       = null;
-            Weels       = null;
-            ExtraProp   = null;
+            RegNumber = null;
+            Color = null;
+            Weels = null;
+            ExtraProp = null;
         }
 
         public override string ToString()

@@ -1,4 +1,5 @@
-﻿using Garage.Vehicles;
+﻿using Garage.SearchFilter;
+using Garage.Vehicles;
 
 namespace Garage.Garage
 {
