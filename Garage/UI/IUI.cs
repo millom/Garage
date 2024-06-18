@@ -10,6 +10,7 @@ namespace Garage.UI
     {
         void Write(string line);
         void WriteLine(string line);
+        void WriteSpaceLine();
         string ReadLine();
         void Clear();
     }

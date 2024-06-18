@@ -8,6 +8,8 @@
 
         public void WriteLine(string line) => Console.WriteLine(line);
 
+        public void WriteSpaceLine() => Console.WriteLine("---------------------");
+
         public void Clear() => Console.Clear();
     }
 }
