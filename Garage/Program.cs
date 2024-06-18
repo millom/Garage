@@ -1,6 +1,7 @@
 ﻿// Uncomment next line to create a new new Json Vehicle file
 //#define CREATE_NEW_JSON_FILE
 
+//using Serilog;
 using Garage.Garage;
 using Garage.Log;
 using Garage.Manager;
@@ -16,6 +17,9 @@ using Garage.Vehicles;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using Microsoft.Extensions.Logging;
+
+using Serilog;
 
 using System.Text.Json;
 
@@ -40,6 +44,11 @@ if (vehicleDataFilename is null)
 IList<IVehicle>? vehicles = GetVehicleList(vehicleDataFilename);
 if (vehicles is null) return;
 
+//Create Logger
+Log.Logger = new LoggerConfiguration()
+    .ReadFrom.Configuration(config.GetSection("Logging"))
+   .CreateLogger();
+
 var host = Host.CreateDefaultBuilder(args)
     .ConfigureServices(services =>
     {
@@ -48,11 +57,18 @@ var host = Host.CreateDefaultBuilder(args)
         services.AddSingleton<IGarage<IVehicle>, Garage<IVehicle>>();
         services.AddSingleton<IUI, ConsoleUI>();
         services.AddSingleton<IMyLogger, ListLogger>();
+        services.AddSingleton<ILogger<IManager>, Logger<IManager>>();
         services.AddSingleton<IList<IVehicle>>(vehicles);
         services.AddSingleton<IList<string>>(new List<string>());
         services.AddSingleton<IVehicle[]>(new Vehicle[garageSize]);
         services.AddSingleton<IDictionary<string, int>>(new Dictionary<string, int>());
         services.AddSingleton<ISearchFilter, SearchFilter>();
+        //Logger Initialization
+        services.AddLogging(loggingBuilder =>
+        {
+            //loggingBuilder.AddSerilog(Log.Logger, true);
+            loggingBuilder.AddConsole(Log.Logger, true);
+        });
     })
     .UseConsoleLifetime()
     .Build();
