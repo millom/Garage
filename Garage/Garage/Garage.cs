@@ -12,7 +12,7 @@ namespace Garage.Garage
         IDictionary<string, int> regNumberSlotDict)
         : IGarage<T> where T : IVehicle
     {
-        private readonly T[] _parkingPlaces = parkingPlaces;
+        private readonly T?[] _parkingPlaces = parkingPlaces;
         private readonly IDictionary<string, int> _regNumberSlotDict = regNumberSlotDict;
 
         public void ParkVehicleInSlot(T? vehicle, int slotId)
@@ -42,7 +42,11 @@ namespace Garage.Garage
             //Throw<ArgumentException>
             //    .If(_parkingPlaces[slotId] is null, $"Conflict between regNumber and slotId");
 
-            T vehicle = _parkingPlaces[slotId];
+            T? vehicle = _parkingPlaces[slotId];
+            if (vehicle is null)
+            {
+                throw new NullReferenceException("Unparked null vehicle error");
+            }
 
             UnparkVehicle(regNumber, slotId);
 
@@ -73,6 +77,7 @@ namespace Garage.Garage
         {
             foreach (var parkingPlace in _parkingPlaces)
             {
+                if (parkingPlace is null) continue;
                 yield return parkingPlace;
             };
         }

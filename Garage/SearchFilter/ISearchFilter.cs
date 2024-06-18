@@ -11,6 +11,7 @@ namespace Garage.SearchFilter
         string? RegNumber { get; set; }
         int? Weels { get; set; }
         void ResetAll();
+        string ToString();
         PropertyInfo[] GetPublicInstanceProps();
     }
 }

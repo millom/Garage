@@ -13,5 +13,6 @@ namespace Garage.Vehicles
         string RegNumber { get; }
         ColorType Color { get; }
         int Weels { get; }
+        string ToString();
     }
 }

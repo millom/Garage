@@ -85,12 +85,11 @@ namespace Garage.Test.Tests.Garage
             var enumerator = Garage.GetEnumerator();
 
             // Act & Assert
-            enumerator.MoveNext();
+            Assert.True(enumerator.MoveNext());
             Assert.Equal(car1, enumerator.Current);
-            enumerator.MoveNext();
+            Assert.True(enumerator.MoveNext());
             Assert.Equal(car2, enumerator.Current);
-            enumerator.MoveNext();
-            Assert.Null(enumerator.Current);
+            Assert.False(enumerator.MoveNext());
         }
 
         [Fact]
