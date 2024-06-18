@@ -53,35 +53,28 @@ namespace Garage.Manager
             _ui.WriteLine("--- PARK VEHICLE MENU ---");
             PrintFreeSlots();
             PrintCarsToPark();
-            _ui.WriteLine("<regNr, parkingSLot>: Park car Ex: ABC123, 0");
+            _ui.WriteLine("Park car: <regNr, parkingSlot> (Ex: ABC123, 0)");
             _ui.WriteLine("9: Exit menu");
 
             var command = _ui.ReadLine();
-            if (command != "9")
+            if (!string.IsNullOrWhiteSpace(command) &&
+                command != "9" && command.Contains(", "))
             {
                 var commandSplit = command.Split(", ");
                 if (commandSplit.Length == 2)
                 {
-                    _garageHandler.ParkVehicle(
-                        commandSplit[0],
-                        commandSplit[1]
-                    );
+                    try
+                    {
+                        var regNbr = commandSplit[0];
+                        int slotId = int.Parse(commandSplit[1]);
+                        _garageHandler.ParkVehicle(regNbr, slotId);
+                    }
+                    catch
+                    {
+
+                    }
                 }
             }
-            //switch (command)
-            //{
-            //    case "0":
-            //        while (ParkMenu());
-            //        break;
-            //    case "1":
-            //        while (UnparkMenu());
-            //        break;
-            //    case "2":
-            //        while (ShowParkedVehiclesMenu());
-            //        break;
-            //    default:
-            //        break;
-            //}
 
             return command != "9";
         }
@@ -120,7 +113,7 @@ namespace Garage.Manager
 
             var command = _ui.ReadLine();
 
-            if (command != "9")
+            if (!string.IsNullOrWhiteSpace(command) && command != "9")
             {
                 _garageHandler.GetParkedVehicle(command);
             }
@@ -190,7 +183,7 @@ namespace Garage.Manager
             _searchFilter.ExtraProp = GetNumerOrNull(_ui.ReadLine());
         }
 
-        private int? GetNumerOrNull(string rawNum)
+        private static int? GetNumerOrNull(string? rawNum)
         {
             try
             {
@@ -215,7 +208,7 @@ namespace Garage.Manager
             _ui.WriteLine("Set Color filter");
             try
             {
-                _searchFilter.Color = (ColorType)GetNumerOrNull(_ui.ReadLine());
+                _searchFilter.Color = (ColorType?)GetNumerOrNull(_ui.ReadLine());
             }
             catch
             {
@@ -246,20 +239,20 @@ namespace Garage.Manager
             _ui.ReadLine();
         }
 
-        public bool SearchParkedMenu()
-        {
-            _ui.Clear();
-            return true;
-        }
+        //public bool SearchParkedMenu()
+        //{
+        //    _ui.Clear();
+        //    return true;
+        //}
 
-        public void PrintNotParkedMenu()
-        {
+        //public void PrintNotParkedMenu()
+        //{
 
-        }
+        //}
 
-        public void PrintSeeParked()
-        {
+        //public void PrintSeeParked()
+        //{
 
-        }
+        //}
     }
 }

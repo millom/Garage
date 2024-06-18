@@ -15,11 +15,14 @@ namespace Garage.Garage
 
         public void ParkVehicle(
             string regNr,
-            string slotId)
+            int slotId)
         {
             var vehicle = _freeVehicles.FirstOrDefault(v => v.RegNumber == regNr);
-            int id = int.Parse(slotId);
-            _garage.ParkVehicleInSlot(vehicle, id);
+            if (vehicle == null)
+            {
+                throw new NullReferenceException("No vehicle with that regNrb found");
+            }
+            _garage.ParkVehicleInSlot(vehicle, slotId);
             _freeVehicles.Remove(vehicle);
         }
 
@@ -60,12 +63,6 @@ namespace Garage.Garage
 
         public IEnumerable<string> GetAllParkedVehicles()
         {
-            //var vehicles = new List<string>();
-            //foreach(var vehicle in _garage.Where(x => x != null))
-            //{
-            //    vehicles.Add(vehicle.ToString());
-            //}
-            //return vehicles;
             return _garage
                 .Where(v => v != null)
                 .Select(v => v.ToString())!;

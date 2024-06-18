@@ -10,7 +10,7 @@ namespace Garage.Garage
     {
         bool FreeAt(int id);
         T? VehicleAt(int id);
-        void ParkVehicleInSlot(T vehicle, int slotId);
+        void ParkVehicleInSlot(T? vehicle, int slotId);
         T UnParkVehicle(string regNumber);
     }
 }
