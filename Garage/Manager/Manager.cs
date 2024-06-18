@@ -136,7 +136,7 @@ namespace Garage.Manager
             _ui.Clear();
             _ui.WriteLine("--- SEARCH PARKED VEHICLES MENU --");
             _ui.WriteLine($"Search Params");
-            _ui.WriteLine(_searchFilter.ToString()!);
+            _ui.WriteLine(_searchFilter.ToString());
             _ui.WriteSpaceLine();
             _ui.WriteLine("0: Set RegNumber param");
             _ui.WriteLine("1: Set Color param");

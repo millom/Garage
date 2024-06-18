@@ -61,14 +61,14 @@ namespace Garage.Garage
         {
             return _freeVehicles
                 .Where(v => v is not null)
-                .Select(v => v.ToString())!;
+                .Select(v => v.ToString());
         }
 
         public IEnumerable<string> GetAllParkedVehicles()
         {
             return _garage
-                .Where(v => v != null)
-                .Select(v => v.ToString())!;
+                .Where(v => v is not null)
+                .Select(v => v.ToString());
         }
     }
 }

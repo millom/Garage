@@ -80,14 +80,14 @@ namespace Garage.Garage
 
         private void ParkVehicle(T vehicle, int slotId)
         {
-            _regNumberSlotDict[vehicle!.RegNumber] = slotId;
+            _regNumberSlotDict[vehicle.RegNumber] = slotId;
             _parkingPlaces[slotId] = vehicle;
         }
 
         private void UnparkVehicle(string regNumber, int slotId)
         {
             _regNumberSlotDict.Remove(regNumber);
-            _parkingPlaces[slotId] = default!;
+            _parkingPlaces[slotId] = default;
         }
     }
 }
