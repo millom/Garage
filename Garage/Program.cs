@@ -49,7 +49,7 @@ var host = Host.CreateDefaultBuilder(args)
         services.AddSingleton<IUI, ConsoleUI>();
         services.AddSingleton<ILogger, ListLogger>();
         services.AddSingleton<IList<IVehicle>>(vehicles);
-        services.AddSingleton<IEnumerable<string>>(new List<string>());
+        services.AddSingleton<IList<string>>(new List<string>());
         services.AddSingleton<IVehicle[]>(new Vehicle[garageSize]);
         services.AddSingleton<IDictionary<string, int>>(new Dictionary<string, int>());
         services.AddSingleton<ISearchFilter, SearchFilter>();

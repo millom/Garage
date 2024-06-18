@@ -10,13 +10,25 @@ namespace Garage.Log
 {
     internal class ListLogger(
         IUI ui,
-        IEnumerable<string> logList)
+        IList<string> logList)
         : ILogger
     {
         private IUI _ui = ui;
-        private readonly IEnumerable<string> _logList = logList;
+        private readonly IList<string> _logList = logList;
 
-        public void AddToLog(string message) { }
-        public void PrintLog() { }
+        public void AddToLog(string message)
+        {
+            _logList.Add(message);
+        }
+
+        public void PrintLog()
+        {
+            _ui.WriteLine("Print log");
+            _ui.WriteSpaceLine();
+            _logList
+                .ToList()
+                .ForEach(log => _ui.WriteLine(log));
+            _ui.WriteSpaceLine();
+        }
     }
 }
