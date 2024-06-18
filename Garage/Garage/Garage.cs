@@ -33,7 +33,7 @@ namespace Garage.Garage
         {
             Throw<ArgumentException>
                 .If(string.IsNullOrWhiteSpace(regNumber), $"Illegal Reg number, {regNumber}");
-            Throw<ArgumentException>
+            Throw<RegNumberNotFoundException>
                 .If(!_regNumberSlotDict.ContainsKey(regNumber), $"RegNumber {regNumber} not found");
 
             int slotId = _regNumberSlotDict[regNumber];

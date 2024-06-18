@@ -202,7 +202,7 @@ namespace Garage.Test.Tests.Garage
             IVehicle car1 = Garage.UnParkVehicle(regNumber);
 
             // Act
-            ArgumentException ex = Assert.Throws<ArgumentException>(
+            RegNumberNotFoundException ex = Assert.Throws<RegNumberNotFoundException>(
                 () => Garage.UnParkVehicle(regNumber)
             );
             Assert.Equal(expectedMessage, ex.Message);
@@ -232,7 +232,7 @@ namespace Garage.Test.Tests.Garage
             string expectedMessage = $"RegNumber {regNumber} not found";
 
             // Act & Assert
-            ArgumentException ex = Assert.Throws<ArgumentException>(
+            RegNumberNotFoundException ex = Assert.Throws<RegNumberNotFoundException>(
                 () => Garage.UnParkVehicle(regNumber)
             );
 
