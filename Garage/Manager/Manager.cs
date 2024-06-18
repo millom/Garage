@@ -1,4 +1,5 @@
 ﻿using Garage.Garage;
+using Garage.Log;
 using Garage.SearchFilter;
 using Garage.Types;
 using Garage.UI;
@@ -8,11 +9,13 @@ namespace Garage.Manager
     internal class Manager(
         IUI ui,
         IGarageHandler garageHandler,
-        ISearchFilter searchFilter) : IManager
+        ISearchFilter searchFilter,
+        ILogger logger) : IManager
     {
         private readonly IUI _ui = ui;
         private readonly IGarageHandler _garageHandler = garageHandler;
         private readonly ISearchFilter _searchFilter = searchFilter;
+        private readonly ILogger _logger = logger;
 
         public void Run()
         {

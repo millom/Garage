@@ -2,6 +2,7 @@
 //#define CREATE_NEW_JSON_FILE
 
 using Garage.Garage;
+using Garage.Log;
 using Garage.Manager;
 using Garage.SearchFilter;
 
@@ -46,8 +47,9 @@ var host = Host.CreateDefaultBuilder(args)
         services.AddSingleton<IGarageHandler, GarageHandler>();
         services.AddSingleton<IGarage<IVehicle>, Garage<IVehicle>>();
         services.AddSingleton<IUI, ConsoleUI>();
+        services.AddSingleton<ILogger, FileLogger>();
         services.AddSingleton<IList<IVehicle>>(vehicles);
-        services.AddSingleton<IList<string>>(new List<string>());
+        services.AddSingleton<IEnumerable<string>>(new List<string>());
         services.AddSingleton<IVehicle[]>(new Vehicle[garageSize]);
         services.AddSingleton<IDictionary<string, int>>(new Dictionary<string, int>());
         services.AddSingleton<ISearchFilter, SearchFilter>();
