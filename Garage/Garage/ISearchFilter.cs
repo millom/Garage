@@ -1,13 +1,16 @@
-﻿using System.Reflection;
+﻿using Garage.Types;
+
+using System.Reflection;
 
 namespace Garage.Garage
 {
     internal interface ISearchFilter
     {
-        int? Color { get; set; }
+        ColorType? Color { get; set; }
         int? ExtraProp { get; set; }
         string? RegNumber { get; set; }
         int? Weels { get; set; }
+        void ResetAll();
         PropertyInfo[] GetPublicInstanceProps();
     }
 }

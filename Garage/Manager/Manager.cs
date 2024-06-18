@@ -1,4 +1,5 @@
 ﻿using Garage.Garage;
+using Garage.Types;
 using Garage.UI;
 
 namespace Garage.Manager
@@ -146,8 +147,9 @@ namespace Garage.Manager
             _ui.WriteLine("1: Set Color param");
             _ui.WriteLine("2: Set Weels param");
             _ui.WriteLine("3: Set ExtraProp param");
+            _ui.WriteLine("4: Reset filter");
             _ui.WriteSpaceLine();
-            _ui.WriteLine("4: Do search");
+            _ui.WriteLine("5: Do search");
             _ui.WriteLine("9: Exit menu");
 
             var command = _ui.ReadLine();
@@ -158,15 +160,18 @@ namespace Garage.Manager
                     SetRegNumber();
                     break;
                 case "1":
-                    //SetColor();
+                    SetColor();
                     break;
                 case "2":
-                    //SetWeels();
+                    SetWeels();
                     break;
                 case "3":
-                    //SetExtraProp();
+                    SetExtraProp();
                     break;
                 case "4":
+                    ClearAllProps();
+                    break;
+                case "5":
                     PrintSearchResult();
                     break;
             }
@@ -174,13 +179,58 @@ namespace Garage.Manager
             return command != "9";
         }
 
+        private void ClearAllProps()
+        {
+            _searchFilter.ResetAll();
+        }
+
+        private void SetExtraProp()
+        {
+            _ui.WriteLine("Set Extra property filter");
+            _searchFilter.ExtraProp = GetNumerOrNull(_ui.ReadLine());
+        }
+
+        private int? GetNumerOrNull(string rawNum)
+        {
+            try
+            {
+                 return !string.IsNullOrWhiteSpace(rawNum)
+                    ? int.Parse(rawNum)
+                    : null;
+            }
+            catch
+            {
+                return null;
+            }
+        }
+
+        private void SetWeels()
+        {
+            _ui.WriteLine("Set Number of weels filter");
+            _searchFilter.Weels = GetNumerOrNull(_ui.ReadLine());
+        }
+
+        private void SetColor()
+        {
+            _ui.WriteLine("Set Color filter");
+            try
+            {
+                _searchFilter.Color = (ColorType)GetNumerOrNull(_ui.ReadLine());
+            }
+            catch
+            {
+                _searchFilter.Color = null;
+                return;
+            }
+        }
+
         private void SetRegNumber()
         {
-            _searchFilter.GetPublicInstanceProps();
-            foreach (var prop in _searchFilter.GetPublicInstanceProps())
-            {
-                _ui.WriteLine($"{prop.Name}");
-            }
+            _ui.WriteLine("Set RegNumber filter");
+            var regNumber = _ui.ReadLine();
+            _searchFilter.RegNumber = !string.IsNullOrWhiteSpace(regNumber)
+                ? regNumber
+                : null;
         }
 
         private void PrintSearchResult()

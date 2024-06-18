@@ -2,6 +2,7 @@
 using Garage.Vehicles;
 using System;
 using System.Collections.Generic;
+using System.IO.MemoryMappedFiles;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -20,10 +21,11 @@ namespace Garage.Entensions
 
         public static bool FilterByColor(
             this IVehicle vehicle,
-            int? color)
+            ColorType? color)
         {
             return color is null ||
-                (int)vehicle.Color == color;
+                ColorType.ANY == color ||
+                vehicle.Color == color;
         }
 
         public static bool FilterByWeels(
@@ -66,6 +68,8 @@ namespace Garage.Entensions
             this IVehicle? vehicle,
             int? filter)
         {
+            if (filter is null) { return true; }
+
             var car = vehicle as ICar;
             if (car is not null) return car.FilterExtraProps(filter);
 
@@ -81,7 +85,7 @@ namespace Garage.Entensions
             var bus = vehicle as IBus;
             if (bus is not null) return bus.FilterExtraProps(filter);
 
-            return true;
+            return false;
         }
 
         private static bool FilterExtraProps(this ICar car, int? fuelType)

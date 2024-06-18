@@ -34,11 +34,12 @@ namespace Garage.Garage
         public IEnumerable<string> GetSearchResult(ISearchFilter filter)
         {
             foreach (var vehicle in _garage
-                .Where(v => v != null)
+                .Where(v => v is not null)
                 .Where(v => v.FilterByRegNumber(filter?.RegNumber))
                 .Where(v => v.FilterByColor(filter?.Color))
                 .Where(v => v.FilterByWeels(filter?.Weels))
-                .Where(v => v.FilterByExtraProp(filter?.ExtraProp)))
+                .Where(v => v.FilterByExtraProp(filter?.ExtraProp))
+            )
             {
                 yield return vehicle.GetToString();
             }
@@ -67,7 +68,7 @@ namespace Garage.Garage
             //return vehicles;
             return _garage
                 .Where(v => v != null)
-                .Select(v => v.ToString());
+                .Select(v => v.ToString())!;
         }
     }
 }
