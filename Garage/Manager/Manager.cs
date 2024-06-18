@@ -110,11 +110,29 @@ namespace Garage.Manager
         public bool UnparkMenu()
         {
             _ui.Clear();
-            _ui.WriteLine("--- PARK VEHICLE MENU --");
+            _ui.WriteLine("--- UNPARK VEHICLE MENU --");
+            _ui.WriteSpaceLine();
+            PrintParkedCars();
+            _ui.WriteSpaceLine();
+            _ui.WriteLine("<regNr>: Unpark car Ex: ABC123");
+            _ui.WriteLine("9: Exit menu");
 
             var command = _ui.ReadLine();
 
+            if (command != "9")
+            {
+                _garageHandler.GetParkedVehicle(command);
+            }
+
             return command != "9";
+        }
+
+        private void PrintParkedCars()
+        {
+            _ui.WriteLine("Parked vehicles");
+            _garageHandler.GetAllParkedVehicles()
+                .ToList()
+                .ForEach(x => _ui.WriteLine(x));
         }
 
         public bool ShowParkedVehiclesMenu()

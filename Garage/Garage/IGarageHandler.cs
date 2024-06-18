@@ -9,5 +9,6 @@ namespace Garage.Garage
         void ParkVehicle(string regNr, string slotId);
         IEnumerable<int> GetFreeSlots();
         IEnumerable<string> GetNotParkedVehicles();
+        IEnumerable<string> GetAllParkedVehicles();
     }
 }

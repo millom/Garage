@@ -26,7 +26,9 @@ namespace Garage.Garage
         public IVehicle GetParkedVehicle(
             string regNumber)
         {
-            return _garage.UnParkVehicle(regNumber);
+            var vehicle = _garage.UnParkVehicle(regNumber);
+            _freeVehicles.Add(vehicle);
+            return vehicle;
         }
 
         public IEnumerable<string> GetSearchResult(ISearchFilter filter)
@@ -53,6 +55,19 @@ namespace Garage.Garage
         public IEnumerable<string> GetNotParkedVehicles()
         {
             return _freeVehicles.Select(v => v.ToString());
+        }
+
+        public IEnumerable<string> GetAllParkedVehicles()
+        {
+            //var vehicles = new List<string>();
+            //foreach(var vehicle in _garage.Where(x => x != null))
+            //{
+            //    vehicles.Add(vehicle.ToString());
+            //}
+            //return vehicles;
+            return _garage
+                .Where(v => v != null)
+                .Select(v => v.ToString());
         }
     }
 }
