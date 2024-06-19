@@ -17,13 +17,14 @@ namespace Garage.Garage
 
         public void ParkVehicleInSlot(T? vehicle, int slotId)
         {
-            if (vehicle is null)
-                throw new ArgumentNullException(nameof(vehicle));
+            if (vehicle?.RegNumber is null)
+                throw new ArgumentNullException("vehicle is null");
 
             if (slotId < 0 || slotId >= _parkingPlaces.Length)
                 throw new ArgumentOutOfRangeException($"slot={slotId}, range {0}-{_parkingPlaces.Length - 1}");
 
-            if (_parkingPlaces[slotId] is not null)
+            if (_parkingPlaces[slotId] is not null ||
+                _regNumberSlotDict.ContainsKey(vehicle.RegNumber))
                 throw new SlotTakenException($"Fail to add vehicle to slot {slotId}, place taken");
 
             ParkVehicle(vehicle, slotId);
@@ -41,12 +42,7 @@ namespace Garage.Garage
             // This should not be possible, maybe later
             //Throw<ArgumentException>
             //    .If(_parkingPlaces[slotId] is null, $"Conflict between regNumber and slotId");
-
-            T? vehicle = _parkingPlaces[slotId];
-            if (vehicle is null)
-            {
-                throw new NullReferenceException("Unparked null vehicle error");
-            }
+            T vehicle = _parkingPlaces[slotId]!;
 
             UnparkVehicle(regNumber, slotId);
 
@@ -94,8 +90,7 @@ namespace Garage.Garage
 
         private void ParkVehicle(T vehicle, int slotId)
         {
-            if (vehicle is null) throw new ArgumentNullException(nameof(vehicle));
-
+            //if (vehicle is null) throw new ArgumentNullException(nameof(vehicle));
             _regNumberSlotDict[vehicle.RegNumber] = slotId;
             _parkingPlaces[slotId] = vehicle;
         }

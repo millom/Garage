@@ -32,7 +32,7 @@ namespace Garage.Test.Tests.Garage
 
         [Theory]
         [MemberData(nameof(ExernalSlotTestData.TestData), MemberType = typeof(ExernalSlotTestData))]
-        public void GivenEmptyGarage_WhenExecuteFreeAtWithLegalId_ThenSlotIsFree(int id)
+        public void FreeAt_GivenEmptyGarage_WhenExecuteFreeAtWithLegalId_ThenSlotIsFree(int id)
         {
             // Act & Assert
             Assert.True(Garage.FreeAt(id));
@@ -40,7 +40,7 @@ namespace Garage.Test.Tests.Garage
 
         [Theory]
         [InternalSlotTestData]
-        public void GivenEmptyGarage_WhenExecuteFreeAtWithBadId_ThenThrowExpectedExecpten(int id)
+        public void FreeAt_GivenEmptyGarage_WhenExecuteFreeAtWithBadId_ThenThrowExpectedExecpten(int id)
         {
             // Arrange
             var expectedMessage = $"Not existing id <{id}>";
@@ -54,7 +54,7 @@ namespace Garage.Test.Tests.Garage
 
         [Theory]
         [ExernalSlotTestData]
-        public void GivenEmptyGarage_WhenExecuteVehicleAtWithId_GivesSlotIsNull(int id)
+        public void VehicleAt_GivenEmptyGarage_WhenExecuteVehicleAtWithId_GivesSlotIsNull(int id)
         {
             // Act & Assert
             Assert.Null(Garage.VehicleAt(id));
@@ -62,7 +62,7 @@ namespace Garage.Test.Tests.Garage
 
         [Theory]
         [InternalSlotTestData]
-        public void GivenEmptyGarage_WhenExecuteVehicleAtWithBadId_ThenThrowExpectedExecpten(int id)
+        public void VehicleAt_GivenEmptyGarage_WhenExecuteVehicleAtWithBadId_ThenThrowExpectedExecpten(int id)
         {
             // Arrange
             var expectedMessage = $"Not existing id <{id}>";
@@ -75,7 +75,7 @@ namespace Garage.Test.Tests.Garage
         }
 
         [Fact]
-        public void GivenTwoCarsInGarage_WhenIterateOverGarage_ThenExpectedCarsReached()
+        public void Enumerator_GivenTwoCarsInGarage_WhenIterateOverGarage_ThenExpectedCarsReached()
         {
             // Arrange
             IVehicle car1 = new Car("ABC123", ColorType.BLUE, 4, fuelType);
@@ -93,23 +93,24 @@ namespace Garage.Test.Tests.Garage
         }
 
         [Fact]
-        public void GivenOneCarOutsideGarage_WhenParkingLegalCarAndSlotGarage_ThenCarIsParked()
+        public void ParkVehicleInSlot_GivenOneLegalCarSlot_WhenParkingCarInSlot_ThenCarIsParked()
         {
             // Arrange
             IVehicle car = new Car("ABC123", ColorType.BLUE, 4, fuelType);
+            int legalSlot = 0;
 
             // Act
-            Garage.ParkVehicleInSlot(car, 0);
+            Garage.ParkVehicleInSlot(car, legalSlot);
 
             Assert.False(Garage.FreeAt(0));
-            Assert.Same(car, Garage.VehicleAt(0));
+            Assert.Same(car, Garage.VehicleAt(legalSlot));
         }
 
         [Fact]
-        public void GivenOneCarOutsideGarage_WhenParkingNullCar_ThenThrowExpectedException()
+        public void ParkVehicleInSlot_GivenOneNullCar_WhenParkingCar_ThenThrowExpectedException()
         {
             // Arrange
-            string userDefinedMessage = "vehicle";
+            string userDefinedMessage = "vehicle is null";
             string expectedMessage = "Value cannot be null." +
                 $" (Parameter '{userDefinedMessage}')";
             IVehicle? car = null;
@@ -123,7 +124,7 @@ namespace Garage.Test.Tests.Garage
 
         [Theory]
         [MemberData(nameof(InternalSlotTestData.TestData), MemberType = typeof(InternalSlotTestData))]
-        public void GivenOneCarOutsideGarage_WhenParkingLegalCarOutsideSlots_ThenThrowExpectedException(
+        public void ParkVehicleInSlot_GivenOneLegalCar_WhenParkingCarOutsideGarage_ThenThrowExpectedException(
             int slotId)
         {
             // Arrange
@@ -142,7 +143,7 @@ namespace Garage.Test.Tests.Garage
         }
 
         [Fact]
-        public void GivenOneCarOutsideGarage_WhenAddingCarToTakenParkingSlot_ThenThrowExpectedException()
+        public void ParkVehicleInSlot_GivenTwoLegalCars_WhenParkingSecondCarToSameSlot_ThenThrowExpectedException()
         {
             // Arrange
             int slotId = 0;
@@ -162,7 +163,7 @@ namespace Garage.Test.Tests.Garage
         }
 
         [Fact]
-        public void GivenOneCarsInGarage_WhenUnparkCar_ThenTheIsUnparked()
+        public void UnParkVehicle_GivenOneCarsInGarage_WhenUnparkCar_ThenTheIsUnparked()
         {
             // Arrange
             int slotId = 0;
@@ -176,7 +177,7 @@ namespace Garage.Test.Tests.Garage
         }
 
         [Fact]
-        public void GivenOneCarInGarage_WhenUnparkCar_ThenCarsIsParkingSlotIsFree()
+        public void UnParkVehicle_GivenOneCarInGarage_WhenUnparkCar_ThenCarsIsParkingSlotIsFree()
         {
             // Arrange
             int slotId = 0;
@@ -191,7 +192,7 @@ namespace Garage.Test.Tests.Garage
         }
 
         [Fact]
-        public void GivenOneUnparkedCarInGarage_WhenUnparkCarAgain_ThenThrowExpectedException()
+        public void UnParkVehicle_GivenOneUnparkedCarInGarage_WhenUnparkCarAgain_ThenThrowExpectedException()
         {
             // Arrange
             int slotId = 0;
@@ -208,7 +209,7 @@ namespace Garage.Test.Tests.Garage
         }
 
         [Fact]
-        public void GivenNoCarsInGarage_WhenUnparkCar_ThenThrowExpectedException()
+        public void UnParkVehicle_GivenNoCarsInGarage_WhenUnparkCar_ThenThrowExpectedException()
         {
             // Arrange
             string regNumber = "";
@@ -224,7 +225,7 @@ namespace Garage.Test.Tests.Garage
         }
 
         [Fact]
-        public void GivenNoCarsInGarage_WhenUnparkWithEmptyRegNumber_ThenThrowExpectedException()
+        public void UnParkVehicle_GivenNoCarsInGarage_WhenUnparkWithEmptyRegNumber_ThenThrowExpectedException()
         {
             // Arrange
             string regNumber = "ABC123";
@@ -237,6 +238,28 @@ namespace Garage.Test.Tests.Garage
 
             // Assert
             Assert.Equal(expectedMessage, ex.Message);
+        }
+
+        [Theory]
+        [InlineData(0, 19)]
+        [InlineData(1, 18)]
+        public void GetEmptyIndexes_GivenTwoParkedCarsPos0and19_WhenGetEmptyIndexes_ThenGetSize18(
+            int idx1,
+            int idx2
+        )
+        {
+            // Arrange
+            int expectedSize = 18;
+            IVehicle car1 = new Car("ABC123", ColorType.BLUE, 4, fuelType);
+            IVehicle car2 = new Car("ABC124", ColorType.YELLOW, 4, fuelType);
+            Garage.ParkVehicleInSlot(car1, idx1);
+            Garage.ParkVehicleInSlot(car2, idx2);
+
+            // Act
+            var IdxListSize = Garage.GetEmptyIndexes().Count();
+
+            // Assert
+            Assert.Equal(expectedSize, IdxListSize);
         }
 
         private void ParkVehicle(int slotId, string regNumber, ColorType colorType)
