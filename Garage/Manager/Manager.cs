@@ -7,6 +7,8 @@ using Garage.Vehicles;
 
 using Microsoft.Extensions.Logging;
 
+using System.Reflection;
+
 namespace Garage.Manager
 {
     internal class Manager(
@@ -235,8 +237,27 @@ namespace Garage.Manager
         private void SetExtraProp()
         {
             _ui.WriteLine("Set Extra property filter");
+            PrintAllProperties(nameof(Car), typeof(ICar).GetProperties());
+            PrintAllEnumValues(typeof(FuelType));
+            PrintAllProperties(nameof(Boat), typeof(IBoat).GetProperties());
+            PrintAllProperties(nameof(Airplane), typeof(IAirplane).GetProperties());
+            PrintAllProperties(nameof(Motorcycle), typeof(IMotorcycle).GetProperties());
+            PrintAllProperties(nameof(Bus), typeof(IBus).GetProperties());
+            _ui.WriteSpaceLine();
             _ui.Write("> ");
             _searchFilter.ExtraProp = GetNumerOrNull(_ui.ReadLine());
+        }
+
+        private void PrintAllProperties(
+            string typeName,
+            PropertyInfo[] extraProperties)
+        {
+            _ui.WriteSpaceLine();
+            _ui.WriteLine($"For {typeName}");
+            foreach (var item in extraProperties)
+            {
+                _ui.WriteLine($"   {item.Name}");
+            }
         }
 
         private static int? GetNumerOrNull(string? rawNum)
@@ -263,7 +284,9 @@ namespace Garage.Manager
         private void SetColor()
         {
             _ui.WriteLine("Set Color filter");
-            PrintAllColors();
+            _ui.WriteSpaceLine();
+            PrintAllEnumValues(typeof(ColorType));
+            _ui.WriteSpaceLine();
             _ui.Write("> ");
             try
             {
@@ -276,15 +299,13 @@ namespace Garage.Manager
             }
         }
 
-        private void PrintAllColors()
+        private void PrintAllEnumValues(Type type)
         {
-            _ui.WriteSpaceLine();
-            var allColors = Enum.GetValues(typeof(ColorType));
-            foreach (var color in allColors)
+            var allNames = Enum.GetValues(type);
+            foreach (var value in allNames)
             {
-                _ui.WriteLine($"{(int)color} {color}");
+                _ui.WriteLine($"      {(int)value} {value}");
             }
-            _ui.WriteSpaceLine();
         }
 
         private void SetRegNumber()
