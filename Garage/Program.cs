@@ -6,10 +6,6 @@ using Garage.Log;
 using Garage.Manager;
 using Garage.SearchFilter;
 
-#if CREATE_NEW_JSON_FILE
-using Garage.Types;
-#endif
-
 using Garage.UI;
 using Garage.Utils;
 using Garage.Vehicles;
@@ -17,13 +13,12 @@ using Garage.Vehicles;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
-using Microsoft.Extensions.Logging;
 
 using Serilog;
 
 #if CREATE_NEW_JSON_FILE
 // Read instructions inside this function
-CreateNewJsonFile();
+JsonHandler.CreateNewJsonFile(@"all_vehicles.json");
 #endif
 
 IConfiguration? config = new ConfigurationBuilder()
@@ -34,9 +29,11 @@ IConfiguration? config = new ConfigurationBuilder()
 int garageSize = config.GetValue<int>("garage:size");
 
 string? vehicleDataFilename = config.GetValue<string>("garage:vehicle_filename");
-
 if (vehicleDataFilename is null)
     return;
+
+string? filename = config.GetValue<string>("garage:save_stage_filename");
+Manager.SetSaveStageFilename(filename);
 
 IList<IVehicle>? vehicles = JsonHandler.GetVehicleList(vehicleDataFilename);
 if (vehicles is null) return;
@@ -64,7 +61,3 @@ var host = Host.CreateDefaultBuilder(args)
     .Build();
 
 host.Services.GetRequiredService<IManager>().Run();
-
-#if CREATE_NEW_JSON_FILE
-JsonHandler.CreateNewJsonFile(@"all_vehicles.json");
-#endif
