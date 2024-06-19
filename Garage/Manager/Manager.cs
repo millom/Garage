@@ -1,4 +1,5 @@
-﻿using Garage.Garage;
+﻿using Garage.Exceptions;
+using Garage.Garage;
 using Garage.Log;
 using Garage.SearchFilter;
 using Garage.Types;
@@ -8,6 +9,7 @@ using Garage.Vehicles;
 
 using Microsoft.Extensions.Logging;
 
+using System;
 using System.Reflection;
 
 namespace Garage.Manager
@@ -43,6 +45,7 @@ namespace Garage.Manager
             _ui.WriteLine("3: Show log");
             _ui.WriteLine("4: Save");
             _ui.WriteLine("5: Load");
+            _ui.WriteLine("6: Unpark all");
             _ui.WriteLine("9: Exit program");
             _ui.Write("> ");
 
@@ -68,11 +71,19 @@ namespace Garage.Manager
                 case "5":
                     LoadParked();
                     break;
+                case "6":
+                    EmptyGarage();
+                    break;
                 default:
                     break;
             }
 
             return command != "9";
+        }
+
+        private void EmptyGarage()
+        {
+            throw new NotImplementedException();
         }
 
         private void LoadParked()
@@ -82,17 +93,35 @@ namespace Garage.Manager
 
         private void SaveParked()
         {
+            try
+            {
+                DoSaveParked();
+                var message = $"Saved all Parked vehicles";
+                _logger.AddToLog(message);
+                _ui.WriteLine(message);
+                _seriLogger.Information(message);
+                _ui.WriteLine("Press enter to continue");
+                _ui.ReadLine();
+            }
+            catch (Exception ex)
+            {
+                _logger.AddToLog(ex.Message);
+                _ui.WriteLine(ex.Message);
+                _seriLogger.Error(ex, ex.Message);
+                _ui.WriteLine("Press enter to continue");
+                _ui.ReadLine();
+            }
+        }
+
+        private void DoSaveParked()
+        {
             var parked = _garageHandler
                 .GetParkedIdxRegNumber()
                 .ToArray();
-            if (parked is null)
-            {
-                throw new NullReferenceException("Did't find any parked vehicles");
-            }
-            else if (parked.Length == 0)
-            {
-                throw new Exception("No parked vehicles to save");
-            }
+            Throw<NullReferenceException>
+                .If(parked is null, "Didn't find any parked vehicles");
+            Throw<Exception>
+                .If(parked!.Length == 0, "No parked vehicles to save");
 
             JsonHandler.CreateVehicleJsonFileFromList(saveFileName!, parked);
         }
