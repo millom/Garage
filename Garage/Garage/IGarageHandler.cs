@@ -12,5 +12,6 @@ namespace Garage.Garage
         IEnumerable<string> GetNotParkedVehicles();
         IEnumerable<string> GetAllParkedVehicles();
         IEnumerable<int> GetEmptyIndexes();
+        IEnumerable<IdValuePair<string>> GetParkedIdxRegNumber();
     }
 }

@@ -53,11 +53,11 @@ namespace Garage.Garage
 
         public IEnumerable<int> GetFreeSlots()
         {
-            var let = _garage
-                .Select((v, i) => new { item = v, idx = i })
-                //.Where(x => x.item is null)
-                //.Select(x => x.idx)
-                .ToList();
+            //var let = _garage
+            //    .Select((v, i) => new { item = v, idx = i })
+            //    //.Where(x => x.item is null)
+            //    //.Select(x => x.idx)
+            //    .ToList();
             return _garage
                 .Select((v, i) => new { item = v, idx = i })
                 .Where(x => x.item is null)
@@ -69,6 +69,16 @@ namespace Garage.Garage
             return _freeVehicles
                 .Where(v => v is not null)
                 .Select(v => v.ToString());
+        }
+
+        public IEnumerable<IdValuePair<string>> GetParkedIdxRegNumber()
+        {
+            return _garage
+                .Select((v, i) => new { item = v, idx = i })
+                .Where(x => x.item is not null)
+                .Select(x => new IdValuePair<string>(
+                    x.idx,
+                    x.item.RegNumber));
         }
 
         public IEnumerable<string> GetAllParkedVehicles()
