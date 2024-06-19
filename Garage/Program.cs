@@ -4,7 +4,7 @@
 using Garage.Garage;
 using Garage.Log;
 using Garage.Manager;
-using Garage.SearchFilter;
+using Garage.Search;
 
 using Garage.UI;
 using Garage.Utils;

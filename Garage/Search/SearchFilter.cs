@@ -1,15 +1,18 @@
 ﻿using Garage.Types;
 
 using System.Reflection;
+using System.Runtime.CompilerServices;
 
-namespace Garage.SearchFilter
+namespace Garage.Search
 {
-    internal class SearchFilter : ISearchFilter
+    public class SearchFilter : ISearchFilter
     {
         public string? RegNumber { get; set; }
         public ColorType? Color { get; set; }
         public int? Weels { get; set; }
         public int? ExtraProp { get; set; }
+
+        public SearchFilter(){}
 
         public void ResetAll()
         {

@@ -2,9 +2,9 @@
 
 using System.Reflection;
 
-namespace Garage.SearchFilter
+namespace Garage.Search
 {
-    internal interface ISearchFilter
+    public interface ISearchFilter
     {
         ColorType? Color { get; set; }
         int? ExtraProp { get; set; }

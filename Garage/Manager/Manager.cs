@@ -1,7 +1,7 @@
 ﻿using Garage.Exceptions;
 using Garage.Garage;
 using Garage.Log;
-using Garage.SearchFilter;
+using Garage.Search;
 using Garage.Types;
 using Garage.UI;
 using Garage.Utils;
