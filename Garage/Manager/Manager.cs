@@ -83,7 +83,43 @@ namespace Garage.Manager
 
         private void EmptyGarage()
         {
-            throw new NotImplementedException();
+            try
+            {
+                DoEmptyParked();
+                var message = $"Unpark all vehicles";
+                _logger.AddToLog(message);
+                _ui.WriteLine(message);
+                _seriLogger.Information(message);
+                _ui.WriteLine("Press enter to continue");
+                _ui.ReadLine();
+            }
+            catch (Exception ex)
+            {
+                _logger.AddToLog(ex.Message);
+                _ui.WriteLine(ex.Message);
+                _seriLogger.Error(ex, ex.Message);
+                _ui.WriteLine("Press enter to continue");
+                _ui.ReadLine();
+            }
+        }
+
+        private void DoEmptyParked()
+        {
+            var parked = _garageHandler
+                .GetParkedIdxRegNumber()
+                .ToArray();
+            Throw<NullReferenceException>
+                .If(parked is null, "Didn't find any parked vehicles");
+            Throw<Exception>
+                .If(parked!.Length == 0, "No parked vehicles to save");
+            parked
+                .ToList()
+                .ForEach(v => {
+                    Throw<Exception>
+                        .If(_garageHandler.GetParkedVehicle(v.Value) is null,
+                        $"Unknown error, fail to unpark vehicle {v.Value} at id {v.Id}");
+                }
+                );
         }
 
         private void LoadParked()
