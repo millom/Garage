@@ -7,7 +7,7 @@ namespace Garage.Garage
     {
         IEnumerable<string> GetSearchResult(ISearchFilter filter);
         IVehicle GetParkedVehicle(string regNumber);
-        void ParkVehicle(string regNr, int slotId);
+        IVehicle ParkVehicle(string regNr, int slotId);
         IEnumerable<int> GetFreeSlots();
         IEnumerable<string> GetNotParkedVehicles();
         IEnumerable<string> GetAllParkedVehicles();

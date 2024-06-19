@@ -14,7 +14,7 @@ namespace Garage.Garage
         private readonly IList<IVehicle> _freeVehicles = freeVehicles;
         private readonly IGarage<IVehicle> _garage = garage;
 
-        public void ParkVehicle(
+        public IVehicle ParkVehicle(
             string regNr,
             int slotId)
         {
@@ -25,6 +25,8 @@ namespace Garage.Garage
             }
             _garage.ParkVehicleInSlot(vehicle, slotId);
             _freeVehicles.Remove(vehicle);
+
+            return vehicle;
         }
 
         public IVehicle GetParkedVehicle(

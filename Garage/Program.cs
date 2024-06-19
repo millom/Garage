@@ -21,6 +21,10 @@ using Microsoft.Extensions.Logging;
 
 using Serilog;
 
+
+//using Serilog;
+using Serilog.Formatting.Compact;
+
 using System.Text.Json;
 
 
@@ -44,10 +48,18 @@ if (vehicleDataFilename is null)
 IList<IVehicle>? vehicles = GetVehicleList(vehicleDataFilename);
 if (vehicles is null) return;
 
-//Create Logger
+////Create Logger
+////Log.Logger = new LoggerConfiguration()
+////ILogger<IManager>
 Log.Logger = new LoggerConfiguration()
-    .ReadFrom.Configuration(config.GetSection("Logging"))
-   .CreateLogger();
+    //.ReadFrom.Configuration(config.GetSection("Logging"))
+    //.ReadFrom.Configuration(config.GetSection("Serilog"))
+    //.ReadFrom.Configuration(config.GetSection("Serilog2"))
+    .ReadFrom.Configuration(config)
+    .CreateLogger();
+//Log.Logger = new LoggerConfiguration()
+//    .WriteTo.File(new CompactJsonFormatter(), "..\\..\\..\\LogFiles\\log.txt")
+//    .CreateLogger();
 
 var host = Host.CreateDefaultBuilder(args)
     .ConfigureServices(services =>
@@ -57,18 +69,26 @@ var host = Host.CreateDefaultBuilder(args)
         services.AddSingleton<IGarage<IVehicle>, Garage<IVehicle>>();
         services.AddSingleton<IUI, ConsoleUI>();
         services.AddSingleton<IMyLogger, ListLogger>();
-        services.AddSingleton<ILogger<IManager>, Logger<IManager>>();
+        //services.AddSingleton<ILogger>();
+        services.AddSingleton<Serilog.ILogger>(Log.Logger);
+        //services.AddSingleton<ILogger<IManager>>(Logger);
+        //services.AddLogging AddSingleton<ILogger<IManager>>(Logger);
+        //services.AddLogging(loggingBuilder =>
+        //{
+        //    //loggingBuilder.AddSerilog(Log.Logger, true);
+        //    loggingBuilder.AddConsole(Log.Logger, true);
+        //});
         services.AddSingleton<IList<IVehicle>>(vehicles);
         services.AddSingleton<IList<string>>(new List<string>());
         services.AddSingleton<IVehicle[]>(new Vehicle[garageSize]);
         services.AddSingleton<IDictionary<string, int>>(new Dictionary<string, int>());
         services.AddSingleton<ISearchFilter, SearchFilter>();
         //Logger Initialization
-        services.AddLogging(loggingBuilder =>
-        {
-            //loggingBuilder.AddSerilog(Log.Logger, true);
-            loggingBuilder.AddConsole(Log.Logger, true);
-        });
+        //services.AddLogging(loggingBuilder =>
+        //{
+        //    //loggingBuilder.AddSerilog(Log.Logger, true);
+        //    loggingBuilder.AddConsole(Log.Logger, true);
+        //});
     })
     .UseConsoleLifetime()
     .Build();

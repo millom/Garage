@@ -3,6 +3,9 @@ using Garage.Log;
 using Garage.SearchFilter;
 using Garage.Types;
 using Garage.UI;
+using Garage.Vehicles;
+
+using Microsoft.Extensions.Logging;
 
 namespace Garage.Manager
 {
@@ -10,12 +13,14 @@ namespace Garage.Manager
         IUI ui,
         IGarageHandler garageHandler,
         ISearchFilter searchFilter,
-        IMyLogger logger) : IManager
+        IMyLogger logger,
+        Serilog.ILogger seriLogger) : IManager
     {
         private readonly IUI _ui = ui;
         private readonly IGarageHandler _garageHandler = garageHandler;
         private readonly ISearchFilter _searchFilter = searchFilter;
         private readonly IMyLogger _logger = logger;
+        private readonly Serilog.ILogger _seriLogger = seriLogger;
 
         public void Run()
         {
@@ -29,7 +34,9 @@ namespace Garage.Manager
             _ui.WriteLine("0: Park vehicle");
             _ui.WriteLine("1: Get parked vehicle");
             _ui.WriteLine("2: Show parked vehicles");
+            _ui.WriteLine("3: Show log");
             _ui.WriteLine("9: Exit program");
+            _ui.Write("> ");
 
             var command = _ui.ReadLine();
 
@@ -44,11 +51,22 @@ namespace Garage.Manager
                 case "2":
                     while (ShowParkedVehiclesMenu()) ;
                     break;
+                case "3":
+                    ShowLog();
+                    break;
                 default:
                     break;
             }
 
             return command != "9";
+        }
+
+        private void ShowLog()
+        {
+            _logger.PrintLog();
+            //_ui.WriteSpaceLine();
+            _ui.WriteLine("Press enter to continue");
+            _ui.ReadLine();
         }
 
         public bool ParkMenu()
@@ -59,6 +77,7 @@ namespace Garage.Manager
             PrintCarsToPark();
             _ui.WriteLine("Park car: <regNr, parkingSlot> (Ex: ABC123, 0)");
             _ui.WriteLine("9: Exit menu");
+            _ui.Write("> ");
 
             var command = _ui.ReadLine();
             if (!string.IsNullOrWhiteSpace(command) &&
@@ -71,11 +90,26 @@ namespace Garage.Manager
                     {
                         var regNbr = commandSplit[0];
                         int slotId = int.Parse(commandSplit[1]);
-                        _garageHandler.ParkVehicle(regNbr, slotId);
+                        var vehicle = _garageHandler.ParkVehicle(regNbr, slotId);
+
+                        _logger.AddToLog($"In slot {slotId}: Parked vehicle <{vehicle}>");
+                        _ui.WriteLine($"In slot {slotId}: Parked vehicle <{vehicle}>");
+                        _seriLogger.Information($"In slot {slotId}: Parked vehicle <{vehicle}>");
+                        _ui.WriteLine("Press enter to continue");
+                        _ui.ReadLine();
                     }
-                    catch (NullReferenceException ex)
+                    //catch (NullReferenceException ex)
+                    //{
+                    //    _logger.AddToLog(ex.Message);
+                    //    _seriLogger.LogError(ex, ex.Message);
+                    //}
+                    catch (Exception ex)
                     {
                         _logger.AddToLog(ex.Message);
+                        _ui.WriteLine(ex.Message);
+                        _seriLogger.Error(ex, ex.Message);
+                        _ui.WriteLine("Press enter to continue");
+                        _ui.ReadLine();
                     }
                 }
             }
@@ -115,12 +149,32 @@ namespace Garage.Manager
             _ui.WriteSpaceLine();
             _ui.WriteLine("<regNr>: Unpark car Ex: ABC123");
             _ui.WriteLine("9: Exit menu");
+            _ui.Write("> ");
 
             var command = _ui.ReadLine();
 
             if (!string.IsNullOrWhiteSpace(command) && command != "9")
             {
-                _garageHandler.GetParkedVehicle(command);
+                try
+                {
+                    var vehicle = _garageHandler.GetParkedVehicle(command);
+
+                    _logger.AddToLog($"Unparked vehicle {vehicle}");
+                    _ui.WriteLine($"Unparked vehicle {vehicle}");
+                    _seriLogger.Information($"Unparked vehicle {vehicle}");
+                    //Log.Logger.LogInformation($"Unparked vehicle {vehicle}");
+                    _ui.WriteLine("Press enter to continue");
+                    _ui.ReadLine();
+                }
+                catch (Exception ex)
+                {
+                    _logger.AddToLog(ex.Message);
+                    _ui.WriteLine(ex.Message);
+                    _seriLogger.Error(ex, ex.Message);
+                    //Log.Logger.LogError(ex, ex.Message);
+                    _ui.WriteLine("Press enter to continue");
+                    _ui.ReadLine();
+                }
             }
 
             return command != "9";
@@ -149,6 +203,7 @@ namespace Garage.Manager
             _ui.WriteSpaceLine();
             _ui.WriteLine("5: Do search");
             _ui.WriteLine("9: Exit menu");
+            _ui.Write("> ");
 
             var command = _ui.ReadLine();
 
@@ -185,6 +240,7 @@ namespace Garage.Manager
         private void SetExtraProp()
         {
             _ui.WriteLine("Set Extra property filter");
+            _ui.Write("> ");
             _searchFilter.ExtraProp = GetNumerOrNull(_ui.ReadLine());
         }
 
@@ -205,12 +261,14 @@ namespace Garage.Manager
         private void SetWeels()
         {
             _ui.WriteLine("Set Number of weels filter");
+            _ui.Write("> ");
             _searchFilter.Weels = GetNumerOrNull(_ui.ReadLine());
         }
 
         private void SetColor()
         {
             _ui.WriteLine("Set Color filter");
+            _ui.Write("> ");
             try
             {
                 _searchFilter.Color = (ColorType?)GetNumerOrNull(_ui.ReadLine());
@@ -225,6 +283,7 @@ namespace Garage.Manager
         private void SetRegNumber()
         {
             _ui.WriteLine("Set RegNumber filter");
+            _ui.Write("> ");
             var regNumber = _ui.ReadLine();
             _searchFilter.RegNumber = !string.IsNullOrWhiteSpace(regNumber)
                 ? regNumber
@@ -243,21 +302,5 @@ namespace Garage.Manager
             _ui.WriteLine("Tryck enter för att fortsätta");
             _ui.ReadLine();
         }
-
-        //public bool SearchParkedMenu()
-        //{
-        //    _ui.Clear();
-        //    return true;
-        //}
-
-        //public void PrintNotParkedMenu()
-        //{
-
-        //}
-
-        //public void PrintSeeParked()
-        //{
-
-        //}
     }
 }
