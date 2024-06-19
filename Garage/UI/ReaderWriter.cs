@@ -1,6 +1,9 @@
-﻿namespace Garage.UI
+﻿using System.Runtime.CompilerServices;
+
+//[assembly: InternalsVisibleTo("Garage.Test")]
+namespace Garage.UI
 {
-    internal class ReaderWriter(IUI ui) : IReaderWriter
+    public class ReaderWriter(IUI ui) : IReaderWriter
     {
         private readonly IUI _ui = ui;
 
