@@ -12,6 +12,5 @@ namespace Garage.SearchFilter
         int? Weels { get; set; }
         void ResetAll();
         string ToString();
-        PropertyInfo[] GetPublicInstanceProps();
     }
 }

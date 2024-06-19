@@ -11,11 +11,6 @@ namespace Garage.SearchFilter
         public int? Weels { get; set; }
         public int? ExtraProp { get; set; }
 
-        public PropertyInfo[] GetPublicInstanceProps()
-        {
-            return GetType().GetProperties(BindingFlags.Instance | BindingFlags.Public);
-        }
-
         public void ResetAll()
         {
             RegNumber = null;
