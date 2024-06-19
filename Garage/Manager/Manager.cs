@@ -88,7 +88,47 @@ namespace Garage.Manager
 
         private void LoadParked()
         {
-            throw new NotImplementedException();
+            try
+            {
+                DoLoadParked();
+                var message = $"Loaded Parked vehicles from file";
+                _logger.AddToLog(message);
+                _ui.WriteLine(message);
+                _seriLogger.Information(message);
+                _ui.WriteLine("Press enter to continue");
+                _ui.ReadLine();
+            }
+            catch (Exception ex)
+            {
+                _logger.AddToLog(ex.Message);
+                _ui.WriteLine(ex.Message);
+                _seriLogger.Error(ex, ex.Message);
+                _ui.WriteLine("Press enter to continue");
+                _ui.ReadLine();
+            }
+        }
+
+        private void DoLoadParked()
+        {
+            IList<IdValuePair<string>>? jsonMap =
+                JsonHandler.GetVehicleList<IdValuePair<string>>(saveFileName!);
+            Throw<NullReferenceException>
+                .If(jsonMap is null, "No parked vehicles to load");
+            Throw<Exception>
+                .If(jsonMap!.Count() == 0, "No parked vehicles to load");
+
+            if (jsonMap == null)
+            {
+                return;
+            }
+            jsonMap
+                .ToList()
+                .ForEach(v => {
+                    Throw<Exception>
+                        .If(_garageHandler.ParkVehicle(v.Value, v.Id) is null,
+                        $"Unknown error, can't park vehicle {v.Value} at id {v.Id}");
+                    }
+                );
         }
 
         private void SaveParked()

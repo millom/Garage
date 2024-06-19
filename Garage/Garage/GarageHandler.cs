@@ -76,9 +76,11 @@ namespace Garage.Garage
             return _garage
                 .Select((v, i) => new { item = v, idx = i })
                 .Where(x => x.item is not null)
-                .Select(x => new IdValuePair<string>(
-                    x.idx,
-                    x.item.RegNumber));
+                .Select(x => new IdValuePair<string>
+                {
+                    Id = x.idx,
+                    Value = x.item.RegNumber
+                });
         }
 
         public IEnumerable<string> GetAllParkedVehicles()
