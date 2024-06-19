@@ -44,7 +44,7 @@ namespace Garage.Vehicles
 
         public override string ToString()
         {
-            return $"Reg:{RegNumber}, Color:{Color}, Weels:{Weels}";
+            return $"Reg:{RegNumber}, Color:{Color}, Weels:{Weels} Type:{GetType().Name}";
         }
     }
 }
