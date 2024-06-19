@@ -73,6 +73,15 @@ namespace Garage.Garage
             return _parkingPlaces[id];
         }
 
+        public IEnumerable<int> GetEmptyIndexes()
+        {
+            for (int i = 0; i < _parkingPlaces.Length; i++)
+            {
+                if (_parkingPlaces[i] is not null) continue;
+                yield return  i;
+            };
+        }
+
         public IEnumerator<T> GetEnumerator()
         {
             foreach (var parkingPlace in _parkingPlaces)
@@ -85,6 +94,8 @@ namespace Garage.Garage
 
         private void ParkVehicle(T vehicle, int slotId)
         {
+            if (vehicle is null) throw new ArgumentNullException(nameof(vehicle));
+
             _regNumberSlotDict[vehicle.RegNumber] = slotId;
             _parkingPlaces[slotId] = vehicle;
         }

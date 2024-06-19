@@ -11,5 +11,6 @@ namespace Garage.Garage
         IEnumerable<int> GetFreeSlots();
         IEnumerable<string> GetNotParkedVehicles();
         IEnumerable<string> GetAllParkedVehicles();
+        IEnumerable<int> GetEmptyIndexes();
     }
 }

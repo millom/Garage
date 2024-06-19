@@ -12,5 +12,6 @@ namespace Garage.Garage
         T? VehicleAt(int id);
         void ParkVehicleInSlot(T? vehicle, int slotId);
         T UnParkVehicle(string regNumber);
+        IEnumerable<int> GetEmptyIndexes();
     }
 }

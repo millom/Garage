@@ -73,9 +73,11 @@ namespace Garage.Manager
         {
             _ui.Clear();
             _ui.WriteLine("--- PARK VEHICLE MENU ---");
+            _ui.WriteSpaceLine();
+            _ui.WriteLine("Free parking slots");
             PrintFreeSlots();
             PrintCarsToPark();
-            _ui.WriteLine("Park car: <regNr, parkingSlot> (Ex: ABC123, 0)");
+            _ui.WriteLine("<regNr, parkingSlot>: Park regNr on parkingSlot : (Ex: ABC123, 0)");
             _ui.WriteLine("9: Exit menu");
             _ui.Write("> ");
 
@@ -98,11 +100,6 @@ namespace Garage.Manager
                         _ui.WriteLine("Press enter to continue");
                         _ui.ReadLine();
                     }
-                    //catch (NullReferenceException ex)
-                    //{
-                    //    _logger.AddToLog(ex.Message);
-                    //    _seriLogger.LogError(ex, ex.Message);
-                    //}
                     catch (Exception ex)
                     {
                         _logger.AddToLog(ex.Message);
@@ -131,10 +128,8 @@ namespace Garage.Manager
 
         private void PrintFreeSlots()
         {
-            _ui.WriteSpaceLine();
-            _ui.WriteLine("Free parking slots");
             _garageHandler
-                .GetFreeSlots()
+                .GetEmptyIndexes()
                 .ToList()
                 .ForEach(id => _ui.Write($"{id} "));
             _ui.WriteLine("");

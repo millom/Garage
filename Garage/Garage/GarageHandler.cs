@@ -53,9 +53,14 @@ namespace Garage.Garage
 
         public IEnumerable<int> GetFreeSlots()
         {
+            var let = _garage
+                .Select((v, i) => new { item = v, idx = i })
+                //.Where(x => x.item is null)
+                //.Select(x => x.idx)
+                .ToList();
             return _garage
                 .Select((v, i) => new { item = v, idx = i })
-                .Where(x => x.item == null)
+                .Where(x => x.item is null)
                 .Select(x => x.idx);
         }
 
@@ -71,6 +76,11 @@ namespace Garage.Garage
             return _garage
                 .Where(v => v is not null)
                 .Select(v => v.ToString());
+        }
+
+        public IEnumerable<int> GetEmptyIndexes()
+        {
+            return _garage.GetEmptyIndexes();
         }
     }
 }
