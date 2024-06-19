@@ -3,6 +3,7 @@ using Garage.Log;
 using Garage.SearchFilter;
 using Garage.Types;
 using Garage.UI;
+using Garage.Utils;
 using Garage.Vehicles;
 
 using Microsoft.Extensions.Logging;
@@ -24,6 +25,9 @@ namespace Garage.Manager
         private readonly IMyLogger _logger = logger;
         private readonly Serilog.ILogger _seriLogger = seriLogger;
 
+        // Must be set in Program at startup
+        private static string? saveFileName;
+
         public void Run()
         {
             while (MainMenu()) ;
@@ -37,6 +41,8 @@ namespace Garage.Manager
             _ui.WriteLine("1: Get parked vehicle");
             _ui.WriteLine("2: Show parked vehicles");
             _ui.WriteLine("3: Show log");
+            _ui.WriteLine("4: Save");
+            _ui.WriteLine("5: Load");
             _ui.WriteLine("9: Exit program");
             _ui.Write("> ");
 
@@ -56,11 +62,39 @@ namespace Garage.Manager
                 case "3":
                     ShowLog();
                     break;
+                case "4":
+                    SaveParked();
+                    break;
+                case "5":
+                    LoadParked();
+                    break;
                 default:
                     break;
             }
 
             return command != "9";
+        }
+
+        private void LoadParked()
+        {
+            throw new NotImplementedException();
+        }
+
+        private void SaveParked()
+        {
+            var parked = _garageHandler
+                .GetParkedIdxRegNumber()
+                .ToArray();
+            if (parked is null)
+            {
+                throw new NullReferenceException("Did't find any parked vehicles");
+            }
+            else if (parked.Length == 0)
+            {
+                throw new Exception("No parked vehicles to save");
+            }
+
+            JsonHandler.CreateVehicleJsonFileFromList(saveFileName!, parked);
         }
 
         private void ShowLog()
@@ -329,6 +363,11 @@ namespace Garage.Manager
             _ui.WriteSpaceLine();
             _ui.WriteLine("Tryck enter för att fortsätta");
             _ui.ReadLine();
+        }
+
+        internal static void SetSaveStageFilename(string filename)
+        {
+            saveFileName = filename;
         }
     }
 }
