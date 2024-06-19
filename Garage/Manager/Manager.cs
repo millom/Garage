@@ -263,6 +263,7 @@ namespace Garage.Manager
         private void SetColor()
         {
             _ui.WriteLine("Set Color filter");
+            PrintAllColors();
             _ui.Write("> ");
             try
             {
@@ -273,6 +274,17 @@ namespace Garage.Manager
                 _searchFilter.Color = null;
                 return;
             }
+        }
+
+        private void PrintAllColors()
+        {
+            _ui.WriteSpaceLine();
+            var allColors = Enum.GetValues(typeof(ColorType));
+            foreach (var color in allColors)
+            {
+                _ui.WriteLine($"{(int)color} {color}");
+            }
+            _ui.WriteSpaceLine();
         }
 
         private void SetRegNumber()
