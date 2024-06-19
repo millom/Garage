@@ -16,6 +16,8 @@ using Microsoft.Extensions.Hosting;
 
 using Serilog;
 
+using System.Collections.Generic;
+
 #if CREATE_NEW_JSON_FILE
 // Read instructions inside this function
 JsonHandler.CreateNewJsonFile(@"all_vehicles.json");
@@ -32,11 +34,12 @@ string? vehicleDataFilename = config.GetValue<string>("garage:vehicle_filename")
 if (vehicleDataFilename is null)
     return;
 
-string? filename = config.GetValue<string>("garage:save_stage_filename");
+string filename = config.GetValue<string>("garage:save_stage_filename")!;
 Manager.SetSaveStageFilename(filename);
 
-IList<IVehicle>? vehicles = JsonHandler.GetVehicleList(vehicleDataFilename);
-if (vehicles is null) return;
+IList<Vehicle>? jsonVehicles = JsonHandler.GetVehicleList<Vehicle>(vehicleDataFilename);
+if (jsonVehicles is null) return;
+IList<IVehicle> vehicles = new List<IVehicle>(jsonVehicles);
 
 Log.Logger = new LoggerConfiguration()
     .ReadFrom.Configuration(config)

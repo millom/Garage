@@ -6,17 +6,17 @@ namespace Garage.Utils
 {
     internal static class JsonHandler
     {
-        internal static IList<IVehicle>? GetVehicleList(string vehicleDataFilename)
+        internal static IList<T>? GetVehicleList<T>(string vehicleDataFilename) where T : class
         {
-            List<Vehicle>? jsonList;
+            List<T>? jsonList;
             using (StreamReader r = new(vehicleDataFilename))
             {
                 string json = r.ReadToEnd();
-                jsonList = JsonSerializer.Deserialize<List<Vehicle>>(json)?.ToList();
+                jsonList = JsonSerializer.Deserialize<List<T>>(json)?.ToList();
             }
             if (jsonList is null) return null;
 
-            return new List<IVehicle>(jsonList);
+            return new List<T>(jsonList);
         }
 
         internal static void CreateNewJsonFile(string jsonFilename)
