@@ -63,13 +63,13 @@ namespace Garage.Utils
             ];
         }
 
-        internal static void CreateVehicleJsonFileFromList(string jsonFilename, IVehicle[] list)
+        internal static void CreateVehicleJsonFileFromList<T>(string jsonFilename, T[] list) where T : class
         {
             string vehicleJson = JsonSerialize(list);
             File.WriteAllText(jsonFilename, vehicleJson);
         }
 
-        internal static string JsonSerialize(IVehicle[] list)
+        internal static string JsonSerialize<T>(T[] list) where T: class
         {
             var vehicleJson = JsonSerializer.Serialize<object[]>(
                 value: list,
