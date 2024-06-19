@@ -9,10 +9,10 @@ using Xunit.Sdk;
 
 namespace Garage.Test.Utils
 {
-    public class ExernalSlotTestDataAttribute
+    public class ExernalToStringTestDataAttribute
         : BaseExernalTestDataAttribute
     {
-        public ExernalSlotTestDataAttribute()
-            : base("TestData/SlotsTestData.csv") { }
+        public ExernalToStringTestDataAttribute()
+            : base("TestData/ToStringTestData.csv") {}
     }
 }

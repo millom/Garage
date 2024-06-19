@@ -33,7 +33,7 @@ namespace Garage.Vehicles
 
         public override string ToString()
         {
-            return $"{base.ToString()} Seats:{Seats}";
+            return $"{base.ToString()}, Seats:{Seats}";
         }
     }
 }

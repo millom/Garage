@@ -12,21 +12,20 @@ namespace Garage.Vehicles
     //[JsonPolymorphic]
     //[Json]
     [JsonDerivedType(typeof(Car), typeDiscriminator: "Car")]
-    internal class Car : Vehicle, ICar
+    internal class Car(
+        string regNumber,
+        ColorType color,
+        int weels,
+        FuelType fueltype) : Vehicle(regNumber, color, weels), ICar
     {
         [JsonPropertyOrder(4)]
-        public FuelType Fueltype { get; set; }
+        public FuelType Fueltype { get; set; } = (int)fueltype >= 0
+            ? fueltype
+            : throw new ArgumentOutOfRangeException(
+                $"Argument fuelType={(int)fueltype} (must be >= 0)"
+              );
 
-        public Car(
-            string regNumber,
-            ColorType color,
-            int weels,
-            FuelType fueltype) : base(regNumber, color, weels)
-        {
-            Fueltype = fueltype;
-        }
-
-        [JsonConstructor]
+        //[JsonConstructor]
         public Car() : this("aabc123", ColorType.BLUE, 3, FuelType.ELECTRICITY)
         {
             
@@ -34,7 +33,7 @@ namespace Garage.Vehicles
 
         public override string ToString()
         {
-            return $"{base.ToString()} FuelType:{Fueltype}";
+            return $"{base.ToString()}, FuelType:{Fueltype}";
         }
     }
 }

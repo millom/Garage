@@ -34,7 +34,7 @@ namespace Garage.Vehicles
 
         public override string ToString()
         {
-            return $"{base.ToString()} Length:{Length}";
+            return $"{base.ToString()}, Length:{Length}";
         }
     }
 }

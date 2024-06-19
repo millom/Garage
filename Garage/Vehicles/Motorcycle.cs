@@ -18,10 +18,10 @@ namespace Garage.Vehicles
         : Vehicle(regNumber, color, weels), IVehicle, IMotorcycle
     {
         [JsonPropertyOrder(4)]
-        public int CylinderVolume { get; set; } = cylinderVolume >= 0
+        public int CylinderVolume { get; set; } = cylinderVolume > 0
             ? cylinderVolume
             : throw new ArgumentOutOfRangeException(
-                $"Argument engines={cylinderVolume} (must be >= 0)"
+                $"Argument cylinderVolume={cylinderVolume} (must be > 0)"
               );
 
         public Motorcycle() : this("abc123", ColorType.BLUE, 3, 1)
@@ -31,7 +31,7 @@ namespace Garage.Vehicles
 
         public override string ToString()
         {
-            return $"{base.ToString()} CylinderVolume:{CylinderVolume}";
+            return $"{base.ToString()}, CylinderVolume:{CylinderVolume}";
         }
     }
 }

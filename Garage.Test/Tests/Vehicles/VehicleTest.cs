@@ -18,12 +18,12 @@ namespace Garage.Test.Tests.Vehicles
             string regNumber)
         {
             // Arrange & Act
-            IVehicle vehicle = new Car(regNumber, color, weels, FuelType.GASOLINE);
+            IVehicle vehicle = new Car(regNumber, _color, _weels, FuelType.GASOLINE);
 
             // Assert
             Assert.Equal(regNumber, vehicle.RegNumber);
-            Assert.Equal(color, vehicle.Color);
-            Assert.Equal(weels, vehicle.Weels);
+            Assert.Equal(_color, vehicle.Color);
+            Assert.Equal(_weels, vehicle.Weels);
         }
 
         [Theory]
@@ -37,7 +37,7 @@ namespace Garage.Test.Tests.Vehicles
 
             // Act
             ArgumentException ex = Assert.Throws<ArgumentException>(
-                () => new Car(badRegNumber, color, weels, FuelType.GASOLINE));
+                () => new Car(badRegNumber, _color, _weels, FuelType.GASOLINE));
 
             // Assert
             Assert.Equal(expectedMessage, ex.Message);

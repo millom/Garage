@@ -40,11 +40,11 @@ namespace Garage.Vehicles
         }
 
         //[JsonConstructor]
-        public Vehicle() : this("abc123", ColorType.BLUE, 3) {}
+        //public Vehicle() : this("abc123", ColorType.BLUE, 3) {}
 
         public override string ToString()
         {
-            return $"Reg:{RegNumber}, Color:{Color}, Weels:{Weels} Type:{GetType().Name}";
+            return $"Reg:{RegNumber}, Color:{Color}, Weels:{Weels}, Type:{GetType().Name}";
         }
     }
 }
