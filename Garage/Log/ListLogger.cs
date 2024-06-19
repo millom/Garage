@@ -9,11 +9,11 @@ using System.Threading.Tasks;
 namespace Garage.Log
 {
     internal class ListLogger(
-        IUI ui,
+        IReaderWriter rw,
         IList<string> logList)
         : IMyLogger
     {
-        private IUI _ui = ui;
+        private IReaderWriter _rw = rw;
         private readonly IList<string> _logList = logList;
 
         public void AddToLog(string message)
@@ -23,12 +23,12 @@ namespace Garage.Log
 
         public void PrintLog()
         {
-            _ui.WriteLine("Print log");
-            _ui.WriteSpaceLine();
+            _rw.WriteLine("Print log");
+            _rw.WriteSpaceLine();
             _logList
                 .ToList()
-                .ForEach(log => _ui.WriteLine(log));
-            _ui.WriteSpaceLine();
+                .ForEach(log => _rw.WriteLine(log));
+            _rw.WriteSpaceLine();
         }
     }
 }

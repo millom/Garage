@@ -7,49 +7,56 @@ using Garage.UI;
 using Garage.Utils;
 using Garage.Vehicles;
 
-using Microsoft.Extensions.Logging;
+using Serilog;
 
-using System;
 using System.Reflection;
 
 namespace Garage.Manager
 {
     internal class Manager(
-        IUI ui,
+        IReaderWriter rw,
         IGarageHandler garageHandler,
         ISearchFilter searchFilter,
         IMyLogger logger,
-        Serilog.ILogger seriLogger) : IManager
+        ILogger seriLogger) : IManager
     {
-        private readonly IUI _ui = ui;
+        private readonly IReaderWriter _rw = rw;
         private readonly IGarageHandler _garageHandler = garageHandler;
         private readonly ISearchFilter _searchFilter = searchFilter;
         private readonly IMyLogger _logger = logger;
-        private readonly Serilog.ILogger _seriLogger = seriLogger;
+        private readonly ILogger _seriLogger = seriLogger;
 
-        // Must be set in Program at startup
+        // Must be set before starting the program
         private static string? saveFileName;
 
         public void Run()
         {
+            if (saveFileName is null)
+            {
+                var message = "Manditory field 'saveFileName' not set, exit program";
+                _rw.WriteLine(message);
+                _seriLogger.Information(message);
+                _rw.WriteLine("Press enter to continue");
+                _rw.ReadLine();
+            }
             while (MainMenu()) ;
         }
 
         public bool MainMenu()
         {
-            _ui.Clear();
-            _ui.WriteLine("--- MAIN MENU ---");
-            _ui.WriteLine("0: Park vehicle");
-            _ui.WriteLine("1: Get parked vehicle");
-            _ui.WriteLine("2: Show parked vehicles");
-            _ui.WriteLine("3: Show log");
-            _ui.WriteLine("4: Save");
-            _ui.WriteLine("5: Load");
-            _ui.WriteLine("6: Unpark all");
-            _ui.WriteLine("9: Exit program");
-            _ui.Write("> ");
+            _rw.Clear();
+            _rw.WriteLine("--- MAIN MENU ---");
+            _rw.WriteLine("0: Park vehicle");
+            _rw.WriteLine("1: Get parked vehicle");
+            _rw.WriteLine("2: Show parked vehicles");
+            _rw.WriteLine("3: Show log");
+            _rw.WriteLine("4: Save");
+            _rw.WriteLine("5: Load");
+            _rw.WriteLine("6: Unpark all");
+            _rw.WriteLine("9: Exit program");
+            _rw.WriteMarker();
 
-            var command = _ui.ReadLine();
+            var command = _rw.ReadLine();
 
             switch (command)
             {
@@ -88,18 +95,18 @@ namespace Garage.Manager
                 DoEmptyParked();
                 var message = $"Unpark all vehicles";
                 _logger.AddToLog(message);
-                _ui.WriteLine(message);
+                _rw.WriteLine(message);
                 _seriLogger.Information(message);
-                _ui.WriteLine("Press enter to continue");
-                _ui.ReadLine();
+                _rw.WriteLine("Press enter to continue");
+                _rw.ReadLine();
             }
             catch (Exception ex)
             {
                 _logger.AddToLog(ex.Message);
-                _ui.WriteLine(ex.Message);
+                _rw.WriteLine(ex.Message);
                 _seriLogger.Error(ex, ex.Message);
-                _ui.WriteLine("Press enter to continue");
-                _ui.ReadLine();
+                _rw.WriteLine("Press enter to continue");
+                _rw.ReadLine();
             }
         }
 
@@ -129,18 +136,18 @@ namespace Garage.Manager
                 DoLoadParked();
                 var message = $"Loaded Parked vehicles from file";
                 _logger.AddToLog(message);
-                _ui.WriteLine(message);
+                _rw.WriteLine(message);
                 _seriLogger.Information(message);
-                _ui.WriteLine("Press enter to continue");
-                _ui.ReadLine();
+                _rw.WriteLine("Press enter to continue");
+                _rw.ReadLine();
             }
             catch (Exception ex)
             {
                 _logger.AddToLog(ex.Message);
-                _ui.WriteLine(ex.Message);
+                _rw.WriteLine(ex.Message);
                 _seriLogger.Error(ex, ex.Message);
-                _ui.WriteLine("Press enter to continue");
-                _ui.ReadLine();
+                _rw.WriteLine("Press enter to continue");
+                _rw.ReadLine();
             }
         }
 
@@ -174,18 +181,18 @@ namespace Garage.Manager
                 DoSaveParked();
                 var message = $"Saved all Parked vehicles";
                 _logger.AddToLog(message);
-                _ui.WriteLine(message);
+                _rw.WriteLine(message);
                 _seriLogger.Information(message);
-                _ui.WriteLine("Press enter to continue");
-                _ui.ReadLine();
+                _rw.WriteLine("Press enter to continue");
+                _rw.ReadLine();
             }
             catch (Exception ex)
             {
                 _logger.AddToLog(ex.Message);
-                _ui.WriteLine(ex.Message);
+                _rw.WriteLine(ex.Message);
                 _seriLogger.Error(ex, ex.Message);
-                _ui.WriteLine("Press enter to continue");
-                _ui.ReadLine();
+                _rw.WriteLine("Press enter to continue");
+                _rw.ReadLine();
             }
         }
 
@@ -206,23 +213,23 @@ namespace Garage.Manager
         {
             _logger.PrintLog();
             //_ui.WriteSpaceLine();
-            _ui.WriteLine("Press enter to continue");
-            _ui.ReadLine();
+            _rw.WriteLine("Press enter to continue");
+            _rw.ReadLine();
         }
 
         public bool ParkMenu()
         {
-            _ui.Clear();
-            _ui.WriteLine("--- PARK VEHICLE MENU ---");
-            _ui.WriteSpaceLine();
-            _ui.WriteLine("Free parking slots");
+            _rw.Clear();
+            _rw.WriteLine("--- PARK VEHICLE MENU ---");
+            _rw.WriteSpaceLine();
+            _rw.WriteLine("Free parking slots");
             PrintFreeSlots();
             PrintCarsToPark();
-            _ui.WriteLine("<regNr, parkingSlot>: Park regNr on parkingSlot : (Ex: ABC123, 0)");
-            _ui.WriteLine("9: Exit menu");
-            _ui.Write("> ");
+            _rw.WriteLine("<regNr, parkingSlot>: Park regNr on parkingSlot : (Ex: ABC123, 0)");
+            _rw.WriteLine("9: Exit menu");
+            _rw.WriteMarker();
 
-            var command = _ui.ReadLine();
+            var command = _rw.ReadLine();
             if (!string.IsNullOrWhiteSpace(command) &&
                 command != "9" && command.Contains(", "))
             {
@@ -236,18 +243,18 @@ namespace Garage.Manager
                         var vehicle = _garageHandler.ParkVehicle(regNbr, slotId);
 
                         _logger.AddToLog($"In slot {slotId}: Parked vehicle <{vehicle}>");
-                        _ui.WriteLine($"In slot {slotId}: Parked vehicle <{vehicle}>");
+                        _rw.WriteLine($"In slot {slotId}: Parked vehicle <{vehicle}>");
                         _seriLogger.Information($"In slot {slotId}: Parked vehicle <{vehicle}>");
-                        _ui.WriteLine("Press enter to continue");
-                        _ui.ReadLine();
+                        _rw.WriteLine("Press enter to continue");
+                        _rw.ReadLine();
                     }
                     catch (Exception ex)
                     {
                         _logger.AddToLog(ex.Message);
-                        _ui.WriteLine(ex.Message);
+                        _rw.WriteLine(ex.Message);
                         _seriLogger.Error(ex, ex.Message);
-                        _ui.WriteLine("Press enter to continue");
-                        _ui.ReadLine();
+                        _rw.WriteLine("Press enter to continue");
+                        _rw.ReadLine();
                     }
                 }
             }
@@ -257,14 +264,14 @@ namespace Garage.Manager
 
         private void PrintCarsToPark()
         {
-            _ui.WriteSpaceLine();
-            _ui.WriteLine("Vehicles to park");
+            _rw.WriteSpaceLine();
+            _rw.WriteLine("Vehicles to park");
             _garageHandler
                 .GetNotParkedVehicles()
                 .Where(x => x is not null)
                 .ToList()
-                .ForEach(x => _ui.WriteLine(x));
-            _ui.WriteSpaceLine();
+                .ForEach(x => _rw.WriteLine(x));
+            _rw.WriteSpaceLine();
         }
 
         private void PrintFreeSlots()
@@ -272,22 +279,22 @@ namespace Garage.Manager
             _garageHandler
                 .GetEmptyIndexes()
                 .ToList()
-                .ForEach(id => _ui.Write($"{id} "));
-            _ui.WriteLine("");
+                .ForEach(id => _rw.Write($"{id} "));
+            _rw.WriteLine("");
         }
 
         public bool UnparkMenu()
         {
-            _ui.Clear();
-            _ui.WriteLine("--- UNPARK VEHICLE MENU --");
-            _ui.WriteSpaceLine();
+            _rw.Clear();
+            _rw.WriteLine("--- UNPARK VEHICLE MENU --");
+            _rw.WriteSpaceLine();
             PrintParkedCars();
-            _ui.WriteSpaceLine();
-            _ui.WriteLine("<regNr>: Unpark car Ex: ABC123");
-            _ui.WriteLine("9: Exit menu");
-            _ui.Write("> ");
+            _rw.WriteSpaceLine();
+            _rw.WriteLine("<regNr>: Unpark car Ex: ABC123");
+            _rw.WriteLine("9: Exit menu");
+            _rw.WriteMarker();
 
-            var command = _ui.ReadLine();
+            var command = _rw.ReadLine();
 
             if (!string.IsNullOrWhiteSpace(command) && command != "9")
             {
@@ -296,20 +303,20 @@ namespace Garage.Manager
                     var vehicle = _garageHandler.GetParkedVehicle(command);
 
                     _logger.AddToLog($"Unparked vehicle {vehicle}");
-                    _ui.WriteLine($"Unparked vehicle {vehicle}");
+                    _rw.WriteLine($"Unparked vehicle {vehicle}");
                     _seriLogger.Information($"Unparked vehicle {vehicle}");
                     //Log.Logger.LogInformation($"Unparked vehicle {vehicle}");
-                    _ui.WriteLine("Press enter to continue");
-                    _ui.ReadLine();
+                    _rw.WriteLine("Press enter to continue");
+                    _rw.ReadLine();
                 }
                 catch (Exception ex)
                 {
                     _logger.AddToLog(ex.Message);
-                    _ui.WriteLine(ex.Message);
+                    _rw.WriteLine(ex.Message);
                     _seriLogger.Error(ex, ex.Message);
                     //Log.Logger.LogError(ex, ex.Message);
-                    _ui.WriteLine("Press enter to continue");
-                    _ui.ReadLine();
+                    _rw.WriteLine("Press enter to continue");
+                    _rw.ReadLine();
                 }
             }
 
@@ -318,30 +325,30 @@ namespace Garage.Manager
 
         private void PrintParkedCars()
         {
-            _ui.WriteLine("Parked vehicles");
+            _rw.WriteLine("Parked vehicles");
             _garageHandler.GetAllParkedVehicles()
                 .ToList()
-                .ForEach(x => _ui.WriteLine(x));
+                .ForEach(x => _rw.WriteLine(x));
         }
 
         public bool ShowParkedVehiclesMenu()
         {
-            _ui.Clear();
-            _ui.WriteLine("--- SEARCH PARKED VEHICLES MENU --");
-            _ui.WriteLine($"Search Params");
-            _ui.WriteLine(_searchFilter.ToString());
-            _ui.WriteSpaceLine();
-            _ui.WriteLine("0: Set RegNumber param");
-            _ui.WriteLine("1: Set Color param");
-            _ui.WriteLine("2: Set Weels param");
-            _ui.WriteLine("3: Set ExtraProp param");
-            _ui.WriteLine("4: Reset filter");
-            _ui.WriteSpaceLine();
-            _ui.WriteLine("5: Do search");
-            _ui.WriteLine("9: Exit menu");
-            _ui.Write("> ");
+            _rw.Clear();
+            _rw.WriteLine("--- SEARCH PARKED VEHICLES MENU --");
+            _rw.WriteLine($"Search Params");
+            _rw.WriteLine(_searchFilter.ToString());
+            _rw.WriteSpaceLine();
+            _rw.WriteLine("0: Set RegNumber param");
+            _rw.WriteLine("1: Set Color param");
+            _rw.WriteLine("2: Set Weels param");
+            _rw.WriteLine("3: Set ExtraProp param");
+            _rw.WriteLine("4: Reset filter");
+            _rw.WriteSpaceLine();
+            _rw.WriteLine("5: Do search");
+            _rw.WriteLine("9: Exit menu");
+            _rw.WriteMarker();
 
-            var command = _ui.ReadLine();
+            var command = _rw.ReadLine();
 
             switch (command)
             {
@@ -375,27 +382,27 @@ namespace Garage.Manager
 
         private void SetExtraProp()
         {
-            _ui.WriteLine("Set Extra property filter");
+            _rw.WriteLine("Set Extra property filter");
             PrintAllProperties(nameof(Car), typeof(ICar).GetProperties());
             PrintAllEnumValues(typeof(FuelType));
             PrintAllProperties(nameof(Boat), typeof(IBoat).GetProperties());
             PrintAllProperties(nameof(Airplane), typeof(IAirplane).GetProperties());
             PrintAllProperties(nameof(Motorcycle), typeof(IMotorcycle).GetProperties());
             PrintAllProperties(nameof(Bus), typeof(IBus).GetProperties());
-            _ui.WriteSpaceLine();
-            _ui.Write("> ");
-            _searchFilter.ExtraProp = GetNumerOrNull(_ui.ReadLine());
+            _rw.WriteSpaceLine();
+            _rw.WriteMarker();
+            _searchFilter.ExtraProp = GetNumerOrNull(_rw.ReadLine());
         }
 
         private void PrintAllProperties(
             string typeName,
             PropertyInfo[] extraProperties)
         {
-            _ui.WriteSpaceLine();
-            _ui.WriteLine($"For {typeName}");
+            _rw.WriteSpaceLine();
+            _rw.WriteLine($"For {typeName}");
             foreach (var item in extraProperties)
             {
-                _ui.WriteLine($"   {item.Name}");
+                _rw.WriteLine($"   {item.Name}");
             }
         }
 
@@ -415,21 +422,21 @@ namespace Garage.Manager
 
         private void SetWeels()
         {
-            _ui.WriteLine("Set Number of weels filter");
-            _ui.Write("> ");
-            _searchFilter.Weels = GetNumerOrNull(_ui.ReadLine());
+            _rw.WriteLine("Set Number of weels filter");
+            _rw.WriteMarker();
+            _searchFilter.Weels = GetNumerOrNull(_rw.ReadLine());
         }
 
         private void SetColor()
         {
-            _ui.WriteLine("Set Color filter");
-            _ui.WriteSpaceLine();
+            _rw.WriteLine("Set Color filter");
+            _rw.WriteSpaceLine();
             PrintAllEnumValues(typeof(ColorType));
-            _ui.WriteSpaceLine();
-            _ui.Write("> ");
+            _rw.WriteSpaceLine();
+            _rw.WriteMarker();
             try
             {
-                _searchFilter.Color = (ColorType?)GetNumerOrNull(_ui.ReadLine());
+                _searchFilter.Color = (ColorType?)GetNumerOrNull(_rw.ReadLine());
             }
             catch
             {
@@ -443,15 +450,15 @@ namespace Garage.Manager
             var allNames = Enum.GetValues(type);
             foreach (var value in allNames)
             {
-                _ui.WriteLine($"      {(int)value} {value}");
+                _rw.WriteLine($"      {(int)value} {value}");
             }
         }
 
         private void SetRegNumber()
         {
-            _ui.WriteLine("Set RegNumber filter");
-            _ui.Write("> ");
-            var regNumber = _ui.ReadLine();
+            _rw.WriteLine("Set RegNumber filter");
+            _rw.WriteMarker();
+            var regNumber = _rw.ReadLine();
             _searchFilter.RegNumber = !string.IsNullOrWhiteSpace(regNumber)
                 ? regNumber
                 : null;
@@ -460,14 +467,14 @@ namespace Garage.Manager
         private void PrintSearchResult()
         {
             var list = _garageHandler.GetSearchResult(_searchFilter);
-            _ui.WriteLine($"Parked vehicles, {list.Count()}");
+            _rw.WriteLine($"Parked vehicles, {list.Count()}");
             foreach (var vehicle in list)
             {
-                _ui.WriteLine(vehicle);
+                _rw.WriteLine(vehicle);
             };
-            _ui.WriteSpaceLine();
-            _ui.WriteLine("Tryck enter för att fortsätta");
-            _ui.ReadLine();
+            _rw.WriteSpaceLine();
+            _rw.WriteLine("Tryck enter för att fortsätta");
+            _rw.ReadLine();
         }
 
         internal static void SetSaveStageFilename(string filename)

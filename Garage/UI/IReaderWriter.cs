@@ -6,10 +6,12 @@ using System.Threading.Tasks;
 
 namespace Garage.UI
 {
-    internal interface IUI
+    internal interface IReaderWriter
     {
         void Write(string line);
         void WriteLine(string line);
+        void WriteSpaceLine();
+        void WriteMarker();
         string? ReadLine();
         void Clear();
     }

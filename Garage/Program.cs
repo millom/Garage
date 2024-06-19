@@ -16,8 +16,6 @@ using Microsoft.Extensions.Hosting;
 
 using Serilog;
 
-using System.Collections.Generic;
-
 #if CREATE_NEW_JSON_FILE
 // Read instructions inside this function
 JsonHandler.CreateNewJsonFile(@"all_vehicles.json");
@@ -52,8 +50,9 @@ var host = Host.CreateDefaultBuilder(args)
         services.AddSingleton<IGarageHandler, GarageHandler>();
         services.AddSingleton<IGarage<IVehicle>, Garage<IVehicle>>();
         services.AddSingleton<IUI, ConsoleUI>();
+        services.AddSingleton<IReaderWriter, ReaderWriter>();
         services.AddSingleton<IMyLogger, ListLogger>();
-        services.AddSingleton<Serilog.ILogger>(Log.Logger);
+        services.AddSingleton<ILogger>(Log.Logger);
         services.AddSingleton<IList<IVehicle>>(vehicles);
         services.AddSingleton<IList<string>>(new List<string>());
         services.AddSingleton<IVehicle[]>(new Vehicle[garageSize]);
