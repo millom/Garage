@@ -36,34 +36,6 @@ namespace Garage.Entensions
                 vehicle.Weels == weels;
         }
 
-        //public static IEnumerable<IVehicle> FilterByRegNumber(
-        //    this IEnumerable<IVehicle> vehicles,
-        //    string filter)
-        //{
-        //    return vehicles.Where(v => v.RegNumber.Contains(filter));
-        //}
-
-        //public static IEnumerable<IVehicle> FilterByColor(
-        //    this IEnumerable<IVehicle> vehicles,
-        //    int color)
-        //{
-        //    return vehicles.Where(v => (int)v.Color == color);
-        //}
-
-        //public static IEnumerable<IVehicle> FilterByWeels(
-        //    this IEnumerable<IVehicle> vehicles,
-        //    int weels)
-        //{
-        //    return vehicles.Where(v => v.Weels == weels);
-        //}
-
-        //public static IEnumerable<IVehicle> FilterByExtraProps(
-        //    this IEnumerable<IVehicle> vehicles,
-        //    int weels)
-        //{
-        //    return vehicles.Where(v => v.FilterByExtraProp(weels));
-        //}
-
         public static bool FilterByExtraProp(
             this IVehicle? vehicle,
             int? filter)
