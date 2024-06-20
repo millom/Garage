@@ -1,0 +1,457 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>Garage</name>
+    </assembly>
+    <members>
+        <member name="T:Garage.Entensions.VehicleExtensions">
+            <summary>
+            A class containing Extension methods for IVehicle
+            </summary>
+        </member>
+        <member name="M:Garage.Entensions.VehicleExtensions.FilterByRegNumber(Garage.Vehicles.IVehicle,System.String)">
+            <summary>
+            Filter a Vehicle by RegNumber, can be used in Linq
+            </summary>
+            <param name="vehicle"></param>
+            <param name="filter"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Garage.Entensions.VehicleExtensions.FilterByColor(Garage.Vehicles.IVehicle,System.Nullable{Garage.Types.ColorType})">
+            <summary>
+            Filter a Vehicle by Color, can be used in Linq
+            </summary>
+            <param name="vehicle"></param>
+            <param name="color"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Garage.Entensions.VehicleExtensions.FilterByWeels(Garage.Vehicles.IVehicle,System.Nullable{System.Int32})">
+            <summary>
+            Filter a Vehicle by Weels, can be used in Linq
+            </summary>
+            <param name="vehicle"></param>
+            <param name="weels"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Garage.Entensions.VehicleExtensions.FilterByExtraProp(Garage.Vehicles.IVehicle,System.Nullable{System.Int32})">
+            <summary>
+            Filter a Vehicle by ExtraProp, can be used in Linq
+            Go to different methids depending of sub class
+            </summary>
+            <param name="vehicle"></param>
+            <param name="filter"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Garage.Entensions.VehicleExtensions.FilterExtraProps(Garage.Vehicles.ICar,System.Nullable{System.Int32})">
+            <summary>
+            Filter a Car by ExtraProp, called from FilterByExtraProp
+            </summary>
+            <param name="car"></param>
+            <param name="fuelType"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Garage.Entensions.VehicleExtensions.FilterExtraProps(Garage.Vehicles.IBus,System.Nullable{System.Int32})">
+            <summary>
+            Filter a Bus by ExtraProp, called from FilterByExtraProp
+            </summary>
+            <param name="bus"></param>
+            <param name="seats"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Garage.Entensions.VehicleExtensions.FilterExtraProps(Garage.Vehicles.IMotorcycle,System.Nullable{System.Int32})">
+            <summary>
+            Filter a Motorcycle by ExtraProp, called from FilterByExtraProp
+            </summary>
+            <param name="motorcycle"></param>
+            <param name="cylinderVolume"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Garage.Entensions.VehicleExtensions.FilterExtraProps(Garage.Vehicles.IBoat,System.Nullable{System.Int32})">
+            <summary>
+            Filter a Boat by ExtraProp, called from FilterByExtraProp
+            </summary>
+            <param name="boat"></param>
+            <param name="length"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Garage.Entensions.VehicleExtensions.FilterExtraProps(Garage.Vehicles.IAirplane,System.Nullable{System.Int32})">
+            <summary>
+            Filter an Airplane by ExtraProp, called from FilterByExtraProp
+            </summary>
+            <param name="airplane"></param>
+            <param name="engines"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Garage.Entensions.VehicleExtensions.GetToString(Garage.Vehicles.IVehicle)">
+            <summary>
+            Get to string value for the vehicle subtype
+            </summary>
+            <param name="vehicle"></param>
+            <returns></returns>
+            <exception cref="T:System.NullReferenceException"></exception>
+        </member>
+        <member name="T:Garage.Exceptions.RegNumberNotFoundException">
+            <summary>
+            Exeption used when a vehicle is not found
+            </summary>
+            <param name="message"></param>
+        </member>
+        <member name="M:Garage.Exceptions.RegNumberNotFoundException.#ctor(System.String)">
+            <summary>
+            Exeption used when a vehicle is not found
+            </summary>
+            <param name="message"></param>
+        </member>
+        <member name="T:Garage.Exceptions.SlotTakenException">
+            <summary>
+            Exeption used when a parking slot is taken
+            </summary>
+            <param name="message"></param>
+        </member>
+        <member name="M:Garage.Exceptions.SlotTakenException.#ctor(System.String)">
+            <summary>
+            Exeption used when a parking slot is taken
+            </summary>
+            <param name="message"></param>
+        </member>
+        <member name="T:Garage.Exceptions.Throw`1">
+            <summary>
+            A class for throwing exception T when isValid is true
+            </summary>
+            <typeparam name="T">The exception type</typeparam>
+        </member>
+        <member name="T:Garage.Garage.Garage`1">
+            <summary>
+            The garage class
+            </summary>
+            <typeparam name="T"></typeparam>
+            <param name="parkingPlaces"></param>
+            <param name="regNumberSlotDict"></param>
+        </member>
+        <member name="M:Garage.Garage.Garage`1.#ctor(`0[],System.Collections.Generic.IDictionary{System.String,System.Int32})">
+            <summary>
+            The garage class
+            </summary>
+            <typeparam name="T"></typeparam>
+            <param name="parkingPlaces"></param>
+            <param name="regNumberSlotDict"></param>
+        </member>
+        <member name="M:Garage.Garage.Garage`1.ParkVehicleInSlot(`0,System.Int32)">
+            <summary>
+            Park a vehicle, throw exeption on fail
+            </summary>
+            <param name="vehicle"></param>
+            <param name="slotId"></param>
+            <exception cref="T:System.ArgumentNullException"></exception>
+            <exception cref="T:System.ArgumentOutOfRangeException"></exception>
+            <exception cref="T:Garage.Exceptions.SlotTakenException"></exception>
+        </member>
+        <member name="M:Garage.Garage.Garage`1.UnParkVehicle(System.String)">
+            <summary>
+            Unpark a vehicle, throw exeption on fail
+            </summary>
+            <param name="regNumber"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Garage.Garage.Garage`1.FreeAt(System.Int32)">
+            <summary>
+            Check if a slot is taken
+            </summary>
+            <param name="id"></param>
+            <returns></returns>
+            <exception cref="T:System.IndexOutOfRangeException"></exception>
+        </member>
+        <member name="M:Garage.Garage.Garage`1.VehicleAt(System.Int32)">
+            <summary>
+            Return a vehicle or null. Throw exeption if index is out of range
+            </summary>
+            <param name="id"></param>
+            <returns></returns>
+            <exception cref="T:System.IndexOutOfRangeException"></exception>
+        </member>
+        <member name="M:Garage.Garage.Garage`1.GetEmptyIndexes">
+            <summary>
+            Return indexes for free parking slots
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:Garage.Garage.Garage`1.GetEnumerator">
+            <summary>
+            Get an Enumerator, jump over if null
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="T:Garage.Garage.IGarage`1">
+            <summary>
+            An interface defining a Garage class
+            </summary>
+            <typeparam name="T"></typeparam>
+        </member>
+        <member name="T:Garage.Manager.IManager">
+            <summary>
+            Interface defining the Manager class
+            </summary>
+        </member>
+        <member name="T:Garage.Manager.Manager">
+            <summary>
+            Main class for handling:
+                input from user
+                print information
+                the garage
+                searching
+                logging
+            </summary>
+            <param name="rw"></param>
+            <param name="garageHandler"></param>
+            <param name="searchFilter"></param>
+            <param name="logger"></param>
+            <param name="seriLogger"></param>
+        </member>
+        <member name="M:Garage.Manager.Manager.#ctor(Garage.UI.IReaderWriter,Garage.Garage.IGarageHandler,Garage.Search.ISearchFilter,Garage.Log.IMyLogger,Serilog.ILogger)">
+            <summary>
+            Main class for handling:
+                input from user
+                print information
+                the garage
+                searching
+                logging
+            </summary>
+            <param name="rw"></param>
+            <param name="garageHandler"></param>
+            <param name="searchFilter"></param>
+            <param name="logger"></param>
+            <param name="seriLogger"></param>
+        </member>
+        <member name="M:Garage.Manager.Manager.Run">
+            <summary>
+            Run the program
+            </summary>
+        </member>
+        <member name="M:Garage.Manager.Manager.MainMenu">
+            <summary>
+            Show and handle main menu
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="T:Garage.Search.ISearchFilter">
+            <summary>
+            An interface defining a SearchFiler class
+            </summary>
+        </member>
+        <member name="P:Garage.Search.ISearchFilter.RegNumber">
+            <summary>
+            RegNumber property
+            </summary>
+        </member>
+        <member name="P:Garage.Search.ISearchFilter.Color">
+            <summary>
+            Color property
+            </summary>
+        </member>
+        <member name="P:Garage.Search.ISearchFilter.Weels">
+            <summary>
+            Weels property
+            </summary>
+        </member>
+        <member name="P:Garage.Search.ISearchFilter.ExtraProp">
+            <summary>
+            ExtraProp property
+            </summary>
+        </member>
+        <member name="M:Garage.Search.ISearchFilter.ResetAll">
+            <summary>
+            Reset all properties
+            </summary>
+        </member>
+        <member name="M:Garage.Search.ISearchFilter.ToString">
+            <summary>
+            Need ToString in interface, remove warning
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="T:Garage.Search.SearchFilter">
+            <summary>
+            A class for storing searh filer parameters
+            </summary>
+        </member>
+        <member name="P:Garage.Search.SearchFilter.RegNumber">
+            <summary>
+            RegNumber property
+            </summary>
+        </member>
+        <member name="P:Garage.Search.SearchFilter.Color">
+            <summary>
+            Color property
+            </summary>
+        </member>
+        <member name="P:Garage.Search.SearchFilter.Weels">
+            <summary>
+            Weels property
+            </summary>
+        </member>
+        <member name="P:Garage.Search.SearchFilter.ExtraProp">
+            <summary>
+            ExtraProp property
+            </summary>
+        </member>
+        <member name="M:Garage.Search.SearchFilter.#ctor">
+            <summary>
+            A default constructor, maybe not needed
+            </summary>
+        </member>
+        <member name="M:Garage.Search.SearchFilter.ResetAll">
+            <summary>
+            Reset all properties
+            </summary>
+        </member>
+        <member name="M:Garage.Search.SearchFilter.ToString">
+            <summary>
+            Need ToString in interface, remove warning
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="T:Garage.Types.ColorType">
+            <summary>
+            Enum defining colors
+            </summary>
+        </member>
+        <member name="F:Garage.Types.ColorType.ANY">
+            <summary>
+            Any, nothing selected
+            </summary>
+        </member>
+        <member name="F:Garage.Types.ColorType.BLUE">
+            <summary>
+            Blue
+            </summary>
+        </member>
+        <member name="F:Garage.Types.ColorType.YELLOW">
+            <summary>
+            Yellow
+            </summary>
+        </member>
+        <member name="F:Garage.Types.ColorType.RED">
+            <summary>
+            Red
+            </summary>
+        </member>
+        <member name="F:Garage.Types.ColorType.GREEN">
+            <summary>
+            Green
+            </summary>
+        </member>
+        <member name="F:Garage.Types.ColorType.WHITE">
+            <summary>
+            White
+            </summary>
+        </member>
+        <member name="T:Garage.Types.FuelType">
+            <summary>
+            Enum defining types of fuel
+            </summary>
+        </member>
+        <member name="F:Garage.Types.FuelType.ELECTRICITY">
+            <summary>
+            Electricity
+            </summary>
+        </member>
+        <member name="F:Garage.Types.FuelType.GASOLINE">
+            <summary>
+            Gasoline
+            </summary>
+        </member>
+        <member name="F:Garage.Types.FuelType.DIESEL">
+            <summary>
+            Diesel
+            </summary>
+        </member>
+        <member name="T:Garage.UI.IReaderWriter">
+            <summary>
+            An interface defining the class of type ReaderWriter
+            </summary>
+        </member>
+        <member name="M:Garage.UI.IReaderWriter.Write(System.String)">
+            <summary>
+            As Console.Write, write without end of line
+            </summary>
+            <param name="line"></param>
+        </member>
+        <member name="M:Garage.UI.IReaderWriter.WriteLine(System.String)">
+            <summary>
+            As Console.WriteLine, write with end of line
+            </summary>
+            <param name="line"></param>
+        </member>
+        <member name="M:Garage.UI.IReaderWriter.WriteSpaceLine">
+            <summary>
+            Write a line using WriteLine
+            </summary>
+        </member>
+        <member name="M:Garage.UI.IReaderWriter.WriteMarker">
+            <summary>
+            Write a marker using Write
+            </summary>
+        </member>
+        <member name="M:Garage.UI.IReaderWriter.ReadLine">
+            <summary>
+            As Console.ReadLine, read a line
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:Garage.UI.IReaderWriter.Clear">
+            <summary>
+            As Console.Clear, clear the screen
+            </summary>
+        </member>
+        <member name="T:Garage.UI.IUI">
+            <summary>
+            An intefacee
+            </summary>
+        </member>
+        <member name="T:Garage.UI.ReaderWriter">
+            <summary>
+            A wraper class for IUI. simplier to test and has some strings to print
+            </summary>
+            <param name="ui"></param>
+        </member>
+        <member name="M:Garage.UI.ReaderWriter.#ctor(Garage.UI.IUI)">
+            <summary>
+            A wraper class for IUI. simplier to test and has some strings to print
+            </summary>
+            <param name="ui"></param>
+        </member>
+        <member name="M:Garage.UI.ReaderWriter.Clear">
+            <summary>
+            As Console.Clear, clear the screen
+            </summary>
+        </member>
+        <member name="M:Garage.UI.ReaderWriter.ReadLine">
+            <summary>
+            As Console.ReadLine, read a line
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:Garage.UI.ReaderWriter.Write(System.String)">
+            <summary>
+            As Console.Write, write without end of line
+            </summary>
+            <param name="line"></param>
+        </member>
+        <member name="M:Garage.UI.ReaderWriter.WriteLine(System.String)">
+            <summary>
+            As Console.WriteLine, write with end of line
+            </summary>
+            <param name="line"></param>
+        </member>
+        <member name="M:Garage.UI.ReaderWriter.WriteMarker">
+            <summary>
+            Write a marker using Write
+            </summary>
+        </member>
+        <member name="M:Garage.UI.ReaderWriter.WriteSpaceLine">
+            <summary>
+            Write a line using WriteLine
+            </summary>
+        </member>
+    </members>
+</doc>
