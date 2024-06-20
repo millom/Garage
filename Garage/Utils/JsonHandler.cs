@@ -21,14 +21,8 @@ namespace Garage.Utils
 
         internal static void CreateNewJsonFile(string jsonFilename)
         {
-            /**
-             * Creste vehicle data in this function 
-             */
             IVehicle[] list = CreateVehicleArray();
 
-            /**
-             * Create Json file
-             */
             CreateVehicleJsonFileFromList(jsonFilename, list);
         }
 
