@@ -1,0 +1,57 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<ClassDiagram MajorVersion="1" MinorVersion="1">
+  <Class Name="Garage.Manager.Manager">
+    <Position X="3.75" Y="2.25" Width="1.75" />
+    <TypeIdentifier>
+      <HashCode>IAEIEAIAAAABACEAA4AgAAQQIAAAAAEIACiAABAZAAI=</HashCode>
+      <FileName>Manager\Manager.cs</FileName>
+    </TypeIdentifier>
+    <ShowAsAssociation>
+      <Field Name="_garageHandler" />
+      <Field Name="_logger" />
+      <Field Name="_rw" />
+      <Field Name="_searchFilter" />
+      <Field Name="_seriLogger" />
+      <Field Name="saveFileName" />
+    </ShowAsAssociation>
+    <Lollipop Position="0.2" />
+  </Class>
+  <Class Name="System.String" Collapsed="true">
+    <Position X="9.25" Y="5.25" Width="1.5" />
+    <TypeIdentifier />
+    <Lollipop Position="0.2" />
+  </Class>
+  <Interface Name="Garage.Garage.IGarageHandler">
+    <Position X="6.25" Y="6" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAgAQAAAAAAAAAIAAAAgAAAgAQgAAIAAAAAAAA=</HashCode>
+      <FileName>Garage\IGarageHandler.cs</FileName>
+    </TypeIdentifier>
+  </Interface>
+  <Interface Name="Garage.Log.IMyLogger" Collapsed="true">
+    <Position X="7.25" Y="2.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAEAAAAAAAAAAAAAAAAQAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Log\IMyLogger.cs</FileName>
+    </TypeIdentifier>
+  </Interface>
+  <Interface Name="Garage.UI.IReaderWriter" Collapsed="true">
+    <Position X="7.25" Y="3" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AABAgAAAAAAAAAAIAAAAAAAAAAAAAAAAEAAAAAFAAAA=</HashCode>
+      <FileName>UI\IReaderWriter.cs</FileName>
+    </TypeIdentifier>
+  </Interface>
+  <Interface Name="Garage.Search.ISearchFilter" Collapsed="true">
+    <Position X="7.25" Y="3.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAIAAAAEAEAAAAAAIAAAAAAAAAAAAAgAAAACA=</HashCode>
+      <FileName>Search\ISearchFilter.cs</FileName>
+    </TypeIdentifier>
+  </Interface>
+  <Interface Name="Serilog.ILogger" Collapsed="true">
+    <Position X="7.25" Y="4.5" Width="1.5" />
+    <TypeIdentifier />
+  </Interface>
+  <Font Name="Segoe UI" Size="9" />
+</ClassDiagram>
