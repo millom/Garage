@@ -58,7 +58,11 @@ namespace Garage.Manager
             while (MainMenu()) ;
         }
 
-        public bool MainMenu()
+        /// <summary>
+        /// Show and handle main menu
+        /// </summary>
+        /// <returns></returns>
+        private bool MainMenu()
         {
             _rw.Clear();
             _rw.WriteLine("--- MAIN MENU ---");
@@ -233,7 +237,7 @@ namespace Garage.Manager
             _rw.ReadLine();
         }
 
-        public bool ParkMenu()
+        private bool ParkMenu()
         {
             _rw.Clear();
             _rw.WriteLine("--- PARK VEHICLE MENU ---");
@@ -299,7 +303,7 @@ namespace Garage.Manager
             _rw.WriteLine("");
         }
 
-        public bool UnparkMenu()
+        private bool UnparkMenu()
         {
             _rw.Clear();
             _rw.WriteLine("--- UNPARK VEHICLE MENU --");
@@ -347,7 +351,7 @@ namespace Garage.Manager
                 .ForEach(x => _rw.WriteLine(x));
         }
 
-        public bool ShowParkedVehiclesMenu()
+        private bool ShowParkedVehiclesMenu()
         {
             _rw.Clear();
             _rw.WriteLine("--- SEARCH PARKED VEHICLES MENU --");

@@ -5,10 +5,10 @@
     /// </summary>
     internal interface IManager
     {
-        bool MainMenu();
-        bool ParkMenu();
+        //bool MainMenu();
+        //bool ParkMenu();
         void Run();
-        bool ShowParkedVehiclesMenu();
-        bool UnparkMenu();
+        //bool ShowParkedVehiclesMenu();
+        //bool UnparkMenu();
     }
 }
