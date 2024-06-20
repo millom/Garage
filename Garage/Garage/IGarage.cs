@@ -5,6 +5,10 @@ using System.Runtime.CompilerServices;
 [assembly: InternalsVisibleTo("Garage.Test")]
 namespace Garage.Garage
 {
+    /// <summary>
+    /// An interface defining a Garage class
+    /// </summary>
+    /// <typeparam name="T"></typeparam>
     internal interface IGarage<T>: IEnumerable<T>
         where T : IVehicle
     {

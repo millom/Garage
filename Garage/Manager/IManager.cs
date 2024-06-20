@@ -1,5 +1,8 @@
 ﻿namespace Garage.Manager
 {
+    /// <summary>
+    /// Interface defining the Manager class
+    /// </summary>
     internal interface IManager
     {
         bool MainMenu();

@@ -3,6 +3,9 @@
 //[assembly: InternalsVisibleTo("Garage.Test")]
 namespace Garage.UI
 {
+    /// <summary>
+    /// An intefacee
+    /// </summary>
     public interface IUI
     {
         void Write(string line);

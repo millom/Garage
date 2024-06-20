@@ -9,8 +9,17 @@ using System.Threading.Tasks;
 
 namespace Garage.Entensions
 {
+    /// <summary>
+    /// A class containing Extension methods for IVehicle
+    /// </summary>
     internal static class VehicleExtensions
     {
+        /// <summary>
+        /// Filter a Vehicle by RegNumber, can be used in Linq
+        /// </summary>
+        /// <param name="vehicle"></param>
+        /// <param name="filter"></param>
+        /// <returns></returns>
         public static bool FilterByRegNumber(
             this IVehicle vehicle,
             string? filter)
@@ -19,6 +28,12 @@ namespace Garage.Entensions
                 vehicle.RegNumber.Contains(filter);
         }
 
+        /// <summary>
+        /// Filter a Vehicle by Color, can be used in Linq
+        /// </summary>
+        /// <param name="vehicle"></param>
+        /// <param name="color"></param>
+        /// <returns></returns>
         public static bool FilterByColor(
             this IVehicle vehicle,
             ColorType? color)
@@ -28,6 +43,12 @@ namespace Garage.Entensions
                 vehicle.Color == color;
         }
 
+        /// <summary>
+        /// Filter a Vehicle by Weels, can be used in Linq
+        /// </summary>
+        /// <param name="vehicle"></param>
+        /// <param name="weels"></param>
+        /// <returns></returns>
         public static bool FilterByWeels(
             this IVehicle vehicle,
             int? weels)
@@ -36,6 +57,13 @@ namespace Garage.Entensions
                 vehicle.Weels == weels;
         }
 
+        /// <summary>
+        /// Filter a Vehicle by ExtraProp, can be used in Linq
+        /// Go to different methids depending of sub class
+        /// </summary>
+        /// <param name="vehicle"></param>
+        /// <param name="filter"></param>
+        /// <returns></returns>
         public static bool FilterByExtraProp(
             this IVehicle? vehicle,
             int? filter)
@@ -60,32 +88,67 @@ namespace Garage.Entensions
             return false;
         }
 
+        /// <summary>
+        /// Filter a Car by ExtraProp, called from FilterByExtraProp
+        /// </summary>
+        /// <param name="car"></param>
+        /// <param name="fuelType"></param>
+        /// <returns></returns>
         private static bool FilterExtraProps(this ICar car, int? fuelType)
         {
             return (int)car.Fueltype == fuelType;
         }
 
+        /// <summary>
+        /// Filter a Bus by ExtraProp, called from FilterByExtraProp
+        /// </summary>
+        /// <param name="bus"></param>
+        /// <param name="seats"></param>
+        /// <returns></returns>
         private static bool FilterExtraProps(this IBus bus, int? seats)
         {
             return bus.Seats == seats;
         }
 
+        /// <summary>
+        /// Filter a Motorcycle by ExtraProp, called from FilterByExtraProp
+        /// </summary>
+        /// <param name="motorcycle"></param>
+        /// <param name="cylinderVolume"></param>
+        /// <returns></returns>
         private static bool FilterExtraProps(this IMotorcycle motorcycle, int? cylinderVolume)
         {
             return motorcycle.CylinderVolume == cylinderVolume;
         }
 
+        /// <summary>
+        /// Filter a Boat by ExtraProp, called from FilterByExtraProp
+        /// </summary>
+        /// <param name="boat"></param>
+        /// <param name="length"></param>
+        /// <returns></returns>
         private static bool FilterExtraProps(this IBoat boat, int? length)
         {
             return boat.Length == length;
         }
 
+        /// <summary>
+        /// Filter an Airplane by ExtraProp, called from FilterByExtraProp
+        /// </summary>
+        /// <param name="airplane"></param>
+        /// <param name="engines"></param>
+        /// <returns></returns>
         private static bool FilterExtraProps(this IAirplane airplane, int? engines)
         {
             return airplane.Engines == engines;
         }
 
-
+        /// <summary>
+        /// Get to string value for the vehicle subtype
+        /// </summary>
+        /// <param name="vehicle"></param>
+        /// <returns></returns>
+        /// <exception cref="NullReferenceException"></exception>
         public static string GetToString(
             this IVehicle? vehicle)
         {

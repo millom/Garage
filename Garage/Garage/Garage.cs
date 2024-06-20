@@ -7,6 +7,12 @@ using System.Runtime.CompilerServices;
 [assembly: InternalsVisibleTo("Garage.Test")]
 namespace Garage.Garage
 {
+    /// <summary>
+    /// The garage class
+    /// </summary>
+    /// <typeparam name="T"></typeparam>
+    /// <param name="parkingPlaces"></param>
+    /// <param name="regNumberSlotDict"></param>
     internal class Garage<T>(
         T[] parkingPlaces,
         IDictionary<string, int> regNumberSlotDict)
@@ -15,6 +21,14 @@ namespace Garage.Garage
         private readonly T?[] _parkingPlaces = parkingPlaces;
         private readonly IDictionary<string, int> _regNumberSlotDict = regNumberSlotDict;
 
+        /// <summary>
+        /// Park a vehicle, throw exeption on fail
+        /// </summary>
+        /// <param name="vehicle"></param>
+        /// <param name="slotId"></param>
+        /// <exception cref="ArgumentNullException"></exception>
+        /// <exception cref="ArgumentOutOfRangeException"></exception>
+        /// <exception cref="SlotTakenException"></exception>
         public void ParkVehicleInSlot(T? vehicle, int slotId)
         {
             if (vehicle?.RegNumber is null)
@@ -30,6 +44,11 @@ namespace Garage.Garage
             ParkVehicle(vehicle, slotId);
         }
 
+        /// <summary>
+        /// Unpark a vehicle, throw exeption on fail
+        /// </summary>
+        /// <param name="regNumber"></param>
+        /// <returns></returns>
         public T UnParkVehicle(string regNumber)
         {
             Throw<ArgumentException>
@@ -49,6 +68,12 @@ namespace Garage.Garage
             return vehicle;
         }
 
+        /// <summary>
+        /// Check if a slot is taken
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns></returns>
+        /// <exception cref="IndexOutOfRangeException"></exception>
         public bool FreeAt(int id)
         {
             if (id >= _parkingPlaces.Length || id < 0)
@@ -59,6 +84,12 @@ namespace Garage.Garage
             return _parkingPlaces[id] is null;
         }
 
+        /// <summary>
+        /// Return a vehicle or null. Throw exeption if index is out of range
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns></returns>
+        /// <exception cref="IndexOutOfRangeException"></exception>
         public T? VehicleAt(int id)
         {
             if (id >= _parkingPlaces.Length || id < 0)
@@ -69,6 +100,10 @@ namespace Garage.Garage
             return _parkingPlaces[id];
         }
 
+        /// <summary>
+        /// Return indexes for free parking slots
+        /// </summary>
+        /// <returns></returns>
         public IEnumerable<int> GetEmptyIndexes()
         {
             for (int i = 0; i < _parkingPlaces.Length; i++)
@@ -78,6 +113,10 @@ namespace Garage.Garage
             };
         }
 
+        /// <summary>
+        /// Get an Enumerator, jump over if null
+        /// </summary>
+        /// <returns></returns>
         public IEnumerator<T> GetEnumerator()
         {
             foreach (var parkingPlace in _parkingPlaces)

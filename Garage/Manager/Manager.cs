@@ -13,6 +13,19 @@ using System.Reflection;
 
 namespace Garage.Manager
 {
+    /// <summary>
+    /// Main class for handling:
+    ///     input from user
+    ///     print information
+    ///     the garage
+    ///     searching
+    ///     logging
+    /// </summary>
+    /// <param name="rw"></param>
+    /// <param name="garageHandler"></param>
+    /// <param name="searchFilter"></param>
+    /// <param name="logger"></param>
+    /// <param name="seriLogger"></param>
     internal class Manager(
         IReaderWriter rw,
         IGarageHandler garageHandler,
@@ -29,6 +42,9 @@ namespace Garage.Manager
         // Must be set before starting the program
         private static string? saveFileName;
 
+        /// <summary>
+        /// Run the program
+        /// </summary>
         public void Run()
         {
             if (saveFileName is null)
