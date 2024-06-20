@@ -408,6 +408,28 @@
             An intefacee
             </summary>
         </member>
+        <member name="M:Garage.UI.IUI.Write(System.String)">
+            <summary>
+            Define method like Console.Write
+            </summary>
+            <param name="line"></param>
+        </member>
+        <member name="M:Garage.UI.IUI.WriteLine(System.String)">
+            <summary>
+            Define method like Console.WriteLine
+            </summary>
+            <param name="line"></param>
+        </member>
+        <member name="M:Garage.UI.IUI.ReadLine">
+            <summary>
+            Define method like Console.ReadLine
+            </summary>
+        </member>
+        <member name="M:Garage.UI.IUI.Clear">
+            <summary>
+            Define method like Console.Clear
+            </summary>
+        </member>
         <member name="T:Garage.UI.ReaderWriter">
             <summary>
             A wraper class for IUI. simplier to test and has some strings to print
