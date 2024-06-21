@@ -17,16 +17,7 @@ namespace Garage.Vehicles
         IVehicle, IBoat
     {
         [JsonPropertyOrder(3)]
-        public override int Weels
-        {
-            get => _weels;
-            set
-            {
-                Throw<ArgumentException>.If(value != 0, "Weels must be zero0");
-
-                _weels = value;
-            }
-        }
+        public override int Weels  => _weels;
 
         [JsonPropertyOrder(4)]
         public int Length { get; set; } = length > 0
