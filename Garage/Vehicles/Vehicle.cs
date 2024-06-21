@@ -20,6 +20,8 @@ namespace Garage.Vehicles
     [JsonDerivedType(typeof(Bus), typeDiscriminator: "Bus")]
     internal abstract class Vehicle : IVehicle
     {
+        protected readonly int _weelsMin;
+        protected readonly int _weelsMax;
         protected int _weels;
 
         [JsonPropertyOrder(1)]
@@ -43,7 +45,9 @@ namespace Garage.Vehicles
         public Vehicle(
             string regNumber,
             ColorType color,
-            int weels)
+            int weels,
+            int weelsMin = 1,
+            int weelsMax = int.MaxValue)
         {
             RegNumber =
                 string.IsNullOrWhiteSpace(regNumber) || regNumber.Length <= 4
@@ -51,6 +55,8 @@ namespace Garage.Vehicles
                 : regNumber;
             Color = color;
             Weels = weels;
+            _weelsMin = weelsMin;
+            _weelsMax = weelsMax;
         }
 
         //[JsonConstructor]
