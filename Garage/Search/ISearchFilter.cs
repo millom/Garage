@@ -1,7 +1,5 @@
 ﻿using Garage.Types;
 
-using System.Reflection;
-
 namespace Garage.Search
 {
     /// <summary>
@@ -9,6 +7,8 @@ namespace Garage.Search
     /// </summary>
     public interface ISearchFilter
     {
+        IEnumerable<ISearchFilterItemLimitBase> Filters { get; }
+
         /// <summary>
         /// RegNumber property
         /// </summary>

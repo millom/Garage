@@ -30,10 +30,15 @@ namespace Garage.Search
         /// </summary>
         public int? ExtraProp { get; set; }
 
+        public IEnumerable<ISearchFilterItemLimitBase> Filters { get; }
+
         /// <summary>
         /// A default constructor, maybe not needed
         /// </summary>
-        public SearchFilter(){}
+        public SearchFilter()
+        {
+            Filters = new List<ISearchFilterItemLimitBase>();
+        }
 
         /// <summary>
         /// Reset all properties
