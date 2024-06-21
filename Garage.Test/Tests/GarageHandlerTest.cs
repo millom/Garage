@@ -20,7 +20,7 @@ namespace Garage.Test.Tests
             {
                 new Car("ABC123", ColorType.BLUE, 4, FuelType.DIESEL),
                 new Bus("ABC124", ColorType.BLUE, 4, 26),
-                new Boat("ABC125", ColorType.BLUE, 4, 12),
+                new Boat("ABC125", ColorType.BLUE, 12),
                 new Motorcycle("ABC126", ColorType.BLUE, 2, 120),
                 new Airplane("ABC127", ColorType.YELLOW, 4, 2)
             };

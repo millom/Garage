@@ -23,7 +23,7 @@ namespace Garage.Test.Tests.Vehicles
             int expectedLength)
         {
             // Act
-            IVehicle vehicle = new Boat(_regNumber, _color, _weels, expectedLength);
+            IVehicle vehicle = new Boat(_regNumber, _color, expectedLength);
             IBoat? boat = vehicle as IBoat;
 
             // Assert
@@ -64,7 +64,7 @@ namespace Garage.Test.Tests.Vehicles
 
             // Act & Assert
             ArgumentOutOfRangeException ex = Assert.Throws<ArgumentOutOfRangeException>(
-                () => new Boat(_regNumber, _color, _weels, expectedLength)
+                () => new Boat(_regNumber, _color, expectedLength)
             );
 
             // Assert
