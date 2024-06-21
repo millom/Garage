@@ -1,4 +1,5 @@
-﻿using Garage.Types;
+﻿using Garage.Exceptions;
+using Garage.Types;
 
 using Microsoft.Extensions.Hosting;
 
@@ -16,10 +17,21 @@ namespace Garage.Vehicles
     internal class Boat(
         string regNumber,
         ColorType color,
-        int weels,
         int length)
-        : Vehicle(regNumber, color, weels), IVehicle, IBoat
+        : Vehicle(regNumber, color, 0), IVehicle, IBoat
     {
+        [JsonPropertyOrder(3)]
+        public override int Weels
+        {
+            get => _weels;
+            set
+            {
+                Throw<ArgumentException>.If(value != 0, "Weels must be zero0");
+
+                _weels = value;
+            }
+        }
+
         [JsonPropertyOrder(4)]
         public int Length { get; set; } = length > 0
             ? length
@@ -27,7 +39,7 @@ namespace Garage.Vehicles
                 $"Argument length={length} (must be > 0)"
               );
 
-        public Boat() : this("abc123", ColorType.BLUE, 3, 1)
+        public Boat() : this("abc123", ColorType.BLUE, 1)
         {
             
         }

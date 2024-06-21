@@ -1,4 +1,5 @@
-﻿using Garage.Types;
+﻿using Garage.Exceptions;
+using Garage.Types;
 
 using System;
 using System.Collections.Generic;
@@ -19,12 +20,25 @@ namespace Garage.Vehicles
     [JsonDerivedType(typeof(Bus), typeDiscriminator: "Bus")]
     internal abstract class Vehicle : IVehicle
     {
+        protected int _weels;
+
         [JsonPropertyOrder(1)]
         public string RegNumber { get; set; }
+
         [JsonPropertyOrder(2)]
         public ColorType Color { get; set; }
+
         [JsonPropertyOrder(3)]
-        public int Weels { get; set; }
+        public virtual int Weels
+        {
+            get => _weels;
+            set
+            {
+                Throw<ArgumentException>.If(value <= 0, "Weels must be greater then 0");
+
+                _weels = value;
+            }
+        }
 
         public Vehicle(
             string regNumber,

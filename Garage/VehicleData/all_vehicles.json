@@ -38,35 +38,30 @@
     "$type": "Boat",
     "RegNumber": "BCD123",
     "Color": 1,
-    "Weels": 0,
     "Length": 12
   },
   {
     "$type": "Boat",
     "RegNumber": "BCD234",
     "Color": 2,
-    "Weels": 0,
     "Length": 22
   },
   {
     "$type": "Boat",
     "RegNumber": "BCD345",
     "Color": 3,
-    "Weels": 0,
     "Length": 9
   },
   {
     "$type": "Boat",
     "RegNumber": "BCD456",
     "Color": 4,
-    "Weels": 0,
     "Length": 10
   },
   {
     "$type": "Boat",
     "RegNumber": "BCD567",
     "Color": 5,
-    "Weels": 0,
     "Length": 12
   },
   {
