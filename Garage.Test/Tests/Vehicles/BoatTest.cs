@@ -23,7 +23,7 @@ namespace Garage.Test.Tests.Vehicles
             int expectedLength)
         {
             // Act
-            IVehicle vehicle = new Boat(_regNumber, _color, _weels, expectedLength);
+            IVehicle vehicle = new Boat(_regNumber, _color, expectedLength);
             IBoat? boat = vehicle as IBoat;
 
             // Assert
@@ -35,19 +35,21 @@ namespace Garage.Test.Tests.Vehicles
         [Fact]
         public void DefaultCtor_GivenExpectedPropValues_WhenCreateAirplane_ThenHasExpectedValues()
         {
+            // Arange
+            int expectedWeels = 0;
+
             // Act
             var boat = new Boat
             {
                 RegNumber = _regNumber,
                 Color = _color,
-                Weels = _weels,
                 Length = _length
             };
 
             // Assert
             Assert.Equal(_regNumber, boat.RegNumber);
             Assert.Equal(_color, boat.Color);
-            Assert.Equal(_weels, boat.Weels);
+            Assert.Equal(expectedWeels, boat.Weels);
             Assert.Equal(_length, boat.Length);
         }
 
@@ -64,7 +66,7 @@ namespace Garage.Test.Tests.Vehicles
 
             // Act & Assert
             ArgumentOutOfRangeException ex = Assert.Throws<ArgumentOutOfRangeException>(
-                () => new Boat(_regNumber, _color, _weels, expectedLength)
+                () => new Boat(_regNumber, _color, expectedLength)
             );
 
             // Assert
@@ -72,11 +74,14 @@ namespace Garage.Test.Tests.Vehicles
         }
 
         [Theory]
-        [ExernalToStringTestData]
+        [InlineData("ABC123", 2, 1)]
+        [InlineData("ABD124", 3, 2)]
+        [InlineData("ADC125", 1, 3)]
         public void ToString_GivenExpectedPropValues_WhenExecToString_ThenExpected(
-            string regNumber, int color, int weels, int length)
+            string regNumber, int color, int length)
         {
             // Arange
+            int weels = 0; // Ignore weels for Boat, don't have weels
             var baseString =
                 $"Reg:{regNumber}, " +
                 $"Color:{(ColorType)color}, " +
@@ -87,7 +92,6 @@ namespace Garage.Test.Tests.Vehicles
             {
                 RegNumber = regNumber,
                 Color = (ColorType)color,
-                Weels = weels,
                 Length = length
             };
 

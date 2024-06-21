@@ -25,7 +25,7 @@ namespace Garage.Test.Tests.Entensions
         public VehicleExtensionsTest()
         {
             _car = new Car(_regNumber, _color, _weels, _fueltype);
-            _boat = new Boat(_regNumber, _color, _weels, _length);
+            _boat = new Boat(_regNumber, _color, _length);
             _bus = new Bus(_regNumber, _color, _weels, _seats);
             _motorcycle = new Motorcycle(_regNumber, _color, _weels, _cylinderVolume);
             _airplane = new Airplane(_regNumber, _color, _weels, _engines);
