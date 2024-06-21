@@ -350,6 +350,12 @@
             Enum defining types of fuel
             </summary>
         </member>
+        <member name="F:Garage.Types.FuelType.ANY">
+            <summary>
+            No value, used for filtering
+            Not a legal value for objects
+            </summary>
+        </member>
         <member name="F:Garage.Types.FuelType.ELECTRICITY">
             <summary>
             Electricity

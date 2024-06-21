@@ -6,18 +6,24 @@
     public enum FuelType
     {
         /// <summary>
+        /// No value, used for filtering
+        /// Not a legal value for objects
+        /// </summary>
+        ANY             = 0,
+
+        /// <summary>
         /// Electricity
         /// </summary>
-        ELECTRICITY     = 0,
+        ELECTRICITY     = 1,
 
         /// <summary>
         /// Gasoline
         /// </summary>
-        GASOLINE        = 1,
+        GASOLINE        = 2,
 
         /// <summary>
         /// Diesel
         /// </summary>
-        DIESEL          = 2
+        DIESEL          = 3
     }
 }
